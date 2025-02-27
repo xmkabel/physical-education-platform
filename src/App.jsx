@@ -1,10 +1,14 @@
 // import { useState } from 'react'
-
+import image from './assets/icon.png'
 function App() {
 
   return (
     <>
-    Hello World
+    <img src={image} alt="Logo" width={'300rem'} />
+    <h1>اهلاً بالعالم</h1>
+    <a href="#">تجربة؟</a>
+    <a href="#">تجربة؟</a>
+    <a href="#">تجربة؟</a>
     </>
   )
 }
