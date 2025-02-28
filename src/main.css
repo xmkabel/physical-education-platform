@@ -13,7 +13,14 @@
 
   
 }
-
+::selection {
+  color: white;
+  background: var(--dark-gold);
+}
+::-moz-selection {
+  color: white;
+  background: var(--dark-gold);
+}
 
 
 /* Styling for Webkit browsers (Chrome, Safari, Edge) */
