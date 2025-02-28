@@ -1,0 +1,59 @@
+body{
+    direction:rtl;
+}
+
+:root {
+    --main-color: #007bff;
+    --navy-blue: #1B3058;
+    --gold: #C5A572;
+    --dark-gold: #8B7355;
+    --white: #FFFFFF;
+    --black: #000000;
+}
+.u-title{
+    color:var(--navy-blue);
+}
+.gold{
+    color:var(--navy-blue);
+}
+.card {
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .navbar-brand img {
+    transition: transform 0.3s ease;
+  }
+  
+  .navbar-brand:hover img {
+    transform: scale(1.1);
+  }
+  
+  h1, h2, h3, h4 {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+  }
+  
+  .animate__animated {
+    animation-duration: 1s;
+  }
+
+  p.description{
+    width:50%;
+    font-size:1.2rem;
+    margin:0 auto;
+  }
+
+.btn-navy-blue{
+    background-color:var(--navy-blue);
+    color:var(--white);
+    padding:8px 15px;
+    border-radius:10px;
+    
+}
+.btn-navy-blue:hover{
+    background-color:var(--dark-gold);
+    color:var(--white);
+}

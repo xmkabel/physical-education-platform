@@ -1,0 +1,38 @@
+@font-face {
+  font-family: 'ArabicFont';
+  src: url(/src/assets/fonts/Rubik.ttf);
+}
+:root{
+  font-family: 'ArabicFont', sans-serif;
+  --black: #1b1b1b;
+  --light-blue: #8DAEE1;
+  --blue: #7B94D6;
+  --grey: #4B5165;
+  --pink: #EDA1AB;
+  --orange: #FFD3BD;
+
+  
+}
+
+
+
+/* Styling for Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--white);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gold);
+    border-radius: 10px;
+    border: 2px solid var(--white);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--dark-gold);
+}
+
