@@ -16,8 +16,8 @@ function App() {
       <Route path="/quizes/first" element={<FirstQuiz />} />
       <Route path="/quizes/second" element={<SecondExam />} /> */}
 =======
-      <Route path="/react-physical-education/" element={<Home />} />
-      <Route path="/react-physical-education/quizes/first" element={<FirstQuiz />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/quizes/first" element={<FirstQuiz />} />
     </Routes>
     </>
   )
