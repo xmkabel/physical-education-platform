@@ -305,14 +305,14 @@ function FirstQuiz() {
   return (
     <div className="text-center mb-3 mb-sm-5 position-absolute top-0 w-100 px-3" style={{ textAlign: 'right' }}>
     <h1 className="display-6 display-sm-5 u-title mt-5 animate__animated animate__fadeIn" >
-      محتوى الاختبارات المعرفية للكتاب التفاعلي
+    الباب الأول 
     </h1>
     <Container className="py-4 animate__animated animate__slideInUp d-flex align-items-center justify-content-center min-vh-100 ">
       <Card className="shadow-lg border-0 mb-3 mb-sm-5 mx-2" style={{ maxWidth: '800px', width: '100%' }}>
         <Card.Body className="p-3 p-sm-4 p-md-5" style={{ textAlign: 'right' }}>
           <h2 className="text-center mb-3 mb-sm-4 u-title fs-3 fs-sm-2" style={{ color: 'var(--navy-blue)' }}>
-          الباب الأول / نظريات التعلم ونظريات التدريس
-          </h2>
+
+          نظريات التعلم ونظريات التدريس          </h2>
           
           {!isSubmitted ? (
             <>
@@ -356,7 +356,7 @@ function FirstQuiz() {
               )}
               
               <div className="d-flex flex-column flex-sm-row justify-content-between gap-3 gap-sm-0 mt-4">
-                <Button 
+                <Button  
                   className="btn-navy-blue"
                   onClick={handlePrevious}
                   disabled={currentStep === 0}
