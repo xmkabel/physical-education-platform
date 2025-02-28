@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGraduationCap, faBook,faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'animate.css';
-import logo from '../../assets/logo.jpeg';
+import logo from '../../assets/logo.webp';
 import './index.css';
 
 function Home() {
@@ -13,9 +13,9 @@ function Home() {
 
       <Container className="py-4">
         <div className="text-center mb-5 animate__animated animate__fadeIn">
-          <h1 className="display-5 u-title mb-3">جامعة حلوان</h1>
-          <img src={logo} alt="Logo" width={'150px'}/>
-          <p className="lead text-muted">
+          {/* <h1 className="display-5 u-title mb-3">جامعة حلوان</h1> */}
+          <img src={logo} alt="Logo" width={'200px'}/>
+          <p className="lead text-muted"> <br/>
           هذا البرنامج مخصص للحصول على درجة الدكتوراه في طرق التدريس
           </p>
         </div>
@@ -23,8 +23,8 @@ function Home() {
         <Card className="shadow-lg border-0 mb-5 animate__animated animate__fadeInUp">
           <Card.Body className="p-5">
             <p className="text-center mb-4 description">
-              <FontAwesomeIcon icon={faBook} className="me-2 gold" />
-                فاعلية بيئة تعلم إلكترونية تفاعلية على التحصيل المعرفي 
+              <FontAwesomeIcon icon={faBook} className="me-3 ms-1 gold" />
+                 فاعلية بيئة تعلم إلكترونية تفاعلية على التحصيل المعرفي  
 وتنمية مهارات تدريس التربية الرياضية
 <br/>
 The effectiveness of an interactive electronic learning environment on cognitive achievement and developing physical education teaching skills
@@ -64,7 +64,7 @@ The effectiveness of an interactive electronic learning environment on cognitive
               </div>
             </div>
             <div className='d-flex justify-content-center'>
-            <a className='btn btn-navy-blue'>الإستمرار <FontAwesomeIcon icon={faArrowLeft} /></a>
+            <a className='btn btn-navy-blue' href='quizes/first'>الإستمرار <FontAwesomeIcon icon={faArrowLeft} /></a>
             </div>
            
           </Card.Body>

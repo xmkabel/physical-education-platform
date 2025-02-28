@@ -1,5 +1,6 @@
 body{
     direction:rtl;
+    font-family: 'ArabicFont', sans-serif;
 }
 
 :root {
@@ -46,7 +47,7 @@ body{
     margin:0 auto;
   }
 .btn-navy-blue{
-    background-color:var(--navy-blue);
+    background-color:var(--navy-blue) !important;
     color:var(--white);
     padding:8px 15px;
     border-radius:10px;
@@ -54,6 +55,10 @@ body{
     transition: background-color 0.3s ease;
 }
 .btn-navy-blue:hover{
-    background-color:var(--dark-gold);
+    background-color:var(--dark-gold) !important;
     color:var(--white);
+}
+
+.reading-text{
+  font-size: 1.2rem;
 }
