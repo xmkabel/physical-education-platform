@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'animate.css';
 import styles from '../Quiz.module.css';
 
-function FirstQuiz() {
+function SecondExam() {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -58,14 +58,6 @@ function FirstQuiz() {
       relatedReading: 'reading2'
     },
     {
-      type: 'reading',
-      id: 'reading3',
-      title: 'استراتيجيات التدريس القائمة على الفكر البنائي',
-      content: 
-      'استراتيجيات التدريس القائمة على الفكر البنائي :\n\nأولا : نموذج ويتلي للتعلم البنائي :\nهو نموذج للتعلم المتمركز حول مشكلة في مجال التدريس . ويؤكد هذا النموذج على وجود المتعلم في موقف مشكل وذات معنى ، والتي يمكن ان تستخدم كنقطة انطلاق للاستقصاء والاكتشاف .\nويهدف التدريس بهذا النموذج الى مساعدة التلاميذ على تنمية التفكير وحل المشكلات ويشجعهم على التعاون والمناقشة .\nمكوناته : يتكون من ثلاثة مكونات وهي : مهام التعلم، المجموعات المتعاونة ، المشاركة .\n\nثانيا : نموذج دورة التعلم :\nتمتاز دورة التعلم عن غيرها من الطرق في انها تراعي قدرات المتعلم العقلية وتساعده على التفكير وتشجعه على التعاون والعمل الجماعي .\nتسير عملية التدريس بهذا النموذج وفقا لثلاث مراحل أساسية :\n1-مرحلة الاستكشاف .                    2- مرحلة الابداع المفاهيمي              3- مرحلة الاتساع المفاهيمي\n\nثالثا : النموذج المنظومي :\nيعتمد بناء التراكيب النظرية لذلك النموذج على ثلاث مصادر ، تتمثل في نظرية "بياجية" عن علم النفس النمائي ، علم النفس المعرفي ، وكيفية تنظيم المعلومات داخل المخ البشري .\nوهو قائم على الفلسفة البنائية التي تؤكد على أهمية ان يكون التعلم ذا معنى .ويتم في هذا النموذج مساعدة التلاميذ على بناء مفاهيمهم ومعارفهم العملية بصورة منظوميه مرتبه وفق ست مراحل أساسية متتالية  وهي :\n-التعرف على المعلومات السابقة .\n-الاشتراك " الاندماج " .\n-الاستكشاف .\n-تقديم المفهوم " الايضاح والتفسير"\n-التوسع " التفكير التفصيلي "\n-التقويم'
-    },
-
-    {
       type: 'question',
       id: 4,
       question: 'الأسس التي تقوم عليها النظرية البنائية:',
@@ -88,13 +80,6 @@ function FirstQuiz() {
       options: ['أ- نموذج ويتلي للتعلم البنائي', 'ب- نموذج دورة التعلم', 'ج-جميع ما سبق', 'د- النموذج المنظومي'],
       correctAnswer: 2,
       relatedReading: 'reading3'
-    },
-    {
-      type: 'reading',
-      id: 'reading4',
-      title: 'نظرية جان بياجية في النمو المعرفي',
-      content: 
-      'نظرية جان بياجية في النمو المعرفي :\nالنمو عملية انتقائية موصولة من التغيرات التي تكشف عن إمكانات الطفل وركز جان بياجية على أهمية اكساب الطفل الخبرات التعليمية المختلفة التي تساعدهم على اكتساب المفاهيم المختلفة خلال طفولتهم .\n\nعوامل النضج المعرفي:\n-النضج البيولوجي :\n-التوازن .\n-الخبرات الاجتماعية .\n\nخصائص الطفل المعرفية :\n-التمركز حول الذات .\n-الخبرات الطبيعية للأشياء .\n\nالمراحل العامة للنمو المعرفي عند بياجية :\nأولا: المرحلة الحسية الحركية .\nثانيا : مرحلة ما قبل العمليات (من سنتين – 7 سنوات )\nثالثا: مرحلة العمليات المحسوسة (من سبع سنوات وحتى احدى عشر سنه )\nرابعا: مرحلة العمليات الشكلية المجردة (11 سنه وحتى الرشد ).\n\nنظرية بياجية في اللعب تقوم على ثلاثة افتراضات رئيسية هي :\n1.يسير النمو العقلي في تسلسل محدد من الممكن تسريعه او تأخيره ولكن التجربة وحدها لا يمكن ان تغيره .\n2.ان هذا التسلسل لا يكون مستمرا بل يتألف من مراحل يجب ان تتم كل مرحلة منها قبل ان تبدأ المرحلة المعرفية التالية .\n3.وهذا التسلسل في النمو العقلي يمكن تفسيره اعتمادا على نوع العمليات المنطقية التي يشتمل عليها .\n\nالمحاور الرئيسية لاختبارات بياجيه :\n1.اختبارات العلاقات المنطقية .\n2.اختبارات الاحتفاظ بالمادة .\n3.اختبارات التصنيف والتسلسل .\n4.اختبارات العدد .\n5.اختبارات المكان والزمان والمصادفة .'
     },
     {
       type: 'question',
@@ -129,13 +114,6 @@ function FirstQuiz() {
       relatedReading: 'reading4'
     },
     {
-      type: 'reading',
-      id: 'reading5',
-      title: 'نظرية التعلم السلوكية',
-      content: 
-      'مفاهيم النظرية السلوكية الإجرائية :\n-السلوك    - المثير والاستجابة     - التعزيز والعقاب      - التعلم\n\nمحددات المضمون المعرفي :\n1.محدد الإثارة\n2.محدد العرض النسقي للمادة .\n3.محدد التناسب والتكيف .\n4.محدد التعزيز الفوري .'
-    },
-    {
       type: 'question',
       id: 11,
       question: 'مفاهيم النظرية السلوكية الإجرائية:',
@@ -152,13 +130,6 @@ function FirstQuiz() {
       relatedReading: 'reading5'
     },
     {
-      type: 'reading',
-      id: 'reading6',
-      title: 'نظرية التعلم الجشطلتية',
-      content: 
-      'نظرية التعلم الجشطلتية :\n-الجشطلت     - البنية    - الاستبصار    - التنظيم     - إعادة التنظيم    - الانتقال     - الدافعية الاصلية       - الفهم والمعنى\n\nمبادئ التعلم في النظرية الجشطلتيه :\n1.الاستبصار شرط للتعلم الحقيقي .\n2.ان الفهم وتحقيق الاستبصار يفترض إعادة البنية .\n3.التعلم يقترن بالنتائج .\n4.الانتقال شرط التعلم الحقيقي .\n5.الحفظ والتطبيق الالي للمعارف تعلم سلبي .\n6.الاستبصار حافز قوي والتعزيز الخارجي عامل سلبي .\n7.الاستبصار تفاعل إيجابي مع موضوع التعلم .'
-    },
-    {
       type: 'question',
       id: 13,
       question: 'من مفاهيم نظرية التعلم الجشطلتية:',
@@ -173,13 +144,6 @@ function FirstQuiz() {
       options: ['أ- الاستبصار شرط للتعلم الحقيقي', 'ب- التعلم يقترن بالنتائج', 'ج- الاستبصار تفاعل إيجابي مع موضوع التعلم', 'د- جميع ما سبق'],
       correctAnswer: 3,
       relatedReading: 'reading6'
-    },
-    {
-      type: 'reading',
-      id: 'reading7',
-      title: 'نظريات تصميم التدريس',
-      content: 
-      'نظريات تصميم التدريس :\n-نظرية النظم العامة .\n-نظرية الاتصال .\n-نظريات التدريس .\n-نظريات التعلم .\n-نظريات التعلم السلوكية .\n-نظريات التعلم العقلية .\n-نظريات التعلم البنائية\n\nأهمية التصميم التعليمي :\n1.تحسين الممارسات التربوية .\n2.توفير الجهد والوقت .\n3.استعمال الوسائل والاجهزه والأدوات التعليمية بطريقة جيده .\n4.إيجاد علاقة بين المبادئ النظرية والتطبيقية في المواقف التعليمية .\n5.اعتماد المتعلم على جهده الذاتي اثناء عملية التعلم .\n6.تفاعل المتعلم مع الماده الدراسية .\n7.توضيح دور المعلم في تسهيل عملية التعلم .\n8.تفريغ المعلم للقيام بواجبات تربوية أخرى إضافة الى التعليم .\n9.التقويم السليم لتعلم الطلبة وعمل المعلم .\n\nخطوات التصميم التعليمي :\n1.تحديد الهدف التعليمي .                    5.تطوير الاختبارات المحكية\n2.تحليل المهمة التعليمية .                    6. تطوير استراتيجية التعلم\n3.تحليل السلوك للمتعلم .                     7. تنظيم المحتوى التعليمي\n4.كتابة الأهداف السلوكية                     8. تطوير المواد التعليمية\n9.تصميم عملية التقويم التكويني .\n\nالمشاركون في عملية التصميم :\n1.المصمم التدريس .\n2.المدرس\n3.اختصاصي الموضوع\n4.المقوم'
     },
     {
       type: 'question',
@@ -220,13 +184,6 @@ function FirstQuiz() {
       options: ['أ- المصمم التدريسي, المدرس', 'ب- اختصاصي الموضوع', 'ج- المقوم', 'د- جميع ما سبق'],
       correctAnswer: 3,
       relatedReading: 'reading7'
-    },
-    {
-      type: 'reading',
-      id: 'reading7',
-      title: 'نظريات تصميم التدريس',
-      content: 
-      'نظريات تصميم التدريس :\n-نظرية النظم العامة .\n-نظرية الاتصال .\n-نظريات التدريس .\n-نظريات التعلم .\n-نظريات التعلم السلوكية .\n-نظريات التعلم العقلية .\n-نظريات التعلم البنائية\n\nأهمية التصميم التعليمي :\n1.تحسين الممارسات التربوية .\n2.توفير الجهد والوقت .\n3.استعمال الوسائل والاجهزه والأدوات التعليمية بطريقة جيده .\n4.إيجاد علاقة بين المبادئ النظرية والتطبيقية في المواقف التعليمية .\n5.اعتماد المتعلم على جهده الذاتي اثناء عملية التعلم .\n6.تفاعل المتعلم مع الماده الدراسية .\n7.توضيح دور المعلم في تسهيل عملية التعلم .\n8.تفريغ المعلم للقيام بواجبات تربوية أخرى إضافة الى التعليم .\n9.التقويم السليم لتعلم الطلبة وعمل المعلم .\n\nخطوات التصميم التعليمي :\n1.تحديد الهدف التعليمي .                    5.تطوير الاختبارات المحكية\n2.تحليل المهمة التعليمية .                    6. تطوير استراتيجية التعلم\n3.تحليل السلوك للمتعلم .                     7. تنظيم المحتوى التعليمي\n4.كتابة الأهداف السلوكية                     8. تطوير المواد التعليمية\n9.تصميم عملية التقويم التكويني .\n\nالمشاركون في عملية التصميم :\n1.المصمم التدريس .\n2.المدرس\n3.اختصاصي الموضوع\n4.المقوم'
     },
     {
       type: 'question',
@@ -353,15 +310,14 @@ function FirstQuiz() {
     </h1>
     <Container className="py-4 animate__animated animate__slideInUp d-flex align-items-center justify-content-center">
       <Card className="shadow-lg border-0 rounded-lg overflow-hidden" style={{ maxWidth: '800px', width: '100%' }}>
-        <div className="p-3 text-center" style={{ backgroundColor: 'var(--navy-blue)', color: 'var(--white)' }}>
+        <div style={{ backgroundColor: 'var(--navy-blue)', color: 'var(--white)' }} className="p-3 text-center">
           <h2 className="mb-0 fs-4 fw-bold">الباب الأول / نظريات التعلم ونظريات التدريس</h2>
         </div>
         <Card.Body className="p-4 p-md-5" style={{ textAlign: 'right' }}>
-          <div className="progress mb-4" style={{ height: '8px', backgroundColor: 'var(--white)', border: '1px solid var(--navy-blue)' }}>
+          <div className="progress mb-4" style={{ height: '8px' }}>
             <div 
-              className="progress-bar" 
               role="progressbar" 
-              style={{ width: `${(currentStep / (quizContent.length - 1)) * 100}%`, backgroundColor: 'var(--gold)' }}
+              style={{ width: `${(currentStep / (quizContent.length - 1)) * 100}%`, backgroundColor: 'var(--navy-blue)' }}
               aria-valuenow={(currentStep / (quizContent.length - 1)) * 100}
               aria-valuemin="0" 
               aria-valuemax="100">
@@ -373,8 +329,8 @@ function FirstQuiz() {
               <div className={`animate__animated ${animationClass}`}>
                 {quizContent[currentStep].type === 'reading' ? (
                   <div className="reading-container mb-4">
-                    <div className="d-flex align-items-center mb-3 bg-light p-2 rounded-top border-bottom border-primary">
-                      <FontAwesomeIcon icon={faBookOpen} className="me-2" size="lg" style={{ color: 'var(--navy-blue)' }} />
+                    <div className="d-flex align-items-center mb-3 bg-light p-2 rounded-top border-bottom" style={{ borderColor: 'var(--navy-blue)' }}>
+                      <FontAwesomeIcon icon={faBookOpen} className="me-2" style={{ color: 'var(--navy-blue)' }} size="lg" />
                       <h4 className="mb-0 fs-5 fw-bold">{quizContent[currentStep].title}</h4>
                     </div>
                     <Card className="bg-light border-0 shadow-sm rounded-bottom">
@@ -385,19 +341,21 @@ function FirstQuiz() {
                   </div>
                 ) : (
                   <div className="question-container mb-4" style={{ textAlign: 'right' }}>
-                    <div className="p-3 rounded mb-3" style={{ backgroundColor: 'var(--light-bg)', borderLeft: '4px solid var(--navy-blue)' }}>
+                    <div className="bg-light p-3 rounded mb-3 border-start border-4" style={{ borderColor: 'var(--navy-blue)' }}>
                       <h4 className="mb-0 fs-5 fw-bold">{quizContent[currentStep].question}</h4>
                     </div>
                     <div className="d-grid gap-2">
                       {quizContent[currentStep].options.map((option, index) => (
                         <Button
                           key={index}
-                          variant={answers[quizContent[currentStep].id] === index ? 'light' : 'outline-light '}
-                          className="text-end py-3 px-4 "
-                          style={answers[quizContent[currentStep].id] === index ? 
-                            { backgroundColor: 'var(--navy-blue)', borderColor: 'var(--navy-blue)',color:'white' } : 
-                            { borderColor: 'var(--navy-blue)', color: 'var(--navy-blue)' }}
+                          className="text-end py-3 px-4"
                           onClick={() => handleAnswerSelect(quizContent[currentStep].id, index)}
+                          style={{
+                            whiteSpace: 'normal',
+                            backgroundColor: answers[quizContent[currentStep].id] === index ? 'var(--navy-blue)' : 'var(--white)',
+                            color: answers[quizContent[currentStep].id] === index ? 'var(--white)' : 'var(--black)',
+                            border: '2px solid var(--navy-blue)'
+                          }}
                         >
                           {option}
                         </Button>
@@ -407,7 +365,7 @@ function FirstQuiz() {
                 )}
               </div>
               {validationError && (
-                <div className="alert mb-3" role="alert" style={{ textAlign: 'right', backgroundColor: 'var(--light-pink)', color: 'var(--pink)', border: '1px solid var(--pink)' }}>
+                <div className="alert alert-danger mb-3" role="alert" style={{ textAlign: 'right' }}>
                   {errorMessage}
                 </div>
               )}
@@ -415,7 +373,6 @@ function FirstQuiz() {
               <div className="d-flex flex-column flex-sm-row justify-content-between gap-3 gap-sm-0 mt-4">
                 <Button 
                   className="btn-navy-blue"
-                  style={{   color: 'var(--white)' }}
                   onClick={handlePrevious}
                   disabled={currentStep === 0}
                 >
@@ -425,7 +382,6 @@ function FirstQuiz() {
                 {currentStep < quizContent.length - 1 ? (
                   <Button 
                     className="btn-navy-blue"
-                    // style={{ backgroundColor: 'var(--navy-blue)', borderColor: 'var(--navy-blue)', color: 'var(--white)' }}
                     onClick={handleNext}
                   >
                     التالي <FontAwesomeIcon icon={faArrowLeft} />
@@ -433,7 +389,6 @@ function FirstQuiz() {
                 ) : (
                   <Button 
                     className="btn-navy-blue"
-                    // style={{ backgroundColor: 'var(--navy-blue)', borderColor: 'var(--navy-blue)', color: 'var(--white)' }}
                     onClick={handleSubmit}
                   >
                     إنهاء الإختبار <FontAwesomeIcon icon={faCheck} />
@@ -443,65 +398,65 @@ function FirstQuiz() {
             </>
           ) : (
             <div className="result-container text-center">
-              <h3 className="mb-4" style={{ color: 'var(--navy-blue)' }}>نتيجة الإختبار</h3>
+              <h3 className="mb-4">نتيجة الإختبار</h3>
               <p className="lead">
                 لقد حصلت على {calculateScore().score} من أصل {calculateScore().totalQuestions} نقطة
               </p>
               
               {showCorrectAnswers && (
                 <div className="correct-answers mt-4">
-                  <h4 className="mb-3" style={{ color: 'var(--navy-blue)' }}>الإجابات الصحيحة</h4>
+                  <h4 className="mb-3">الإجابات الصحيحة</h4>
                   {quizContent.filter(item => item.type === 'question').map((question) => {
                     const isCorrect = answers[question.id] === question.correctAnswer;
                     return (
-                      <Card key={question.id} className="mb-3" style={{ border: isCorrect ? '2px solid var(--navy-blue)' : '2px solid var(--pink)' }}>
+                      <Card key={question.id} className={`mb-3 ${isCorrect ? 'border-success' : 'border-danger'}`}>
                         <Card.Body>
                           <h5>{question.question}</h5>
                           <p>
                             <strong>إجابتك: </strong> 
                             {answers[question.id] !== undefined ? question.options[answers[question.id]] : 'لم تجب'}
                           </p>
-                          <p style={{ color: 'var(--navy-blue)', fontWeight: 'bold' }}>
+                          <p style={{ color: 'var(--navy-blue)' }}>
                             <strong>الإجابة الصحيحة: </strong> 
                             {question.options[question.correctAnswer]}
                           </p>
                           {question.id === 1 && (
-                            <p className="explanation" style={{ color: 'var(--grey)' }}>
+                            <p className="explanation text-muted">
                               <strong>التوضيح: </strong>كما ورد في النص، تقع نظرية سكنر في مجموعتين هما عملية التعلم ونواتج (عواقب) التعلم.
                             </p>
                           )}
                           {question.id === 2 && (
-                            <p className="explanation" style={{ color: 'var(--grey)' }}>
+                            <p className="explanation text-muted">
                               <strong>التوضيح: </strong>الإجابة الصحيحة هي "د- أ، ب معا" حيث ترتبط النواتج بالسلوك بطريق التعزيز الموجب والتعزيز السابق، والعقاب واستبعاد العقاب.
                             </p>
                           )}
                           {question.id === 3 && (
-                            <p className="explanation" style={{ color: 'var(--grey)' }}>
+                            <p className="explanation text-muted">
                               <strong>التوضيح: </strong>كما ورد في النص، تصنف نظريات التدريس إلى النظرية السلوكية والمعرفية والبنائية.
                             </p>
                           )}
                           {question.id === 4 && (
-                            <p className="explanation" style={{ color: 'var(--grey)' }}>
+                            <p className="explanation text-muted">
                               <strong>التوضيح: </strong>كما ورد في النص، يتكون نموذج ويتلي للتعلم البنائي من ثلاثة مكونات وهي: مهام التعلم، المجموعات المتعاونة، المشاركة.
                             </p>
                           )}
                           {question.id === 5 && (
-                            <p className="explanation" style={{ color: 'var(--grey)' }}>
+                            <p className="explanation text-muted">
                               <strong>التوضيح: </strong>كما ورد في النص، تسير عملية التدريس بنموذج دورة التعلم وفقا لثلاث مراحل أساسية هي: مرحلة الاستكشاف، مرحلة الإبداع المفاهيمي، مرحلة الاتساع المفاهيمي.
                             </p>
                           )}
                           {question.id === 6 && (
-                            <p className="explanation" style={{ color: 'var(--grey)' }}>
+                            <p className="explanation text-muted">
                               <strong>التوضيح: </strong>كما ورد في النص، يعتمد بناء التراكيب النظرية للنموذج المنظومي على ثلاث مصادر ، هي: نظرية بياجيه، علم النفس المعرفي، وكيفية تنظيم المعلومات داخل المخ البشري.
                             </p>
                           )}
                           {question.id === 11 && (
-                            <p className="explanation" style={{ color: 'var(--grey)' }}>
+                            <p className="explanation text-muted">
                               <strong>التوضيح: </strong>كما ورد في النص، تشمل مفاهيم النظرية السلوكية الإجرائية: السلوك والتعلم، المثير والاستجابة، والتعزيز والعقاب.
                             </p>
                           )}
                           {question.id === 12 && (
-                            <p className="explanation" style={{ color: 'var(--grey)' }}>
+                            <p className="explanation text-muted">
                               <strong>التوضيح: </strong>كما ورد في النص، تشمل محددات المضمون المعرفي: محدد الإثارة، محدد التناسب والتكيف، ومحدد التعزيز الفوري.
                             </p>
                           )}
@@ -514,7 +469,6 @@ function FirstQuiz() {
               
               <Button 
                 className="btn-navy-blue mt-3"
-                style={{ backgroundColor: 'var(--navy-blue)', borderColor: 'var(--navy-blue)', color: 'var(--white)' }}
                 onClick={() => window.location.href = '/'}
               >
                 العودة للصفحة الرئيسية
@@ -529,4 +483,4 @@ function FirstQuiz() {
   );
 }
 
-export default FirstQuiz;
+export default SecondExam;

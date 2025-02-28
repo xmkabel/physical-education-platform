@@ -1,0 +1,62 @@
+.quizContainer {
+  background-color: var(--gold);
+  padding: 2rem;
+  border-radius: 10px;
+}
+
+.card {
+  background-color: var(--white);
+  border: 2px solid var(--navy-blue);
+  margin-bottom: 1rem;
+}
+
+.cardTitle {
+  color: var(--navy-blue);
+  font-weight: bold;
+}
+
+.cardContent {
+  color: var(--black);
+}
+
+.button {
+  background-color: var(--navy-blue);
+  border: none;
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  background-color: var(--dark-gold);
+}
+
+.optionButton {
+  background-color: var(--white);
+  border: 2px solid var(--navy-blue);
+  color: var(--black);
+  margin: 0.5rem 0;
+  transition: all 0.3s ease;
+}
+
+.optionButton:hover {
+  background-color: var(--gold);
+  color: var(--white);
+}
+
+.optionButton.selected {
+  background-color: var(--navy-blue);
+  color: var(--white);
+}
+
+.errorMessage {
+  color: var(--pink);
+  margin-top: 1rem;
+}
+
+.correctAnswer {
+  background-color: var(--orange);
+  color: var(--black);
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin-top: 0.5rem;
+}
