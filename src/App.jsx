@@ -18,6 +18,7 @@ function App() {
 =======
       <Route path="/" element={<Home />} />
       <Route path="/quizes/first" element={<FirstQuiz />} />
+      <Route path="/quizes/second" element={<SecondExam />} />
     </Routes>
     </>
   )
