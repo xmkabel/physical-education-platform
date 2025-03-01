@@ -1,24 +1,19 @@
-// import { useState } from 'react'
 import Home from './components/Home'
-import FirstQuiz from './components/quizes/first/page'
 import image from './assets/icon.png'
 import {Routes, Route} from 'react-router-dom'
-import SecondExam from './components/quizes/second/page'
-function App() {
+import Quiz from './components/quizes/Quiz'
+import quizData from './data/quizData.json'
 
+function App() {
   return (
     <>
-  
+
 
     <Routes>
-{/* <<<<<<< HEAD
+    <Route path="/ss" element={<Quiz quizData={quizData} name={"الباب الأول / نظريات التعلم ونظريات التدريس"} 
+
+    />}/>
       <Route path="/" element={<Home />} />
-      <Route path="/quizes/first" element={<FirstQuiz />} />
-      <Route path="/quizes/second" element={<SecondExam />} /> */}
-=======
-      <Route path="/" element={<Home />} />
-      <Route path="/quizes/first" element={<FirstQuiz />} />
-      <Route path="/quizes/second" element={<SecondExam />} />
     </Routes>
     </>
   )
