@@ -330,7 +330,7 @@ function SecondExam() {
                 {quizContent[currentStep].type === 'reading' ? (
                   <div className="reading-container mb-4">
                     <div className="d-flex align-items-center mb-3 bg-light p-2 rounded-top border-bottom" style={{ borderColor: 'var(--navy-blue)' }}>
-                      <FontAwesomeIcon icon={faBookOpen} className="me-2" style={{ color: 'var(--navy-blue)' }} size="lg" />
+                      <FontAwesomeIcon icon={faBookOpen} className="me-2 ms-2" style={{ color: 'var(--navy-blue)' }} size="lg" />
                       <h4 className="mb-0 fs-5 fw-bold">{quizContent[currentStep].title}</h4>
                     </div>
                     <Card className="bg-light border-0 shadow-sm rounded-bottom">

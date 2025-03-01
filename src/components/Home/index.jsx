@@ -14,7 +14,7 @@ function Home() {
       <Container className="py-4">
         <div className="text-center mb-5 animate__animated animate__fadeIn">
           {/* <h1 className="display-5 u-title mb-3">جامعة حلوان</h1> */}
-          <img src={logo} alt="Logo" width={'200px'}/>
+          <img src={logo} alt="Logo" width={'200rem'}/>
           <p className="lead text-muted"> <br/>
           هذا البرنامج مخصص للحصول على درجة الدكتوراه في طرق التدريس
           </p>
