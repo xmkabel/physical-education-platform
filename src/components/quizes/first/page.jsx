@@ -515,7 +515,7 @@ function FirstQuiz() {
               <Button 
                 className="btn-navy-blue mt-3"
                 style={{ backgroundColor: 'var(--navy-blue)', borderColor: 'var(--navy-blue)', color: 'var(--white)' }}
-                onClick={() => window.location.href = '/'}
+                onClick={() => window.location.href = '/react-physical-education/'}
               >
                 العودة للصفحة الرئيسية
               </Button>
