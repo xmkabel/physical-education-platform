@@ -373,8 +373,8 @@ function FirstQuiz() {
               <div className={`animate__animated ${animationClass}`}>
                 {quizContent[currentStep].type === 'reading' ? (
                   <div className="reading-container mb-4">
-                    <div className="d-flex align-items-center mb-3 bg-light p-2 rounded-top border-bottom border-primary">
-                      <FontAwesomeIcon icon={faBookOpen} className="me-2" size="lg" style={{ color: 'var(--navy-blue)' }} />
+                    <div className="d-flex align-items-center mb-3 bg-light p-2 rounded-top" style={{borderBottom: 'solid 1px var(--gold)'}}>
+                      <FontAwesomeIcon icon={faBookOpen} className="me-2 ms-2" size="lg" style={{ color: 'var(--navy-blue)'}} />
                       <h4 className="mb-0 fs-5 fw-bold">{quizContent[currentStep].title}</h4>
                     </div>
                     <Card className="bg-light border-0 shadow-sm rounded-bottom">
