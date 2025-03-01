@@ -10,9 +10,8 @@ function App() {
 
 
     <Routes>
-    <Route path="/ss" element={<Quiz quizData={quizData} name={"الباب الأول / نظريات التعلم ونظريات التدريس"} 
-
-    />}/>
+    <Route path="/first" element={<Quiz quizData={quizData} name={"الباب الأول / نظريات التعلم ونظريات التدريس"} 
+/>}/>
       <Route path="/" element={<Home />} />
     </Routes>
     </>
