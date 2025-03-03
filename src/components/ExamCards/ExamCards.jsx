@@ -13,49 +13,6 @@ const ExamCards = () => {
     setIsLoaded(true);
   }, []);
 
-  const examCards1 = [
-    {
-        id: '1',
-        title: 'نظرية سكنر السلوكية',
-        description: 'أهم تطبيق تربوي هو تحليل التعلم، حيث يجزئ المدرس المهمة إلى أجزاء وخطوات لتنظيم هرمي.'
-    },
-    {
-        id: '2',
-        title: 'تصنيف نظريات التدريس',
-        description: 'تشمل السلوكية (السلوك الظاهري)، المعرفية (العمليات العقلية)، والبنائية (العوامل الداخلية).'
-    },
-    {
-        id: '3',
-        title: 'استراتيجيات التدريس القائمة على الفكر البنائي',
-        description: 'تشمل نموذج ويتلي (حول المشكلة)، دورة التعلم (قدرات عقلية)، والمنظومي (بياجيه وتنظيم المعلومات).'
-    },
-    {
-        id: '4',
-        title: 'نظرية جان بياجيه في النمو المعرفي',
-        description: 'النمو عملية انتقائية، تشمل مراحل: الحسية الحركية، ما قبل العمليات، المحسوسة، والشكلية المجردة.'
-    },
-    {
-        id: '5',
-        title: 'نظرية التعلم السلوكية الإجرائية',
-        description: 'مفاهيم: السلوك، المثير والاستجابة، التعزيز والعقاب، محددات: الإثارة، العرض، التناسب، الفوري.'
-    },
-    {
-        id: '6',
-        title: 'نظرية التعلم الجشطلتية',
-        description: 'مفاهيم: الجشطلت، الاستبصار، التنظيم، مبادئ: الاستبصار شرط التعلم الحقيقي والنتائج.'
-    },
-    {
-        id: '7',
-        title: 'نظريات تصميم التدريس',
-        description: 'تشمل النظم العامة، الاتصال، التعلم (سلوكية، عقلية، بنائية)، أهمية تحسين الممارسات التربوية.'
-    },
-    {
-        id: '8',
-        title: 'مفاهيم تصميم التعليم وتقنيته',
-        description: 'نماذج: جانية وبرجز، ديك وكاري، المنظومي، كمب، افتراضات: فعال، كافٍ، جذاب، أبعاد: وسائل، محتوى، أداء.'
-    }
-];
-
   const categories = [
     {
       id: 'first',
@@ -74,12 +31,12 @@ const ExamCards = () => {
     }
   ];
 
-  const handleCardClick = (examId) => {
-    navigate(`/exams/first/${examId}`);
-  };
-
   const handleCategoryClick = (categoryId) => {
-    setSelectedCategory(categoryId === selectedCategory ? null : categoryId);
+    if (categoryId === 'first') {
+      navigate('/exams/first');
+    } else {
+      setSelectedCategory(categoryId === selectedCategory ? null : categoryId);
+    }
   };
 
   const goBack = () => {
@@ -94,7 +51,7 @@ const ExamCards = () => {
     <div className={`exam-cards-container ${isLoaded ? 'loaded' : ''}`}>
       <div className="exam-cards-header">
         <button className="back-button" onClick={goBack}>
-        <FontAwesomeIcon icon={faArrowLeft} className="back-arrow" /> العودة
+          <FontAwesomeIcon icon={faArrowLeft} className="back-arrow" /> العودة
         </button>
         <h1 className="exam-cards-title">الاختبارات المتاحة</h1>
       </div>
@@ -116,31 +73,11 @@ const ExamCards = () => {
               </div>
             ))}
           </div>
-        ) : selectedCategory === 'first' ? (
-          <div className="exam-cards-grid">
-            {examCards1.map((exam, index) => (
-              <div
-                key={exam.id}
-                className="exam-card"
-                onClick={() => handleCardClick(exam.id)}
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="exam-card-content">
-                  <div className="card-number">{index + 1}</div>
-                  <h2 className="exam-card-title">{exam.title}</h2>
-                  <p className="exam-card-description">{exam.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
         ) : (
-          <div className="exam-cards-grid">
-            <div className="exam-card">
-              <div className="exam-card-content">
-                <h2 className="exam-card-title">قريباً</h2>
-                <p className="exam-card-description">المحتوى قيد الإعداد</p>
-              </div>
-            </div>
+          // For categories other than 'first', you can add content here.
+          <div className="selected-category-content">
+            <h2>تفاصيل الفئة: {selectedCategory}</h2>
+            {/* Additional content for the selected category can be placed here */}
           </div>
         )}
       </div>
