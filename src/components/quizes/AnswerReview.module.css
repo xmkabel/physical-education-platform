@@ -1,0 +1,191 @@
+.reviewContainer {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.reviewHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.reviewTitle {
+  color: var(--navy-blue);
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.reviewSubtitle {
+  color: var(--dark-gray);
+  font-size: 0.9rem;
+}
+
+.questionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.questionCard {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+  transition: transform 0.3s ease;
+}
+
+.questionCard:hover {
+  transform: translateY(-5px);
+}
+
+.correctCard {
+  border-right: 4px solid var(--green);
+}
+
+.incorrectCard {
+  border-right: 4px solid var(--pink);
+}
+
+.questionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f9fa;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.questionNumber {
+  font-weight: bold;
+  color: var(--navy-blue);
+}
+
+.questionStatus {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.correct {
+  color: var(--green);
+}
+
+.incorrect {
+  color: var(--pink);
+}
+
+.questionText {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: var(--navy-blue);
+  font-weight: 500;
+}
+
+.answersContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  border: 1px solid #eee;
+}
+
+.correctSelection {
+  composes: option;
+  background-color: rgba(40, 167, 69, 0.1);
+  border: 1px solid var(--green);
+}
+
+.incorrectSelection {
+  composes: option;
+  background-color: rgba(220, 53, 69, 0.1);
+  border: 1px solid var(--pink);
+}
+
+.correctAnswer {
+  composes: option;
+  background-color: rgba(40, 167, 69, 0.05);
+  border: 1px solid var(--green);
+}
+
+.optionText {
+  flex: 1;
+  text-align: right;
+}
+
+.optionIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.correctIcon {
+  color: var(--green);
+}
+
+.incorrectIcon {
+  color: var(--pink);
+}
+
+.actionContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.closeButton {
+  background-color: var(--navy-blue);
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.closeButton:hover {
+  background-color: var(--dark-navy-blue);
+  transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .questionText {
+    font-size: 1rem;
+  }
+  
+  .option {
+    padding: 0.6rem 0.8rem;
+  }
+}
+
+/* Define variables if not already defined in global CSS */
+:root {
+  --navy-blue: #003366;
+  --dark-navy-blue: #002244;
+  --gold: #FFD700;
+  --pink: #FF5252;
+  --green: #28a745;
+  --dark-gray: #555;
+}

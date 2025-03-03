@@ -1,11 +1,12 @@
 import React, { useState, useEffect, Component } from 'react';
 import { Container, Card, Button, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faCheck, faBookOpen, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faCheck, faBookOpen, faArrowRight, faStar, faTrophy, faListAlt } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'animate.css';
 import styles from './Quiz.module.css';
 import { useNavigate } from 'react-router-dom';
+import AnswerReview from './AnswerReview';
 
 // Error Boundary Component
 class ErrorBoundary extends Component {
@@ -54,9 +55,22 @@ function Quiz({ quizData, name }) {
   const [validationError, setValidationError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [animationClass, setAnimationClass] = useState('animate__fadeIn');
+  const [showAnswerReview, setShowAnswerReview] = useState(false);
 
   const goBack = () => {
-    navigate('/exams');
+    navigate(-1); // This will go back to the previous page (chapter view)
+  };
+
+  // Function to restart the quiz
+  const restartQuiz = () => {
+    setCurrentStep(0);
+    setAnswers({});
+    setIsSubmitted(false);
+    setShowCorrectAnswers(false);
+    setValidationError(false);
+    setErrorMessage('');
+    setShowAnswerReview(false);
+    setAnimationClass('animate__fadeIn');
   };
 
   // Use quiz data from props
@@ -177,28 +191,24 @@ function Quiz({ quizData, name }) {
           <div className="p-3 text-center" style={{ backgroundColor: 'var(--navy-blue)', color: 'var(--white)' }}>
             <h2 className="mb-0 fs-4 fw-bold quiz-title" style={{ fontSize: 'clamp(1rem, 4vw, 1.5rem)' }}>{name}</h2>
           </div>
-          <Card.Body className="p-3 p-md-4" style={{ textAlign: 'right' }}>
-            {quizContent.length > 0 && (
-              <div className="progress mb-4 position-relative" style={{ height: '12px', backgroundColor: 'var(--white)', border: '1px solid var(--navy-blue)', borderRadius: '10px', overflow: 'hidden' }}>
+          {!isSubmitted && quizContent.length > 0 && (
+            <div className="p-3 text-center" style={{ backgroundColor: '#f8f9fa', borderBottom: '1px solid #eee' }}>
+              <div className="d-flex justify-content-center align-items-center mb-2">
+                <span style={{ fontSize: '0.9rem', color: 'var(--navy-blue)' }}>تم الإجابة على {Object.keys(answers).length} من {quizContent.filter(item => item.type === 'question').length} سؤال</span>
+                <span style={{ fontSize: '0.9rem', color: 'var(--gold)', fontWeight: 'bold', marginRight: '12px' }}>{Math.round((Object.keys(answers).length / quizContent.filter(item => item.type === 'question').length) * 100)}%</span>
+              </div>
+              <div className={styles.progressBarContainer}>
                 <div 
-                  className="progress-bar animate__animated animate__slideInLeft" 
-                  role="progressbar" 
+                  className={styles.progressBar}
                   style={{
                     width: `${(Object.keys(answers).length / quizContent.filter(item => item.type === 'question').length) * 100}%`,
-                    background: 'linear-gradient(45deg, var(--navy-blue), var(--gold))',
-                    transition: 'width 0.5s ease-in-out',
-                    borderRadius: '8px'
                   }}
-                  aria-valuenow={(Object.keys(answers).length / quizContent.filter(item => item.type === 'question').length) * 100}
-                  aria-valuemin="0" 
-                  aria-valuemax="100">
+                >
                 </div>
-                <small className="position-absolute w-100 text-center" style={{ lineHeight: '12px', fontWeight: 'bold', mixBlendMode: 'difference', color: 'white' }}>
-                  {Math.round((Object.keys(answers).length / quizContent.filter(item => item.type === 'question').length) * 100)}%
-                </small>
               </div>
-            )}
-            
+            </div>
+          )}
+          <Card.Body className="p-3 p-md-4" style={{ textAlign: 'right' }}>
             {quizContent.length === 0 && !isSubmitted && (
               <div className="alert alert-warning" role="alert" style={{ textAlign: 'right' }}>
                 لا توجد أسئلة متاحة للاختبار
@@ -207,7 +217,7 @@ function Quiz({ quizData, name }) {
 
             {!isSubmitted ? (
               <>
-                <div className={`animate__animated ${animationClass}`}>
+                <div className="animate__animated animate__fadeIn">
                   {quizContent && quizContent.length > 0 && currentStep < quizContent.length && quizContent[currentStep] && quizContent[currentStep].type === 'reading' ? (
                     <div className="reading-container mb-4">
                       <div className="d-flex align-items-center mb-3 bg-light p-2 rounded-top" style={{borderBottom: 'solid 1px var(--gold)'}}>
@@ -294,117 +304,147 @@ function Quiz({ quizData, name }) {
                 <div className="d-flex flex-column flex-sm-row justify-content-between gap-3 mt-4">
                   <Button 
                     className={styles.button}
+                    onClick={handleNext}
+                    disabled={currentStep === quizContent.length - 1}
+                  >
+                    التالي <FontAwesomeIcon icon={faArrowLeft} className="ms-2" />
+                  </Button>
+                  
+                  <Button 
+                    className={styles.button}
                     onClick={handlePrevious}
                     disabled={currentStep === 0}
                   >
                     <FontAwesomeIcon icon={faArrowRight} className="me-2" /> السابق
                   </Button>
-                  
-                  {currentStep < quizContent.length - 1 ? (
-                    <Button 
-                      className={styles.button}
-                      onClick={handleNext}
-                    >
-                      التالي <FontAwesomeIcon icon={faArrowLeft} className="ms-2" />
-                    </Button>
-                  ) : quizContent && quizContent.length > 0 && currentStep === quizContent.length - 1 ? (
-                      <Button 
-                        className={styles.button}
-                        onClick={handleSubmit}
-                      >
-                        إنهاء الإختبار <FontAwesomeIcon icon={faCheck} className="ms-2" />
-                      </Button>
-                  ) : null
-                  }
                 </div>
-              </>
-            ) : (
-              <div className="result-container animate__animated animate__fadeIn">
-                <div className="text-center mb-4">
-                  <h3 className="mb-3" style={{ color: 'var(--navy-blue)' }}>نتيجة الإختبار</h3>
-                  <div className="score-display p-3 mb-4 rounded-3" style={{ backgroundColor: 'var(--light-bg)' }}>
-                    <p className="lead mb-0 fw-bold">
-                      لقد حصلت على <span style={{ color: 'var(--navy-blue)', fontSize: '1.2em' }}>{calculateScore().score}</span> من أصل <span style={{ color: 'var(--navy-blue)', fontSize: '1.2em' }}>{calculateScore().totalQuestions}</span> نقطة
-                    </p>
-                  </div>
-                </div>
-                
-                {showCorrectAnswers && (
-                  <div className="correct-answers mt-4">
-                    <h4 className="mb-3 text-center" style={{ color: 'var(--navy-blue)' }}>الإجابات الصحيحة</h4>
-                    {quizContent.filter(item => item.type === 'question').map((question) => {
-                      const isCorrect = answers[question.id] === question.correctAnswer;
-                      return (
-                        <Card key={question.id} className="mb-3 border-0 shadow-sm" style={{ borderRadius: '12px', borderRight: isCorrect ? '4px solid var(--navy-blue)' : '4px solid var(--pink)' }}>
-                          <Card.Body className="p-3 p-md-4">
-                            <h5 className="mb-3">{question.question}</h5>
-                            <div className="d-flex flex-column gap-2">
-                              <p className="mb-2">
-                                <strong>إجابتك: </strong> 
-                                <span style={{ color: isCorrect ? 'var(--navy-blue)' : 'var(--pink)' }}>
-                                  {answers[question.id] !== undefined ? question.options[answers[question.id]] : 'لم تجب'}
-                                </span>
-                              </p>
-                              <p className="mb-2" style={{ color: 'var(--navy-blue)', fontWeight: 'bold' }}>
-                                <strong>الإجابة الصحيحة: </strong> 
-                                {question.options[question.correctAnswer]}
-                              </p>
-                              {question.id === 1 && (
-                                <div className="explanation p-3 rounded-3 mt-2" style={{ backgroundColor: 'rgba(var(--navy-blue-rgb), 0.05)', color: 'var(--grey)' }}>
-                                  <strong>التوضيح: </strong>كما ورد في النص، تقع نظرية سكنر في مجموعتين هما عملية التعلم ونواتج (عواقب) التعلم.
-                                </div>
-                              )}
-                              {question.id === 2 && (
-                                <div className="explanation p-3 rounded-3 mt-2" style={{ backgroundColor: 'rgba(var(--navy-blue-rgb), 0.05)', color: 'var(--grey)' }}>
-                                  <strong>التوضيح: </strong>الإجابة الصحيحة هي "د- أ، ب معا" حيث ترتبط النواتج بالسلوك بطريق التعزيز الموجب والتعزيز السابق، والعقاب واستبعاد العقاب.
-                                </div>
-                              )}
-                              {question.id === 3 && (
-                                <div className="explanation p-3 rounded-3 mt-2" style={{ backgroundColor: 'rgba(var(--navy-blue-rgb), 0.05)', color: 'var(--grey)' }}>
-                                  <strong>التوضيح: </strong>كما ورد في النص، تصنف نظريات التدريس إلى النظرية السلوكية والمعرفية والبنائية.
-                                </div>
-                              )}
-                              {question.id === 4 && (
-                                <div className="explanation p-3 rounded-3 mt-2" style={{ backgroundColor: 'rgba(var(--navy-blue-rgb), 0.05)', color: 'var(--grey)' }}>
-                                  <strong>التوضيح: </strong>كما ورد في النص، يتكون نموذج ويتلي للتعلم البنائي من ثلاثة مكونات وهي: مهام التعلم، المجموعات المتعاونة، المشاركة.
-                                </div>
-                              )}
-                              {question.id === 5 && (
-                                <div className="explanation p-3 rounded-3 mt-2" style={{ backgroundColor: 'rgba(var(--navy-blue-rgb), 0.05)', color: 'var(--grey)' }}>
-                                  <strong>التوضيح: </strong>كما ورد في النص، تسير عملية التدريس بنموذج دورة التعلم وفقا لثلاث مراحل أساسية هي: مرحلة الاستكشاف، مرحلة الإبداع المفاهيمة، مرحلة الاتساع المفاهيمة.
-                                </div>
-                              )}
-                              {question.id === 6 && (
-                                <div className="explanation p-3 rounded-3 mt-2" style={{ backgroundColor: 'rgba(var(--navy-blue-rgb), 0.05)', color: 'var(--grey)' }}>
-                                  <strong>التوضيح: </strong>كما ورد في النص، يعتمد بناء التراكيب النظرية للنموذج المنظومي على ثلاث مصادر ، هي: نظرية بياجيه، علم النفس المعرفي، وكيفية تنظيم المعلومات داخل المخ البشري.
-                                </div>
-                              )}
-                              {question.id === 11 && (
-                                <div className="explanation p-3 rounded-3 mt-2" style={{ backgroundColor: 'rgba(var(--navy-blue-rgb), 0.05)', color: 'var(--grey)' }}>
-                                  <strong>التوضيح: </strong>كما ورد في النص، تشمل مفاهيمات النظرية السلوكية الإجرائية: السلوك والتعلم، المثير والاستجابة، والتعزيز والعقاب.
-                                </div>
-                              )}
-                              {question.id === 12 && (
-                                <div className="explanation p-3 rounded-3 mt-2" style={{ backgroundColor: 'rgba(var(--navy-blue-rgb), 0.05)', color: 'var(--grey)' }}>
-                                  <strong>التوضيح: </strong>كما ورد في النص، تشمل محددات المضمون المعرفي: محدد الإثارة، محدد التناسب والتكيف، ومحدد التعزيز الفوري.
-                                </div>
-                              )}
-                            </div>
-                          </Card.Body>
-                        </Card>
-                      );
-                    })}
-                  </div>
-                )}
                 
                 <div className="d-flex justify-content-center mt-4">
                   <Button 
                     className={styles.button}
-                    onClick={goBack}
+                    onClick={handleSubmit}
                   >
-                    العودة للاختبارات
+                    إنهاء الاختبار
                   </Button>
                 </div>
+              </>
+            ) : (
+              <div className="animate__animated animate__fadeIn">
+                <div className="text-center mb-4">
+                  <FontAwesomeIcon icon={faCheck} className="text-success mb-3" size="3x" />
+                  <h3 className="mb-3">تم إنهاء الاختبار!</h3>
+                  {(() => {
+                    const { score, totalQuestions } = calculateScore();
+                    const percentage = (score / totalQuestions) * 100;
+                    
+                    return (
+                      <div className="text-center">
+                        <h4 className="mb-3">النتيجة: {score} من {totalQuestions}</h4>
+                        <div className="d-flex justify-content-center mb-1">
+                          <span style={{ fontSize: '0.9rem', color: 'var(--gold)', fontWeight: 'bold' }}>{Math.round(percentage)}%</span>
+                        </div>
+                        <div className={styles.progressBarContainer}>
+                          <div 
+                            className={styles.progressBar}
+                            style={{
+                              width: percentage === 0 ? '0%' : `${Math.max(percentage, 1)}%`,
+                              background: percentage >= 70 
+                                ? 'linear-gradient(45deg, #3498db, #f1c40f)'
+                                : 'linear-gradient(45deg, #e74c3c, #3498db)'
+                            }}
+                          >
+                          </div>
+                        </div>
+                        <div className={`${styles.medalContainer} mt-4 animate__animated animate__bounceIn`}>
+                          {percentage === 100 && (
+                            <>
+                              <div className={styles.perfectScoreCelebration}>
+                                <div className={styles.confettiContainer}>
+                                  <div className={`${styles.confetti} ${styles.confetti1}`}></div>
+                                  <div className={`${styles.confetti} ${styles.confetti2}`}></div>
+                                  <div className={`${styles.confetti} ${styles.confetti3}`}></div>
+                                  <div className={`${styles.confetti} ${styles.confetti4}`}></div>
+                                  <div className={`${styles.confetti} ${styles.confetti5}`}></div>
+                                  <div className={`${styles.confetti} ${styles.confetti6}`}></div>
+                                  <div className={`${styles.confetti} ${styles.confetti7}`}></div>
+                                  <div className={`${styles.confetti} ${styles.confetti8}`}></div>
+                                </div>
+                                
+                                <div className={styles.starContainer}>
+                                  <FontAwesomeIcon icon={faStar} className={`${styles.star} ${styles.star1}`} />
+                                  <FontAwesomeIcon icon={faStar} className={`${styles.star} ${styles.star2}`} />
+                                  <FontAwesomeIcon icon={faStar} className={`${styles.star} ${styles.star3}`} />
+                                </div>
+                                
+                                <div className={styles.trophyContainer}>
+                                  <FontAwesomeIcon icon={faTrophy} className={styles.trophy} />
+                                </div>
+                                
+                                <div className={styles.medal}>🎖</div>
+                                <p className={`${styles.medalText} animate__animated animate__tada animate__infinite`} style={{ color: 'var(--gold)' }}>ممتاز!</p>
+                                <p className={`${styles.perfectScoreText} animate__animated animate__fadeIn`}>
+                                  أحسنت! لقد حصلت على العلامة الكاملة! 🎉
+                                </p>
+                              </div>
+                            </>
+                          )}
+                          
+                          {percentage >= 50 && percentage < 100 && (
+                            <>
+                              <div className={styles.medal}>🏅</div>
+                              <p className={styles.medalText} style={{ color: 'var(--gold)' }}>
+                                {percentage >= 75 ? 'جيد جداً!' : 'جيد!'}
+                              </p>
+                            </>
+                          )}
+                          
+                          {percentage > 0 && percentage < 50 && (
+                            <>
+                              <div className={styles.medal}>🥉</div>
+                              <p className={styles.medalText} style={{ color: 'var(--pink)' }}>استمر!</p>
+                            </>
+                          )}
+                          
+                          {percentage === 0 && (
+                            <>
+                              <div className={styles.medal}>🥉</div>
+                              <p className={styles.medalText} style={{ color: 'var(--pink)' }}>حاول مرة أخرى!</p>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
+                {!showAnswerReview ? (
+                  <div className="d-flex flex-column flex-sm-row justify-content-center gap-3 mt-4">
+                    <Button 
+                      className={styles.button}
+                      onClick={() => setShowAnswerReview(true)}
+                    >
+                      <FontAwesomeIcon icon={faListAlt} className="me-2" /> عرض الإجابات
+                    </Button>
+                    <Button 
+                      className={styles.button}
+                      onClick={restartQuiz}
+                      style={{ backgroundColor: 'var(--gold)', borderColor: 'var(--gold)' }}
+                    >
+                      <FontAwesomeIcon icon={faArrowRight} className="me-2" /> إعادة الاختبار
+                    </Button>
+                    <Button 
+                      className={styles.button}
+                      onClick={goBack}
+                    >
+                      العودة للاختبارات
+                    </Button>
+                  </div>
+                ) : (
+                  <AnswerReview 
+                    quizContent={quizContent} 
+                    userAnswers={answers} 
+                    onClose={() => setShowAnswerReview(false)}
+                  />
+                )}
               </div>
             )}
           </Card.Body>
