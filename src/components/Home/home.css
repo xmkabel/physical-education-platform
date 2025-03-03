@@ -1,0 +1,64 @@
+
+.slider-image{
+   width: 450px;
+   transition: all 0.6s ease-in-out;
+}
+
+.carousel-indicators{
+    bottom: -20px;
+}
+.carousel-item.active{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.carousel-caption{
+    position: static;
+}
+
+.carousel-control-prev{
+    right:0px;
+
+    font-size: 35px;
+
+}
+.carousel-control-next{
+    left:0px;
+    right: 85%;
+
+    font-size: 35px;
+
+}
+
+.arrow-navy-blue{
+    color: var(--navy-blue);
+}
+
+.nav-navy-blue{
+    background-color: var(--navy-blue);
+    padding: 10px;
+    margin-borrom: 60px;
+  
+}
+.nav-navy-blue *{
+    color: #fff;
+
+
+}
+.nav-navy-blue .nav-link:hover{
+    color: var(--gold);
+}
+
+.nav-navy-blue .navbar-brand:hover{
+    color: #fff;
+}
+.videos{
+    margin-top: 8%;
+}
+
+.nav-link:hover Link{
+    color: var(--gold);
+}

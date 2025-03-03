@@ -21,8 +21,16 @@
   color: white;
   background: var(--dark-gold);
 }
-
-
+a{
+  text-decoration: none;
+  color: currentColor;
+} 
+.navbar-nav .nav-link.active{
+  color: white;
+}
+.navbar-nav .nav-link.active:hover{
+  color: var(--gold);
+}
 /* Styling for Webkit browsers (Chrome, Safari, Edge) */
 ::-webkit-scrollbar {
     width: 10px;

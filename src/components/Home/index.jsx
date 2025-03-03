@@ -1,81 +1,89 @@
-import { Container, Navbar, Card } from 'react-bootstrap';
+import React from 'react';
+import { Container, Row, Nav, Navbar } from 'react-bootstrap';
+import logo from '../../assets/icon.png';
+import student from '../../assets/student.png';
+import board from '../../assets/board.png';
+import Carousel from 'react-bootstrap/Carousel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGraduationCap, faBook,faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'animate.css';
-import logo from '../../assets/logo.webp';
-import './index.css';
+import './home.css';
+import { faCircleArrowLeft, faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
+import VideoCard from '../VideoCard';
+import videos from '../../videos';
+import { Link } from 'react-router-dom';
 
-function Home() {
-  return (
-    <>
-      
+const Home = () => {
+    return (
+        <div className="home-container">
+            <Navbar className='nav-navy-blue' expand="lg" >
+                <Container>
+                    <Navbar.Brand href="#home">التربية البدنية <img src={logo} alt="logo" width={'30px'} /></Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="me-auto">
+                            <Nav.Link href="#home">الرئيسية</Nav.Link>
+                          
+                            <Nav.Link href="#courses">الدورات</Nav.Link>
+                            <Link className='nav-link'  to={'/'}>من نحن</Link>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
 
-      <Container className="py-4">
-        <div className="text-center mb-5 animate__animated animate__fadeIn">
-          {/* <h1 className="display-5 u-title mb-3">جامعة حلوان</h1> */}
-          <img src={logo} alt="Logo" width={'200rem'}/>
-          <p className="lead text-muted"> <br/>
-          هذا البرنامج مخصص للحصول على درجة الدكتوراه في طرق التدريس
-          </p>
+            <Carousel
+                data-bs-theme="dark"
+                prevIcon={<FontAwesomeIcon icon={faCircleArrowRight} className='arrow-navy-blue' />}
+                nextIcon={<FontAwesomeIcon icon={faCircleArrowLeft} className='arrow-navy-blue' />}>
+                <Carousel.Item>
+                    <div className='w-100 d-flex justify-content-center'>
+                        <img src={board} alt="interactive board" className='slider-image' />
+                    </div>
+                    <Carousel.Caption>
+                        <h3>دروس تفاعلية متميزة</h3>
+                        <p>تعلم التربية البدنية بأسلوب عصري وتفاعلي</p>
+                    </Carousel.Caption>
+                </Carousel.Item>
+                <Carousel.Item>
+                    <div className='w-100 d-flex justify-content-center'>
+                        <img src={student} alt="student learning" className='slider-image' />
+                    </div>
+                    <Carousel.Caption>
+                        <h3>تدريبات وتمارين متنوعة</h3>
+                        <p>قيم مستواك من خلال اختبارات تفاعلية متنوعة</p>
+                    </Carousel.Caption>
+                </Carousel.Item>
+                <Carousel.Item>
+                    <div className='w-100 d-flex justify-content-center'>
+                        <img src={logo} alt="logo" className='slider-image' />
+                    </div>
+                    <Carousel.Caption>
+                        <h3>اختبارات تفاعلية</h3>
+
+                    </Carousel.Caption>
+                </Carousel.Item>
+            </Carousel>
+
+
+
+            <Container id='courses' className='videos'>
+                <h2>مقاطع تعليمية</h2>
+                <Row>
+                    {
+                        videos.map((video) => {
+                            return (
+                                <div className="col-4" key={video.id}>
+                                    <VideoCard id={video.id} title={video.title} src={video.src} />
+                                </div>
+                            );
+                        })
+                    }
+                </Row>
+            </Container>
+
+
         </div>
-
-        <Card className="shadow-lg border-0 mb-5 animate__animated animate__fadeInUp">
-          <Card.Body className="p-5">
-            <p className="text-center mb-4 description">
-              <FontAwesomeIcon icon={faBook} className="me-3 ms-1 gold" />
-                 فاعلية بيئة تعلم إلكترونية تفاعلية على التحصيل المعرفي  
-وتنمية مهارات تدريس التربية الرياضية
-<br/>
-The effectiveness of an interactive electronic learning environment on cognitive achievement and developing physical education teaching skills
-            </p>
-
-            <div className="text-center mt-5">
-              <h3 className="text-muted mb-4">تحت إشراف.</h3>
-              
-              <div className="row justify-content-center">
-                <div className="col-md-6 mb-4 animate__animated animate__fadeInLeft">
-                  <Card className="h-100 border-0 shadow-sm">
-                    <Card.Body>
-                      <FontAwesomeIcon icon={faGraduationCap} className="gold mb-3" size="2x" />
-                      <h4>أ.د/ بلانش سليمان متياس</h4>
-                      <p className="text-muted">
-                         قسم طرق التدريس
-                        <br />
-                        جامعة حلوان
-                      </p>
-                    </Card.Body>
-                  </Card>
-                </div>
-
-                <div className="col-md-6 mb-4 animate__animated animate__fadeInRight">
-                  <Card className="h-100 border-0 shadow-sm">
-                    <Card.Body>
-                      <FontAwesomeIcon icon={faGraduationCap} className="gold mb-3" size="2x" />
-                      <h4> أ.د/ وائل رمضان عبد الحميد</h4>
-                      <p className="text-muted">
-                        قسم تكنولوجيا التعليم
-                        <br />
-                        جامعة حلوان
-                      </p>
-                    </Card.Body>
-                  </Card>
-                </div>
-              </div>
-            </div>
-            <div className='d-flex justify-content-center'>
-            <a className='btn btn-navy-blue' href='/exams'>الإستمرار <FontAwesomeIcon icon={faArrowLeft} /></a>
-            </div>
-           
-          </Card.Body>
-        </Card>
-
-        <footer className="text-center text-muted mt-5 py-3 animate__animated animate__fadeIn">
-          <small>© Copy Rights Reserved to Helwan univiersity's Student :- Marwa </small>
-        </footer>
-      </Container>
-    </>
-  );
-}
+    );
+};
 
 export default Home;

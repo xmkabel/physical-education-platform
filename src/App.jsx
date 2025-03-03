@@ -10,13 +10,15 @@ import quizData15 from './data/first/5.json'
 import quizData16 from './data/first/6.json'
 import quizData17 from './data/first/7.json'
 import quizData18 from './data/first/8.json'
-
+import Intro from './components/Intro'
+import Video from './components/Video'
 
 
 function App() {
   return (
     <>
     <Routes>
+      <Route path="/" element={<Intro />} />
       <Route path="/exams/first/1" element={<Quiz quizData={quizData11} name={" نظريات التعلم ونظريات التدريس"} />}/>
       <Route path="/exams/first/2" element={<Quiz quizData={quizData12} name={"الباب الأول / نظريات التعلم ونظريات التدريس"} />}/>
       <Route path="/exams/first/3" element={<Quiz quizData={quizData13} name={"الباب الأول / نظريات التعلم ونظريات التدريس"} />}/>
@@ -26,7 +28,8 @@ function App() {
       <Route path="/exams/first/7" element={<Quiz quizData={quizData17} name={"الباب الأول / نظريات التعلم ونظريات التدريس"} />}/>
       <Route path="/exams/first/8" element={<Quiz quizData={quizData18} name={"الباب الأول / نظريات التعلم ونظريات التدريس"} />}/>
       <Route path="/exams" element={<ExamCards />} />
-      <Route path="/" element={<Home />} />
+      <Route path="/home" element={<Home />} />
+      <Route path='/video/:id' element={<Video/>} />
     </Routes>
     </>
   )
