@@ -65,7 +65,7 @@ The effectiveness of an interactive electronic learning environment on cognitive
               </div>
             </div>
             <div className='d-flex justify-content-center'>
-            <Link className='btn btn-navy-blue' to={'/home'}>الإستمرار <FontAwesomeIcon icon={faArrowLeft} /></Link>
+            <Link className='btn btn-navy-blue' to={'/exams'}>الإستمرار <FontAwesomeIcon icon={faArrowLeft} /></Link>
             </div>
            
           </Card.Body>

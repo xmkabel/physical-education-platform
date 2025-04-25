@@ -6,9 +6,9 @@ import { faExpand, faCompress, faPlay, faPause,faRedo } from '@fortawesome/free-
 import './video.css';
 import videos from '../../videos'; // Import the videos array
 
-const Video = () => {
-    const { id } = useParams();
-    const [video, setVideo] = useState(null);
+const Video = ({path,title}) => {
+    // const { id } = useParams();
+    // const [video, setVideo] = useState(null);
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [isPlayed,setIsPlayed]=useState(false);
     const [progress, setProgress] = useState(0);
@@ -33,10 +33,10 @@ const Video = () => {
         setIsPlayed(true);
     };
 
-    useEffect(() => {
-        const currentVideo = videos.find(v => v.id === parseInt(id));
-        setVideo(currentVideo);
-    }, [id, videos]);
+    // useEffect(() => {
+    //     const currentVideo = videos.find(v => v.id === parseInt(id));
+    //     setVideo(currentVideo);
+    // }, [id, videos]);
 
     const toggleFullScreen = () => {
         const videoElement = document.querySelector('.video-container');
@@ -49,10 +49,10 @@ const Video = () => {
         }
     };
 
-    if (!video) return <div>Loading...</div>;
+  
 
     return (
-        <Container fluid className="video-page animate__animated animate__fadeIn">
+        
             <div className="video-container">
               <button     className={`play ${isPlayed ? 'hidden' : ''}`}  onClick={()=>{!isPlayed?document.getElementById('vid').play():document.getElementById('vid').pause(); setIsPlayed(!isPlayed)}}>
 
@@ -65,7 +65,7 @@ const Video = () => {
                     className="main-video"
                 >
                 
-                    <source src={video.src} type="video/mp4" />
+                    <source src={path} type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
                 
@@ -79,7 +79,7 @@ const Video = () => {
                 </div>
 
                 <div className="video-info">
-                    <h2 className="video-title">{video.title}</h2>
+                    <h2 className="video-title">{title}</h2>
                     <div className="video-controls-bar">
                         <div className="controls-left">
                             <button className="control-btn" 
@@ -110,7 +110,7 @@ const Video = () => {
                     </div>
                 </div>
             </div>
-        </Container>
+       
     );
 };
 

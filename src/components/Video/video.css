@@ -1,13 +1,8 @@
 
-.video-page {
-    min-height: 100vh;
-    background: #06020f;
-    padding: 20px;
-}
 
 .video-container {
     position: relative;
-    width: 100%;
+    width: 70%;
     max-width: 1200px;
     margin: 0 auto;
     border-radius: 12px;

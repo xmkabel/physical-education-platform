@@ -79,20 +79,10 @@ function Quiz({ quizData, name }) {
   // Initialize quiz content from props
   useEffect(() => {
     if (quizData) {
-      // Check if quizData is an array or has a quizContent property
-      if (Array.isArray(quizData)) {
+
         setQuizContent(quizData);
-      } else if (quizData.quizContent && Array.isArray(quizData.quizContent)) {
-        setQuizContent(quizData.quizContent);
-      } else {
-        console.error('Quiz data is missing or invalid');
-        setQuizContent([]);
-      }
-    } else {
-      console.error('Quiz data is missing');
-      setQuizContent([]);
-    }
-  }, [quizData]);
+     
+  }}, [quizData]);
 
 
   const handleAnswerSelect = (questionId, selectedOption) => {
@@ -161,7 +151,7 @@ function Quiz({ quizData, name }) {
     let totalQuestions = 0;
     
     quizContent.forEach(item => {
-      if (item.type === 'question') {
+      if (item.type === 'question'||item.type === 'essay') {
         totalQuestions++;
         if (answers[item.id] === item.correctAnswer) {
           score++;
@@ -194,8 +184,8 @@ function Quiz({ quizData, name }) {
           {!isSubmitted && quizContent.length > 0 && (
             <div className="p-3 text-center" style={{ backgroundColor: '#f8f9fa', borderBottom: '1px solid #eee' }}>
               <div className="d-flex justify-content-center align-items-center mb-2">
-                <span style={{ fontSize: '0.9rem', color: 'var(--navy-blue)' }}>تم الإجابة على {Object.keys(answers).length} من {quizContent.filter(item => item.type === 'question').length} سؤال</span>
-                <span style={{ fontSize: '0.9rem', color: 'var(--gold)', fontWeight: 'bold', marginRight: '12px' }}>{Math.round((Object.keys(answers).length / quizContent.filter(item => item.type === 'question').length) * 100)}%</span>
+                <span style={{ fontSize: '0.9rem', color: 'var(--navy-blue)' }}>تم الإجابة على {Object.keys(answers).length} من {quizContent.filter(item => item.type === 'question' ||item.type === 'essay' ).length} سؤال</span>
+                <span style={{ fontSize: '0.9rem', color: 'var(--gold)', fontWeight: 'bold', marginRight: '12px' }}>{Math.round((Object.keys(answers).length / quizContent.filter(item => item.type === 'question'||item.type === 'essay').length) * 100)}%</span>
               </div>
               <div className={styles.progressBarContainer}>
                 <div 
@@ -236,7 +226,15 @@ function Quiz({ quizData, name }) {
                         <h4 className="mb-0 fs-5 fw-bold">سؤال {quizContent.filter(item => item.type === 'question').findIndex(q => q.id === quizContent[currentStep].id) + 1}: {quizContent[currentStep].question}</h4>
                       </div>
                       <div className="d-grid gap-3">
-                        {quizContent[currentStep].options.map((option, index) => (
+                        {
+                        quizContent[currentStep].type ==='essay'?
+                        <Form.Control
+                        key={quizContent[currentStep].id}
+                          onChange={(e) => handleAnswerSelect(quizContent[currentStep].id, e.target.value)}
+                          as="textarea"
+                          rows={3}
+                          placeholder="اكتب اجابتك هنا..."/>:
+                        (quizContent[currentStep].options.map((option, index) => (
                           <Button
                             key={index}
                             variant="outline-light"
@@ -245,7 +243,7 @@ function Quiz({ quizData, name }) {
                           >
                             {option}
                           </Button>
-                        ))}
+                        )))}
                       </div>
                     </div>
                   ) : (
@@ -269,7 +267,7 @@ function Quiz({ quizData, name }) {
                       displayNumber = <FontAwesomeIcon icon={faBookOpen} className="me-2 ms-2" size="lg" style={{ color: currentStep === index || answers[item.id] !== undefined ? 'white' : 'var(--navy-blue)'}} />
                     } else {
                       // For questions, find the position among only question items
-                      displayNumber = quizContent.filter(q => q.type === 'question' && quizContent.indexOf(q) <= index).length;
+                      displayNumber = quizContent.filter(q => q.type === 'question'||q.type==='essay' && quizContent.indexOf(q) <= index).length;
                     }
                     
                     return (

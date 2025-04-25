@@ -22,19 +22,50 @@ const ExamCards = () => {
     {
       id: 'second',
       title: 'الباب الثاني',
-      description: 'قريباً'
+      description: 'المدخل لطرق وأساليب واستراتيجيات التدريس'
     },
     {
       id: 'third',
       title: 'الباب الثالث',
-      description: 'قريباً'
+      description: 'مهارات التدريس والتدريس الفعال'
+    },
+    {
+      id: 'fourth',
+      title: 'الباب الرابع',
+      description: 'استراتيجيات وطرق وأساليب التدريس في التربية الرياضية'
+    },
+    {
+      id: 'fifth',
+      title: 'الباب الخامس',
+      description: 'التقويم'
+    },
+    {
+      id: 'sixth',
+      title: 'الباب السادس',
+      description: 'أسئلة عامة' 
     }
   ];
 
   const handleCategoryClick = (categoryId) => {
     if (categoryId === 'first') {
       navigate('/exams/first');
-    } else {
+    }
+    else if (categoryId === 'second') {
+      navigate('/exams/second');
+    } 
+    else if (categoryId === 'third') {
+      navigate('/exams/third');
+    }
+    else if (categoryId === 'fourth') {
+      navigate('/exams/fourth');
+    }
+    else if (categoryId === 'fifth') {
+      navigate('/exams/fifth');
+    }
+    else if (categoryId ==='sixth') {
+      navigate('/exams/sixth'); 
+    }
+    else {
       setSelectedCategory(categoryId === selectedCategory ? null : categoryId);
     }
   };
