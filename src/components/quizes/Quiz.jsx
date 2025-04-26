@@ -267,7 +267,7 @@ function Quiz({ quizData, name }) {
                       displayNumber = <FontAwesomeIcon icon={faBookOpen} className="me-2 ms-2" size="lg" style={{ color: currentStep === index || answers[item.id] !== undefined ? 'white' : 'var(--navy-blue)'}} />
                     } else {
                       // For questions, find the position among only question items
-                      displayNumber = quizContent.filter(q => q.type === 'question'||q.type==='essay' && quizContent.indexOf(q) <= index).length;
+                      displayNumber = quizContent.filter(q => (q.type === 'question'||q.type==='essay') && quizContent.indexOf(q) <= index).length;
                     }
                     
                     return (
