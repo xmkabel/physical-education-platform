@@ -113,9 +113,13 @@ Below are some screenshots showcasing key parts of the application:
 ![Quiz Interface](https://github.com/user-attachments/assets/a4a95901-4a64-4f5e-b2b0-c79c53f07245)
 
 ### Chapter Navigation
-![Chapters](https://github.com/user-attachments/assets/04bdde66-dc1a-4f4d-8c4d-bb1cd713f690)
-![Screenshot (331)](https://github.com/user-attachments/assets/0d8b5482-5e00-4f99-8eb0-10b0c1e4b91f)
-![Screenshot (329)](https://github.com/user-attachments/assets/c79dbd3f-55a6-4710-a89d-c777fdae560b)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/04bdde66-dc1a-4f4d-8c4d-bb1cd713f690" alt="Chapter Navigation 1" width="300"/>
+  <img src="https://github.com/user-attachments/assets/0d8b5482-5e00-4f99-8eb0-10b0c1e4b91f" alt="Chapter Navigation 2" width="300"/>
+  <img src="https://github.com/user-attachments/assets/c79dbd3f-55a6-4710-a89d-c777fdae560b" alt="Chapter Navigation 3" width="300"/>
+</p>
+
+
 
 ## License
 
