@@ -114,9 +114,9 @@ Below are some screenshots showcasing key parts of the application:
 
 ### Chapter Navigation
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/04bdde66-dc1a-4f4d-8c4d-bb1cd713f690" alt="Chapter Navigation 1" width="300"/>
-  <img src="https://github.com/user-attachments/assets/0d8b5482-5e00-4f99-8eb0-10b0c1e4b91f" alt="Chapter Navigation 2" width="300"/>
-  <img src="https://github.com/user-attachments/assets/c79dbd3f-55a6-4710-a89d-c777fdae560b" alt="Chapter Navigation 3" width="300"/>
+  <img src="https://github.com/user-attachments/assets/04bdde66-dc1a-4f4d-8c4d-bb1cd713f690" alt="Chapter Navigation 1" width="250"/>
+  <img src="https://github.com/user-attachments/assets/0d8b5482-5e00-4f99-8eb0-10b0c1e4b91f" alt="Chapter Navigation 2" width="250"/>
+  <img src="https://github.com/user-attachments/assets/c79dbd3f-55a6-4710-a89d-c777fdae560b" alt="Chapter Navigation 3" width="250"/>
 </p>
 
 
