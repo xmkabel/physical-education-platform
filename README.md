@@ -99,6 +99,24 @@ The application organizes educational content into:
 
 The application employs a consistent styling approach using CSS variables defined in the main stylesheet (`main.css:5–15`).
 
+## Screenshots
+
+Below are some screenshots showcasing key parts of the application:
+
+### Intro
+![Intro](https://github.com/user-attachments/assets/e15b2b05-b659-406b-a870-3141d5222e42)
+
+### Video Learning Page
+![Video Page](https://github.com/user-attachments/assets/aeae96b0-d7a6-4341-b660-c8f4491b845c)
+
+### Quiz Interface
+![Quiz Interface](https://github.com/user-attachments/assets/a4a95901-4a64-4f5e-b2b0-c79c53f07245)
+
+### Chapter Navigation
+![Chapters](https://github.com/user-attachments/assets/04bdde66-dc1a-4f4d-8c4d-bb1cd713f690)
+![Screenshot (331)](https://github.com/user-attachments/assets/0d8b5482-5e00-4f99-8eb0-10b0c1e4b91f)
+![Screenshot (329)](https://github.com/user-attachments/assets/c79dbd3f-55a6-4710-a89d-c777fdae560b)
+
 ## License
 
 This project is licensed under the Apache License 2.0. See the LICENSE file for details (`LICENSE:91–104`).
