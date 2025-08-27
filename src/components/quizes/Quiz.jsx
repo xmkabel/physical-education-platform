@@ -300,13 +300,6 @@ function Quiz({ quizData, name }) {
                 </div>
                 
                 <div className="d-flex flex-column flex-sm-row justify-content-between gap-3 mt-4">
-                  <Button 
-                    className={styles.button}
-                    onClick={handleNext}
-                    disabled={currentStep === quizContent.length - 1}
-                  >
-                    التالي <FontAwesomeIcon icon={faArrowLeft} className="ms-2" />
-                  </Button>
                   
                   <Button 
                     className={styles.button}
@@ -314,6 +307,13 @@ function Quiz({ quizData, name }) {
                     disabled={currentStep === 0}
                   >
                     <FontAwesomeIcon icon={faArrowRight} className="me-2" /> السابق
+                  </Button>
+                  <Button 
+                    className={styles.button}
+                    onClick={handleNext}
+                    disabled={currentStep === quizContent.length - 1}
+                  >
+                    التالي <FontAwesomeIcon icon={faArrowLeft} className="ms-2" />
                   </Button>
                 </div>
                 
