@@ -17,7 +17,14 @@ function Intro() {
           {/* <h1 className="display-5 u-title mb-3">جامعة حلوان</h1> */}
           <img src={logo} alt="Logo" width={'200px'}/>
           <p className="lead text-muted"> <br/>
-          هذا البرنامج مخصص للحصول على درجة الدكتوراه في طرق التدريس
+          <strong>أهداف البرنامج:</strong>
+          <br/>
+          تنمية التحصيل المعرفي لطالبات الفرقة الرابعة – شعبة تعليم  لمقرر طرق التدريس .
+          <br/>
+          استخدام بيئة تعلم الكترونية تفاعلية وتوظيفها لتنمية التحصيل المعرفي المرتبط بمقرر طرق التدريس.
+          <br/>
+          <br/>
+          <h4 className="gold">هذا البرنامج مخصص للحصول على درجة الدكتوراه في طرق التدريس</h4>
           </p>
         </div>
 
@@ -39,7 +46,7 @@ The effectiveness of an interactive electronic learning environment on cognitive
                   <Card className="h-100 border-0 shadow-sm">
                     <Card.Body>
                       <FontAwesomeIcon icon={faGraduationCap} className="gold mb-3" size="2x" />
-                      <h4>أ.د/ بلانش سليمان متياس</h4>
+                      <h4>أ.د/ بلانش سلامه متياس</h4>
                       <p className="text-muted">
                          قسم طرق التدريس
                         <br />
@@ -72,7 +79,7 @@ The effectiveness of an interactive electronic learning environment on cognitive
         </Card>
 
         <footer className="text-center text-muted mt-5 py-3 animate__animated animate__fadeIn">
-          <small>© Copy Rights Reserved to Helwan univiersity's Student :- Marwa </small>
+          <small>© Copy Rights Reserved to Helwan Univiersity's Student :- Marwa </small>
         </footer>
       </Container>
     </>
