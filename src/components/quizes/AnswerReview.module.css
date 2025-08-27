@@ -179,13 +179,3 @@
     padding: 0.6rem 0.8rem;
   }
 }
-
-/* Define variables if not already defined in global CSS */
-:root {
-  --navy-blue: #003366;
-  --dark-navy-blue: #002244;
-  --gold: #FFD700;
-  --pink: #FF5252;
-  --green: #28a745;
-  --dark-gray: #555;
-}
