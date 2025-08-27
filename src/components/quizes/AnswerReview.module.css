@@ -49,6 +49,10 @@
   border-right: 4px solid var(--pink);
 }
 
+.essayCard {
+  border-right: 4px solid var(--gold);
+}
+
 .questionHeader {
   display: flex;
   justify-content: space-between;
@@ -74,6 +78,10 @@
 
 .incorrect {
   color: var(--pink);
+}
+
+.essayStatus {
+  color: var(--gold);
 }
 
 .questionText {
@@ -138,6 +146,40 @@
   color: var(--pink);
 }
 
+/* Essay-specific styles */
+.essayAnswerContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.essayAnswer {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid #eee;
+}
+
+.answerLabel {
+  color: var(--navy-blue);
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.essayText {
+  background-color: white;
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  min-height: 60px;
+  text-align: right;
+  direction: rtl;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
 .actionContainer {
   display: flex;
   justify-content: center;
@@ -177,5 +219,14 @@
   
   .option {
     padding: 0.6rem 0.8rem;
+  }
+  
+  .essayAnswer {
+    padding: 0.75rem;
+  }
+  
+  .essayText {
+    padding: 0.5rem;
+    min-height: 50px;
   }
 }

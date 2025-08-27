@@ -15,34 +15,43 @@ const ExamCards = () => {
 
   const categories = [
     {
+      id: 'before',
+      title: 'الاختبار القبلى',
+      description: 'اختبار بداية الكورس'
+    },
+    {
       id: 'first',
-      title: 'الباب الاول',
+      title: 'التقويم الاول',
       description: 'نظريات التعلم ونظريات التدريس'
     },
     {
       id: 'second',
-      title: 'الباب الثاني',
+      title: 'التقويم الثاني',
       description: 'المدخل لطرق وأساليب واستراتيجيات التدريس'
     },
     {
       id: 'third',
-      title: 'الباب الثالث',
+      title: 'التقويم الثالث',
       description: 'مهارات التدريس والتدريس الفعال'
     },
     {
       id: 'fourth',
-      title: 'الباب الرابع',
+      title: 'التقويم الرابع',
       description: 'استراتيجيات وطرق وأساليب التدريس في التربية الرياضية'
     },
     {
       id: 'fifth',
-      title: 'الباب الخامس',
+      title: 'التقويم الخامس',
       description: 'التقويم'
     },
     {
       id: 'sixth',
-      title: 'الباب السادس',
-      description: 'أسئلة عامة' 
+      title: 'التقويم السادس',
+      description: 'أسئلة عامة'
+    },{
+      id: 'final',
+      title: 'الاختبار البعدى',
+      description: 'اختبار نهاية الكورس'
     }
   ];
 
@@ -52,7 +61,7 @@ const ExamCards = () => {
     }
     else if (categoryId === 'second') {
       navigate('/exams/second');
-    } 
+    }
     else if (categoryId === 'third') {
       navigate('/exams/third');
     }
@@ -62,8 +71,11 @@ const ExamCards = () => {
     else if (categoryId === 'fifth') {
       navigate('/exams/fifth');
     }
-    else if (categoryId ==='sixth') {
-      navigate('/exams/sixth'); 
+    else if (categoryId === 'sixth') {
+      navigate('/exams/sixth');
+    }
+    else if (categoryId === 'final' || categoryId === 'before') {
+      navigate('/exams/final');
     }
     else {
       setSelectedCategory(categoryId === selectedCategory ? null : categoryId);
@@ -86,34 +98,45 @@ const ExamCards = () => {
         </button>
         <h1 className="exam-cards-title">الاختبارات المتاحة</h1>
       </div>
-      
+
       <div className="exam-cards-section">
-        {!selectedCategory ? (
-          <div className="exam-cards-grid">
-            {categories.map((category, index) => (
-              <div
-                key={category.id}
-                className="exam-card category-card"
-                onClick={() => handleCategoryClick(category.id)}
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="exam-card-content">
-                  <h2 className="exam-card-title">{category.title}</h2>
-                  <p className="exam-card-description">{category.description}</p>
-                </div>
-              </div>
-            ))}
+      {!selectedCategory ? (
+  <div className="exam-cards-grid">
+    {categories.map((category, index) => {
+      let cardClass = "exam-card category-card";
+
+      if (category.id === "before") {
+        cardClass += " before-card";
+      } else if (category.id === "final") {
+        cardClass += " after-card";
+      }
+
+      return (
+        <div
+          key={category.id}
+          className={cardClass}
+          onClick={() => handleCategoryClick(category.id)}
+          style={{ animationDelay: `${index * 0.1}s` }}
+        >
+          <div className="exam-card-content">
+            <h2 className="exam-card-title">{category.title}</h2>
+            <p className="exam-card-description">{category.description}</p>
           </div>
-        ) : (
-          // For categories other than 'first', you can add content here.
-          <div className="selected-category-content">
-            <h2>تفاصيل الفئة: {selectedCategory}</h2>
-            {/* Additional content for the selected category can be placed here */}
-          </div>
-        )}
-      </div>
-    </div>
-  );
+        </div>
+      );
+    })}
+  </div>
+) : (
+  <div className="selected-category-content">
+    <h2>تفاصيل الفئة: {selectedCategory}</h2>
+    {/* Additional content for the selected category */}
+  </div>
+)}
+
+</div>
+</div>
+
+      );
 };
 
-export default ExamCards;
+      export default ExamCards;

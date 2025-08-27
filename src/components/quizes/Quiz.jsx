@@ -7,6 +7,7 @@ import 'animate.css';
 import styles from './Quiz.module.css';
 import { useNavigate } from 'react-router-dom';
 import AnswerReview from './AnswerReview';
+import { saveQuizAnswers, loadQuizAnswers, updateQuizAnswers, clearQuizAnswers } from '../../utils/quizStorage';
 
 // Error Boundary Component
 class ErrorBoundary extends Component {
@@ -56,6 +57,10 @@ function Quiz({ quizData, name }) {
   const [errorMessage, setErrorMessage] = useState('');
   const [animationClass, setAnimationClass] = useState('animate__fadeIn');
   const [showAnswerReview, setShowAnswerReview] = useState(false);
+  const [hasLoadedSavedAnswers, setHasLoadedSavedAnswers] = useState(false);
+
+  // Generate a unique quiz ID based on the quiz data
+  const quizId = quizData ? `quiz_${name}_${JSON.stringify(quizData).length}` : 'default';
 
   const goBack = () => {
     navigate(-1); // This will go back to the previous page (chapter view)
@@ -71,25 +76,61 @@ function Quiz({ quizData, name }) {
     setErrorMessage('');
     setShowAnswerReview(false);
     setAnimationClass('animate__fadeIn');
+    setHasLoadedSavedAnswers(false);
+    
+    // Clear saved answers when restarting
+    clearQuizAnswers(quizId);
   };
 
   // Use quiz data from props
   const [quizContent, setQuizContent] = useState([]);
 
-  // Initialize quiz content from props
+  // Initialize quiz content from props and load saved answers
   useEffect(() => {
     if (quizData) {
+      setQuizContent(quizData);
+      
+      // Load saved answers if they exist
+      const savedData = loadQuizAnswers(quizId);
+      if (savedData && savedData.answers) {
+        setAnswers(savedData.answers);
+        setHasLoadedSavedAnswers(true);
+        console.log('Loaded saved answers:', savedData.answers);
+      }
+    }
+  }, [quizData, quizId]);
 
-        setQuizContent(quizData);
-     
-  }}, [quizData]);
-
+  // Auto-save answers when they change
+  useEffect(() => {
+    if (quizContent.length > 0 && Object.keys(answers).length > 0 && hasLoadedSavedAnswers) {
+      updateQuizAnswers(quizId, answers, quizContent);
+    }
+  }, [answers, quizContent, quizId, hasLoadedSavedAnswers]);
 
   const handleAnswerSelect = (questionId, selectedOption) => {
-    setAnswers({
+    const newAnswers = {
       ...answers,
       [questionId]: selectedOption
-    });
+    };
+    setAnswers(newAnswers);
+    
+    // Save immediately for regular questions
+    if (quizContent.length > 0) {
+      updateQuizAnswers(quizId, newAnswers, quizContent);
+    }
+  };
+
+  const handleEssayAnswer = (questionId, answer) => {
+    const newAnswers = {
+      ...answers,
+      [questionId]: answer
+    };
+    setAnswers(newAnswers);
+    
+    // Save immediately for essay answers
+    if (quizContent.length > 0) {
+      updateQuizAnswers(quizId, newAnswers, quizContent);
+    }
   };
 
   const handleNext = () => {
@@ -112,7 +153,6 @@ function Quiz({ quizData, name }) {
     }
   };
 
-
   const handleSubmit = () => {
     // Check if all questions have been answered
     const unansweredQuestions = [];
@@ -120,6 +160,12 @@ function Quiz({ quizData, name }) {
     quizContent.forEach(item => {
       if (item.type === 'question' && answers[item.id] === undefined) {
         unansweredQuestions.push(item.id);
+      } else if (item.type === 'essay') {
+        // For essay questions, check if answer exists and has at least one character
+        const answer = answers[item.id];
+        if (!answer || answer.trim().length === 0) {
+          unansweredQuestions.push(item.id);
+        }
       }
     });
     
@@ -129,7 +175,7 @@ function Quiz({ quizData, name }) {
       
       // Find the first unanswered question and navigate to it
       const firstUnansweredQuestionIndex = quizContent.findIndex(
-        item => item.type === 'question' && item.id === unansweredQuestions[0]
+        item => item.id === unansweredQuestions[0]
       );
       
       if (firstUnansweredQuestionIndex !== -1) {
@@ -144,6 +190,9 @@ function Quiz({ quizData, name }) {
     setErrorMessage('');
     setIsSubmitted(true);
     setShowCorrectAnswers(true);
+    
+    // Save final answers
+    saveQuizAnswers(quizId, answers, quizContent);
   };
 
   const calculateScore = () => {
@@ -151,15 +200,26 @@ function Quiz({ quizData, name }) {
     let totalQuestions = 0;
     
     quizContent.forEach(item => {
-      if (item.type === 'question'||item.type === 'essay') {
+      if (item.type === 'question') {
         totalQuestions++;
         if (answers[item.id] === item.correctAnswer) {
           score++;
         }
       }
+      // Essay questions are not scored - they will be reviewed by teacher
     });
     
     return { score, totalQuestions };
+  };
+
+  // Get essay questions count for display
+  const getEssayQuestionsCount = () => {
+    return quizContent.filter(item => item.type === 'essay').length;
+  };
+
+  // Get regular questions count for display
+  const getRegularQuestionsCount = () => {
+    return quizContent.filter(item => item.type === 'question').length;
   };
 
   return (
@@ -184,14 +244,18 @@ function Quiz({ quizData, name }) {
           {!isSubmitted && quizContent.length > 0 && (
             <div className="p-3 text-center" style={{ backgroundColor: '#f8f9fa', borderBottom: '1px solid #eee' }}>
               <div className="d-flex justify-content-center align-items-center mb-2">
-                <span style={{ fontSize: '0.9rem', color: 'var(--navy-blue)' }}>تم الإجابة على {Object.keys(answers).length} من {quizContent.filter(item => item.type === 'question' ||item.type === 'essay' ).length} سؤال</span>
-                <span style={{ fontSize: '0.9rem', color: 'var(--gold)', fontWeight: 'bold', marginRight: '12px' }}>{Math.round((Object.keys(answers).length / quizContent.filter(item => item.type === 'question'||item.type === 'essay').length) * 100)}%</span>
+                <span style={{ fontSize: '0.9rem', color: 'var(--navy-blue)' }}>
+                  تم الإجابة على {Object.keys(answers).length} من {quizContent.filter(item => item.type === 'question' || item.type === 'essay').length} سؤال
+                </span>
+                <span style={{ fontSize: '0.9rem', color: 'var(--gold)', fontWeight: 'bold', marginRight: '12px' }}>
+                  {Math.round((Object.keys(answers).length / quizContent.filter(item => item.type === 'question' || item.type === 'essay').length) * 100)}%
+                </span>
               </div>
               <div className={styles.progressBarContainer}>
                 <div 
                   className={styles.progressBar}
                   style={{
-                    width: `${(Object.keys(answers).length / quizContent.filter(item => item.type === 'question').length) * 100}%`,
+                    width: `${(Object.keys(answers).length / quizContent.filter(item => item.type === 'question' || item.type === 'essay').length) * 100}%`,
                   }}
                 >
                 </div>
@@ -223,27 +287,33 @@ function Quiz({ quizData, name }) {
                   ) : quizContent && quizContent.length > 0 && currentStep < quizContent.length && quizContent[currentStep] ? (
                     <div className="question-container mb-4" style={{ textAlign: 'right' }}>
                       <div className="p-3 rounded mb-3" style={{ backgroundColor: 'var(--light-bg)', borderLeft: '4px solid var(--navy-blue)' }}>
-                        <h4 className="mb-0 fs-5 fw-bold">سؤال {quizContent.filter(item => item.type === 'question').findIndex(q => q.id === quizContent[currentStep].id) + 1}: {quizContent[currentStep].question}</h4>
+                        <h4 className="mb-0 fs-5 fw-bold">
+                          {quizContent[currentStep].type === 'essay' ? 'سؤال مقالي' : 'سؤال'} {quizContent.filter(item => item.type === 'question' || item.type === 'essay').findIndex(q => q.id === quizContent[currentStep].id) + 1}: {quizContent[currentStep].question}
+                        </h4>
                       </div>
                       <div className="d-grid gap-3">
-                        {
-                        quizContent[currentStep].type ==='essay'?
-                        <Form.Control
-                        key={quizContent[currentStep].id}
-                          onChange={(e) => handleAnswerSelect(quizContent[currentStep].id, e.target.value)}
-                          as="textarea"
-                          rows={3}
-                          placeholder="اكتب اجابتك هنا..."/>:
-                        (quizContent[currentStep].options.map((option, index) => (
-                          <Button
-                            key={index}
-                            variant="outline-light"
-                            className={`${styles.optionButton} ${answers[quizContent[currentStep].id] === index ? styles.selected : ''}`}
-                            onClick={() => handleAnswerSelect(quizContent[currentStep].id, index)}
-                          >
-                            {option}
-                          </Button>
-                        )))}
+                        {quizContent[currentStep].type === 'essay' ? (
+                          <Form.Control
+                            key={quizContent[currentStep].id}
+                            onChange={(e) => handleEssayAnswer(quizContent[currentStep].id, e.target.value)}
+                            value={answers[quizContent[currentStep].id] || ''}
+                            as="textarea"
+                            rows={6}
+                            placeholder="اكتب اجابتك هنا... (يجب كتابة حرف واحد على الأقل)"
+                            style={{ direction: 'rtl', textAlign: 'right' }}
+                          />
+                        ) : (
+                          quizContent[currentStep].options.map((option, index) => (
+                            <Button
+                              key={index}
+                              variant="outline-light"
+                              className={`${styles.optionButton} ${answers[quizContent[currentStep].id] === index ? styles.selected : ''}`}
+                              onClick={() => handleAnswerSelect(quizContent[currentStep].id, index)}
+                            >
+                              {option}
+                            </Button>
+                          ))
+                        )}
                       </div>
                     </div>
                   ) : (
@@ -267,7 +337,7 @@ function Quiz({ quizData, name }) {
                       displayNumber = <FontAwesomeIcon icon={faBookOpen} className="me-2 ms-2" size="lg" style={{ color: currentStep === index || answers[item.id] !== undefined ? 'white' : 'var(--navy-blue)'}} />
                     } else {
                       // For questions, find the position among only question items
-                      displayNumber = quizContent.filter(q => (q.type === 'question'||q.type==='essay') && quizContent.indexOf(q) <= index).length;
+                      displayNumber = quizContent.filter(q => (q.type === 'question' || q.type === 'essay') && quizContent.indexOf(q) <= index).length;
                     }
                     
                     return (
@@ -333,80 +403,109 @@ function Quiz({ quizData, name }) {
                   <h3 className="mb-3">تم إنهاء الاختبار!</h3>
                   {(() => {
                     const { score, totalQuestions } = calculateScore();
-                    const percentage = (score / totalQuestions) * 100;
+                    const essayCount = getEssayQuestionsCount();
+                    const regularCount = getRegularQuestionsCount();
                     
                     return (
                       <div className="text-center">
-                        <h4 className="mb-3">النتيجة: {score} من {totalQuestions}</h4>
-                        <div className="d-flex justify-content-center mb-1">
-                          <span style={{ fontSize: '0.9rem', color: 'var(--gold)', fontWeight: 'bold' }}>{Math.round(percentage)}%</span>
-                        </div>
-                        <div className={styles.progressBarContainer}>
-                          <div 
-                            className={styles.progressBar}
-                            style={{
-                              width: percentage === 0 ? '0%' : `${Math.max(percentage, 1)}%`,
-                              background: percentage >= 70 
-                                ? 'linear-gradient(45deg, #3498db, #f1c40f)'
-                                : 'linear-gradient(45deg, #e74c3c, #3498db)'
-                            }}
-                          >
-                          </div>
-                        </div>
-                        <div className={`${styles.medalContainer} mt-4 animate__animated animate__bounceIn`}>
-                          {percentage === 100 && (
-                            <>
-                              <div className={styles.perfectScoreCelebration}>
-                                <div className={styles.confettiContainer}>
-                                  <div className={`${styles.confetti} ${styles.confetti1}`}></div>
-                                  <div className={`${styles.confetti} ${styles.confetti2}`}></div>
-                                  <div className={`${styles.confetti} ${styles.confetti3}`}></div>
-                                  <div className={`${styles.confetti} ${styles.confetti4}`}></div>
-                                  <div className={`${styles.confetti} ${styles.confetti5}`}></div>
-                                  <div className={`${styles.confetti} ${styles.confetti6}`}></div>
-                                  <div className={`${styles.confetti} ${styles.confetti7}`}></div>
-                                  <div className={`${styles.confetti} ${styles.confetti8}`}></div>
-                                </div>
-                                
-                                <div className={styles.starContainer}>
-                                  <FontAwesomeIcon icon={faStar} className={`${styles.star} ${styles.star1}`} />
-                                  <FontAwesomeIcon icon={faStar} className={`${styles.star} ${styles.star2}`} />
-                                  <FontAwesomeIcon icon={faStar} className={`${styles.star} ${styles.star3}`} />
-                                </div>
-                                
-                                <div className={styles.trophyContainer}>
-                                  <FontAwesomeIcon icon={faTrophy} className={styles.trophy} />
-                                </div>
-                                
-                                <div className={styles.medal}>🎖</div>
-                                <p className={`${styles.medalText} animate__animated animate__tada animate__infinite`} style={{ color: 'var(--gold)' }}>ممتاز!</p>
-                                <p className={`${styles.perfectScoreText} animate__animated animate__fadeIn`}>
-                                  أحسنت! لقد حصلت على العلامة الكاملة! 🎉
-                                </p>
+                        {regularCount > 0 ? (
+                          <>
+                            <h4 className="mb-3">النتيجة: {score} من {totalQuestions}</h4>
+                            <div className="d-flex justify-content-center mb-1">
+                              <span style={{ fontSize: '0.9rem', color: 'var(--gold)', fontWeight: 'bold' }}>
+                                {Math.round((score / totalQuestions) * 100)}%
+                              </span>
+                            </div>
+                            <div className={styles.progressBarContainer}>
+                              <div 
+                                className={styles.progressBar}
+                                style={{
+                                  width: `${(score / totalQuestions) * 100}%`,
+                                  background: (score / totalQuestions) >= 0.7 
+                                    ? 'linear-gradient(45deg, #3498db, #f1c40f)'
+                                    : 'linear-gradient(45deg, #e74c3c, #3498db)'
+                                }}
+                              >
                               </div>
-                            </>
-                          )}
+                            </div>
+                          </>
+                        ) : (
+                          <h4 className="mb-3">اختبار مقالي - سيتم مراجعة الإجابات من قبل المعلم</h4>
+                        )}
+                        
+                        {essayCount > 0 && (
+                          <div className="alert alert-info mt-3" style={{ textAlign: 'right' }}>
+                            <strong>ملاحظة:</strong> هذا الاختبار يحتوي على {essayCount} سؤال مقالي سيتم مراجعته من قبل المعلم
+                          </div>
+                        )}
+                        
+                        <div className={`${styles.medalContainer} mt-4 animate__animated animate__bounceIn`}>
+                          {regularCount > 0 && (() => {
+                            const percentage = (score / totalQuestions) * 100;
+                            
+                            if (percentage === 100) {
+                              return (
+                                <>
+                                  <div className={styles.perfectScoreCelebration}>
+                                    <div className={styles.confettiContainer}>
+                                      <div className={`${styles.confetti} ${styles.confetti1}`}></div>
+                                      <div className={`${styles.confetti} ${styles.confetti2}`}></div>
+                                      <div className={`${styles.confetti} ${styles.confetti3}`}></div>
+                                      <div className={`${styles.confetti} ${styles.confetti4}`}></div>
+                                      <div className={`${styles.confetti} ${styles.confetti5}`}></div>
+                                      <div className={`${styles.confetti} ${styles.confetti6}`}></div>
+                                      <div className={`${styles.confetti} ${styles.confetti7}`}></div>
+                                      <div className={`${styles.confetti} ${styles.confetti8}`}></div>
+                                    </div>
+                                    
+                                    <div className={styles.starContainer}>
+                                      <FontAwesomeIcon icon={faStar} className={`${styles.star} ${styles.star1}`} />
+                                      <FontAwesomeIcon icon={faStar} className={`${styles.star} ${styles.star2}`} />
+                                      <FontAwesomeIcon icon={faStar} className={`${styles.star} ${styles.star3}`} />
+                                    </div>
+                                    
+                                    <div className={styles.trophyContainer}>
+                                      <FontAwesomeIcon icon={faTrophy} className={styles.trophy} />
+                                    </div>
+                                    
+                                    <div className={styles.medal}>🎖</div>
+                                    <p className={`${styles.medalText} animate__animated animate__tada animate__infinite`} style={{ color: 'var(--gold)' }}>ممتاز!</p>
+                                    <p className={`${styles.perfectScoreText} animate__animated animate__fadeIn`}>
+                                      أحسنت! لقد حصلت على العلامة الكاملة! 🎉
+                                    </p>
+                                  </div>
+                                </>
+                              );
+                            } else if (percentage >= 50) {
+                              return (
+                                <>
+                                  <div className={styles.medal}>🏅</div>
+                                  <p className={styles.medalText} style={{ color: 'var(--gold)' }}>
+                                    {percentage >= 75 ? 'جيد جداً!' : 'جيد!'}
+                                  </p>
+                                </>
+                              );
+                            } else if (percentage > 0) {
+                              return (
+                                <>
+                                  <div className={styles.medal}>🥉</div>
+                                  <p className={styles.medalText} style={{ color: 'var(--pink)' }}>استمر!</p>
+                                </>
+                              );
+                            } else {
+                              return (
+                                <>
+                                  <div className={styles.medal}>🥉</div>
+                                  <p className={styles.medalText} style={{ color: 'var(--pink)' }}>حاول مرة أخرى!</p>
+                                </>
+                              );
+                            }
+                          })()}
                           
-                          {percentage >= 50 && percentage < 100 && (
+                          {regularCount === 0 && (
                             <>
-                              <div className={styles.medal}>🏅</div>
-                              <p className={styles.medalText} style={{ color: 'var(--gold)' }}>
-                                {percentage >= 75 ? 'جيد جداً!' : 'جيد!'}
-                              </p>
-                            </>
-                          )}
-                          
-                          {percentage > 0 && percentage < 50 && (
-                            <>
-                              <div className={styles.medal}>🥉</div>
-                              <p className={styles.medalText} style={{ color: 'var(--pink)' }}>استمر!</p>
-                            </>
-                          )}
-                          
-                          {percentage === 0 && (
-                            <>
-                              <div className={styles.medal}>🥉</div>
-                              <p className={styles.medalText} style={{ color: 'var(--pink)' }}>حاول مرة أخرى!</p>
+                              <div className={styles.medal}>📝</div>
+                              <p className={styles.medalText} style={{ color: 'var(--navy-blue)' }}>تم حفظ الإجابات</p>
                             </>
                           )}
                         </div>

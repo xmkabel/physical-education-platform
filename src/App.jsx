@@ -9,6 +9,7 @@ import ThirdChapterRoutes from './components/routes/ThirdChapterRoutes';
 import FourthChapterRoutes from './components/routes/FourthChapterRoutes';
 import FifthChapterRoutes from './components/routes/FifthChapterRoutes';
 import SixthChapterRoutes from './components/routes/SixthChapterRoutes';
+import FinalChapterRoutes from './components/routes/FinalChapterRouters';
 
 function App() {
   return (
@@ -20,12 +21,15 @@ function App() {
         <Route path="/video/:id" element={<Video />} />
         
         {/* Chapter Routes */}
+        
         {FirstChapterRoutes}
         {SecondChapterRoutes}
         {ThirdChapterRoutes}
         {FourthChapterRoutes}
         {FifthChapterRoutes}
         {SixthChapterRoutes}
+        {FinalChapterRoutes}
+
       </Routes>
     </>
   );

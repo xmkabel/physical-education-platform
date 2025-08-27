@@ -21,6 +21,7 @@
   color: white;
   background: var(--dark-gold);
 }
+
 a{
   text-decoration: none;
   color: currentColor;
