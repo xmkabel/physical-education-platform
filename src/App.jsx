@@ -24,6 +24,7 @@ function App() {
         {/* Chapter Routes */}
         
         {StartChapterRoutes}
+        {FirstChapterRoutes}
         {SecondChapterRoutes}
         {ThirdChapterRoutes}
         {FourthChapterRoutes}
