@@ -108,7 +108,7 @@ const ExamCards = () => {
     {categories.map((category, index) => {
       let cardClass = "exam-card category-card";
 
-      if (category.id === "before") {
+      if (category.id === "start") {
         cardClass += " before-card";
       } else if (category.id === "final") {
         cardClass += " after-card";
