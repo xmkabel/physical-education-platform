@@ -10,6 +10,7 @@ import FourthChapterRoutes from './components/routes/FourthChapterRoutes';
 import FifthChapterRoutes from './components/routes/FifthChapterRoutes';
 import SixthChapterRoutes from './components/routes/SixthChapterRoutes';
 import FinalChapterRoutes from './components/routes/FinalChapterRouters';
+import StartChapterRoutes from './components/routes/FinalChapterRouters';
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
         
         {/* Chapter Routes */}
         
-        {FirstChapterRoutes}
+        {StartChapterRoutes}
         {SecondChapterRoutes}
         {ThirdChapterRoutes}
         {FourthChapterRoutes}

@@ -15,7 +15,7 @@ const ExamCards = () => {
 
   const categories = [
     {
-      id: 'before',
+      id: 'start',
       title: 'الاختبار القبلى',
       description: 'اختبار بداية الكورس'
     },
@@ -76,6 +76,9 @@ const ExamCards = () => {
     }
     else if (categoryId === 'final' || categoryId === 'before') {
       navigate('/exams/final');
+    }
+    else if ( categoryId === 'start') {
+      navigate('/exams/start');
     }
     else {
       setSelectedCategory(categoryId === selectedCategory ? null : categoryId);
