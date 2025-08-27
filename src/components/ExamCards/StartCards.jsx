@@ -35,7 +35,7 @@ const StartCards = () => {
 
 
     const handleCardClick = (examId) => {
-        navigate(`/exams/final/${examId}`);
+        navigate(`/exams/start/${examId}`);
     };
 
 

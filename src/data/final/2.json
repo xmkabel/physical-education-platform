@@ -1,317 +1,353 @@
+
 [
     {
+        "type": "question",
         "id": 1,
         "question": "الاستراتيجية عبارة عن خطة عمل عامة توضح لتحقيق أهداف معينة؟",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 2,
         "question": "يعتبر تحديد الأهداف أحد أهم مراحل التخطيط للأسلوب التدريسي.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 3,
         "question": "الأسلوب هو الطريقة التي يستخدمها المعلم مع طلابه في موقف تعليمي معين لتحقيق هدف تعليمي محدد.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 4,
         "question": "الطريقة هي خطة شاملة تحدد المسار الذي يتبعه المعلم لتحقيق أهداف التعليم.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 1
+        "correctAnswer": 1
     },
     {
+        "type": "question",
         "id": 5,
         "question": "تؤكد النظرية البنائية أن المتعلم يبني معرفته من خلال التفاعل النشط مع البيئة.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 6,
         "question": "يُعتبر التعزيز في النظرية السلوكية وسيلة أساسية لزيادة احتمال تكرار السلوك المرغوب.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 7,
         "question": "التعلم وفقاً للمدرسة الجشطلتية يتم من خلال التجزئة والتكرار الآلي.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 1
+        "correctAnswer": 1
     },
     {
+        "type": "question",
         "id": 8,
         "question": "من مبادئ النظرية السلوكية أن السلوك الإنساني قابل للقياس والملاحظة.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 9,
         "question": "يرى بياجيه أن النمو المعرفي يحدث نتيجة التفاعل بين النضج البيولوجي والخبرة.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 10,
         "question": "التمركز حول الذات سمة من سمات الطفل في المرحلة الحسية الحركية عند بياجيه.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 1
+        "correctAnswer": 1
     },
     {
+        "type": "question",
         "id": 11,
         "question": "الاستبصار من أهم مفاهيم النظرية الجشطلتية.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 12,
         "question": "المعلم في النظرية البنائية يُعد ناقلاً للمعرفة بشكل مباشر.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 1
+        "correctAnswer": 1
     },
     {
+        "type": "question",
         "id": 13,
         "question": "التقويم التكويني يتم أثناء تنفيذ الدرس لمتابعة تقدم الطلاب.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 14,
         "question": "من مهارات التدريس: التمهيد للدرس، طرح الأسئلة، واستخدام الوسائل التعليمية.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 15,
         "question": "تسهم الواجبات المدرسية في تعزيز التعلم الذاتي وتنمية المسؤولية لدى الطالب.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 16,
         "question": "المعلم وفقاً للنظرية السلوكية يهتم بالعمليات المعرفية الداخلية أكثر من السلوك الظاهر.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 1
+        "correctAnswer": 1
     },
     {
+        "type": "question",
         "id": 17,
-        "question": "النظرية البنائية ترى أن التعلم يتم من خلال مواقف حقيقية وواقعية.",
+        "question": "النظرية البنانية ترى أن التعلم يتم من خلال مواقف حقيقية وواقعية.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 18,
         "question": "التعلم وفقاً لسكنر يحدث نتيجة الربط بين المثير والاستجابة.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 19,
         "question": "المعلم في أسلوب الأمر (Command Style) يترك جميع القرارات للطلاب.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 1
+        "correctAnswer": 1
     },
     {
+        "type": "question",
         "id": 20,
         "question": "من خصائص النظرية الجشطلتية: التركيز على الكل بدلاً من الأجزاء.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 21,
         "question": "يُعتبر الاستقراء من أساليب التدريس القائمة على عمل الطالب.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 22,
         "question": "من خطوات التصميم التعليمي: كتابة الأهداف السلوكية وتطوير الاختبارات المحكية.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 23,
         "question": "التقويم التجميعي يتم عادة في نهاية الوحدة أو الفصل الدراسي.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 24,
         "question": "أساليب التدريس عند موستن تنقسم إلى أساليب مباشرة فقط.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 1
+        "correctAnswer": 1
     },
     {
+        "type": "question",
         "id": 25,
         "question": "النظرية السلوكية تؤكد أن السلوك يُبنى من خلال العمليات العقلية الداخلية.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 1
+        "correctAnswer": 1
     },
     {
+        "type": "question",
         "id": 26,
-        "question": "الطالب وفقاً للنظرية البنائية يُعتبر عنصراً فاعلاً في عملية التعلم.",
+        "question": "الطالب وفقاً للنظرية البنانية يُعتبر عنصراً فاعلاً في عملية التعلم.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 27,
         "question": "من ضوابط الواجبات المنزلية أن تكون واضحة ومحددة.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 28,
         "question": "التعزيز الدوري أكثر فاعلية في ترسيخ السلوك المقاوم للانطفاء مقارنة بالتعزيز المباشر.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 29,
         "question": "الانتقال شرط أساسي للتعلم الحقيقي عند الجشطلت.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 30,
-        "question": "النظرية البنائية تفترض أن المعرفة موجودة خارج المتعلم ويجب نقلها إليه.",
+        "question": "النظرية البنانية تفترض أن المعرفة موجودة خارج المتعلم ويجب نقلها إليه.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 1
+        "correctAnswer": 1
     },
     {
+        "type": "question",
         "id": 31,
         "question": "الخبرات الاجتماعية أحد العوامل المؤثرة في النمو المعرفي عند بياجيه.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 32,
         "question": "التعلم باستخدام الكمبيوتر يُعتبر أحد تطبيقات أسلوب التدريس الذاتي.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 33,
         "question": "من أساليب التدريس: اتباع أنماط تقليدية فقط.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 1
+        "correctAnswer": 1
     },
     {
+        "type": "question",
         "id": 34,
         "question": "أسلوب حل المشكلات يعتمد على إشراك جميع التلاميذ في الممارسة.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     },
     {
+        "type": "question",
         "id": 35,
         "question": "التنظيم الدائري في محطات التعلم يسمح باستخدام المحادثات التربوية بين المتعلمين.",
         "options": [
             "صح",
             "خطأ"
         ],
-        "correct_answer": 0
+        "correctAnswer": 0
     }
 ]
