@@ -48,9 +48,11 @@ The effectiveness of an interactive electronic learning environment on cognitive
                       <FontAwesomeIcon icon={faGraduationCap} className="gold mb-3" size="2x" />
                       <h4>أ.د/ بلانش سلامه متياس</h4>
                       <p className="text-muted">
-                         قسم طرق التدريس
+                        أستاذ طرق تدريس المتفرغ بقسم المناهج وطرق تدريس التربية الرياضية
                         <br />
-                        جامعة حلوان
+                        كلية علوم الرياضة بنات - جامعة حلوان
+                        <br />
+                        (مشرفاً)
                       </p>
                     </Card.Body>
                   </Card>
@@ -62,9 +64,11 @@ The effectiveness of an interactive electronic learning environment on cognitive
                       <FontAwesomeIcon icon={faGraduationCap} className="gold mb-3" size="2x" />
                       <h4> أ.د/ وائل رمضان عبد الحميد</h4>
                       <p className="text-muted">
-                        قسم تكنولوجيا التعليم
+                        أستاذ تكنولوجيا التعليم و وكيل كلية التربية لشئون التعليم والطلاب
                         <br />
-                        جامعة حلوان
+                        كلية تربية - جامعة حلوان
+                        <br />
+                        (مشرفاً)
                       </p>
                     </Card.Body>
                   </Card>
