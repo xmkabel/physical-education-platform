@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import './ExamCards.css';
 import { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import Nav from '../Nav/Nav';
+
 
 const ExamCards = () => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const ExamCards = () => {
   const categories = [
     {
       id: 'start',
-      title: 'الاختبار القبلى',
+      title: 'الاختبار القبلي',
       description: 'اختبار بداية الكورس'
     },
     {
@@ -48,7 +48,8 @@ const ExamCards = () => {
       id: 'sixth',
       title: 'التقويم السادس',
       description: 'أسئلة عامة'
-    },{
+    },
+    {
       id: 'final',
       title: 'الاختبار البعدى',
       description: 'اختبار نهاية الكورس'
@@ -74,10 +75,10 @@ const ExamCards = () => {
     else if (categoryId === 'sixth') {
       navigate('/exams/sixth');
     }
-    else if (categoryId === 'final' || categoryId === 'before') {
+    else if (categoryId === 'final') {
       navigate('/exams/final');
     }
-    else if ( categoryId === 'start') {
+    else if (categoryId === 'start') {
       navigate('/exams/start');
     }
     else {
@@ -85,61 +86,58 @@ const ExamCards = () => {
     }
   };
 
-  const goBack = () => {
-    if (selectedCategory) {
-      setSelectedCategory(null);
-    } else {
-      navigate('/');
-    }
-  };
+  // const goBack = () => {
+  //   if (selectedCategory) {
+  //     setSelectedCategory(null);
+  //   } else {
+  //     navigate('/');
+  //   }
+  // };
 
   return (
+    <>
+    <Nav title={selectedCategory ? selectedCategory.title : "اختبارات المرحلة"}  selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
     <div className={`exam-cards-container ${isLoaded ? 'loaded' : ''}`}>
-      <div className="exam-cards-header">
-        <button className="back-button" onClick={goBack}>
-          <FontAwesomeIcon icon={faArrowLeft} className="back-arrow" /> العودة
-        </button>
-        <h1 className="exam-cards-title">الاختبارات المتاحة</h1>
-      </div>
 
       <div className="exam-cards-section">
-      {!selectedCategory ? (
-  <div className="exam-cards-grid">
-    {categories.map((category, index) => {
-      let cardClass = "exam-card category-card";
+        {!selectedCategory ? (
+          <div className="exam-cards-grid">
+            {categories.map((category, index) => {
+              let cardClass = "exam-card";
 
-      if (category.id === "start") {
-        cardClass += " before-card";
-      } else if (category.id === "final") {
-        cardClass += " after-card";
-      }
+              if (category.id === "start") {
+                cardClass += " before-card";
+              } else if (category.id === "final") {
+                cardClass += " after-card";
+              }
 
-      return (
-        <div
-          key={category.id}
-          className={cardClass}
-          onClick={() => handleCategoryClick(category.id)}
-          style={{ animationDelay: `${index * 0.1}s` }}
-        >
-          <div className="exam-card-content">
-            <h2 className="exam-card-title">{category.title}</h2>
-            <p className="exam-card-description">{category.description}</p>
+              return (
+                <div
+                  key={category.id}
+                  className={cardClass}
+                  onClick={() => handleCategoryClick(category.id)}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <div className="card-number">{index + 1}</div>
+                  <div className="exam-card-content">
+                    <div>
+                      <h2 className="exam-card-title">{category.title}</h2>
+                      <p className="exam-card-description">{category.description}</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        </div>
-      );
-    })}
-  </div>
-) : (
-  <div className="selected-category-content">
-    <h2>تفاصيل الفئة: {selectedCategory}</h2>
-    {/* Additional content for the selected category */}
-  </div>
-)}
-
-</div>
-</div>
-
-      );
+        ) : (
+          <div className="selected-category-content">
+            <h2>تفاصيل الفئة: {selectedCategory}</h2>
+          </div>
+        )}
+      </div>
+    </div>
+    </>
+  );
 };
 
-      export default ExamCards;
+export default ExamCards;

@@ -1,7 +1,7 @@
 .exam-cards-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1rem 1rem;
+  padding: 1rem;
   text-align: center;
   direction: rtl;
   min-height: 100vh;
@@ -37,7 +37,7 @@
 
 .exam-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1.5fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1rem;
   margin-top: 1rem;
   perspective: 1000px;
@@ -58,6 +58,7 @@
   border: 1px solid rgba(0, 0, 0, 0.05);
   transform-style: preserve-3d;
   transform-origin: center;
+  min-height: 220px;
 }
 
 .exam-card:hover {
@@ -75,7 +76,7 @@
 }
 
 /* ====== Responsive ====== */
-/* @media (max-width: 1024px) {
+@media (max-width: 1024px) {
   .before-card {
     grid-row: auto;
     grid-column: span 2;
@@ -84,20 +85,19 @@
   .after-card {
     grid-column: span 2;
   }
-} */
+}
 
 /* Tablet - iPad fix */
 @media (max-width: 1024px) and (min-width: 769px) {
   .before-card {
     grid-row: auto !important;
-    grid-column: span 2 !important;
+    grid-column: span 1 !important;
   }
 
   .after-card {
-    grid-column: span 2 !important;
+    grid-column: span 1 !important;
   }
 }
-
 
 .exam-card::before {
   content: '';
@@ -111,11 +111,6 @@
   z-index: 0;
   opacity: 0;
   border-radius: 12px 12px 0 0;
-}
-
-.exam-card:hover::before {
-  height: 6px;
-  opacity: 1;
 }
 
 .exam-card-content {
@@ -141,6 +136,7 @@
   position: relative;
   display: inline-block;
   transition: color 0.3s ease;
+  align-self: center;
 }
 
 .exam-card:hover .exam-card-title {
@@ -181,43 +177,6 @@
 .exam-card:hover::after {
   opacity: 1;
   transform: translateY(0);
-}
-
-/* Back button and header styles */
-.exam-cards-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 2rem;
-  position: relative;
-}
-
-.back-button {
-  position: absolute;
-  left: 0;
-  top: 0;
-  background-color: transparent;
-  border: 2px solid var(--navy-blue);
-  color: var(--navy-blue);
-  padding: 0.5rem 1rem;
-  border-radius: 50px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.back-button:hover {
-  background-color: var(--navy-blue);
-  color: var(--white);
-  transform: translateX(5px);
-}
-
-.back-arrow {
-  font-size: 1.2rem;
 }
 
 /* Card number styles */
@@ -269,26 +228,42 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .exam-cards-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
   }
   
   .exam-cards-title {
     font-size: 2rem;
   }
   
-  .back-button {
-    position: relative;
-    margin-bottom: 1rem;
-    align-self: flex-end;
+  .before-card,
+  .after-card {
+    grid-row: auto !important;
+    grid-column: auto !important;
   }
 }
 
 @media (max-width: 480px) {
   .exam-cards-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
   
-  .exam-cards-container {
-    padding: 1rem;
+  .exam-cards-title {
+    font-size: 1.8rem;
+  }
+  
+  .before-card,
+  .after-card {
+    grid-row: auto !important;
+    grid-column: auto !important;
+  }
+  
+  .exam-card-title {
+    font-size: 1.5rem;
+  }
+  
+  .exam-card-description {
+    font-size: 1rem;
   }
 }

@@ -3,6 +3,7 @@ import './ExamCards.css';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import Nav from '../Nav/Nav';
 
 const FirstCards = () => {
   const navigate = useNavigate();
@@ -54,35 +55,17 @@ const FirstCards = () => {
         title: 'مفاهيم تصميم التعليم وتقنيته',
         description: 'نماذج: جانية وبرجز، ديك وكاري، المنظومي، كمب، افتراضات: فعال، كافٍ، جذاب، أبعاد: وسائل، محتوى، أداء.'
     }
-];
-
-
+  ];
 
   const handleCardClick = (examId) => {
     navigate(`/exams/first/${examId}`);
   };
 
-
-
-  const goBack = () => {
-    if (selectedCategory) {
-      setSelectedCategory(null);
-    } else {
-      navigate("/exams");
-    }
-  };
-
   return (
-    <div className={`exam-cards-container ${isLoaded ? 'loaded' : ''}`}>
-      <div className="exam-cards-header">
-        <button className="back-button" onClick={goBack}>
-        <FontAwesomeIcon icon={faArrowLeft} className="back-arrow" /> العودة
-        </button>
-        <h1 className="exam-cards-title">الاختبارات المتاحة</h1>
-      </div>
-      
-      <div className="exam-cards-section">
-        
+    <>
+      <Nav title={selectedCategory ? selectedCategory.title : "نظريات التعلم ونظريات التدريس"} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+      <div className={`exam-cards-container ${isLoaded ? 'loaded' : ''}`}>
+        <div className="exam-cards-section">
           <div className="exam-cards-grid">
             {examCards1.map((exam, index) => (
               <div
@@ -99,9 +82,9 @@ const FirstCards = () => {
               </div>
             ))}
           </div>
-        
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
