@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import './ExamCards.css';
 import { useState, useEffect } from 'react';
 import Nav from '../Nav/Nav';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle, faCircle } from '@fortawesome/free-solid-svg-icons';
 
 
 const ExamCards = () => {
@@ -12,6 +14,18 @@ const ExamCards = () => {
   useEffect(() => {
     setIsLoaded(true);
   }, []);
+
+  // Mock data for category stats - in a real app this would come from an API or context
+  const categoryStats = {
+    'start': { completedCount: 1, totalExams: 1 },
+    'first': { completedCount: 8, totalExams: 8 },
+    'second': { completedCount: 2, totalExams: 2 },
+    'third': { completedCount: 5, totalExams: 5 },
+    'fourth': { completedCount: 3, totalExams: 3 },
+    'fifth': { completedCount: 1, totalExams: 1 },
+    'sixth': { completedCount: 3, totalExams: 3 },
+    'final': { completedCount: 3, totalExams: 3 }
+  };
 
   const categories = [
     {
@@ -86,56 +100,71 @@ const ExamCards = () => {
     }
   };
 
-  // const goBack = () => {
-  //   if (selectedCategory) {
-  //     setSelectedCategory(null);
-  //   } else {
-  //     navigate('/');
-  //   }
-  // };
+  const onCategorySelect = (categoryId) => {
+    handleCategoryClick(categoryId);
+  };
+
+  const onSetSelectedCategory = (category) => {
+    setSelectedCategory(category);
+  };
 
   return (
     <>
-    <Nav title={selectedCategory ? selectedCategory.title : "اختبارات المرحلة"}  selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
-    <div className={`exam-cards-container ${isLoaded ? 'loaded' : ''}`}>
+    <Nav 
+        title={selectedCategory ? categories.find(cat => cat.id === selectedCategory)?.title || "اختبارات المرحلة" : "اختبارات المرحلة"} 
+        selectedCategory={selectedCategory}
+        setSelectedCategory={onSetSelectedCategory}
+      />
+      <div className="exam-cards-container loaded">
+        <div className="exam-cards-section">
+          {!selectedCategory ? (
+            <div className="exam-cards-grid">
+              {categories.map((category, index) => {
+                const stats = categoryStats[category.id] || { completedCount: 0, totalExams: 0 };
+                const isFullyCompleted = stats.completedCount === stats.totalExams;
+                
+                let cardClass = "exam-card";
+                if (category.id === "start") {
+                  cardClass += " before-card";
+                } else if (category.id === "final") {
+                  cardClass += " after-card";
+                }
+                if (isFullyCompleted) {
+                  cardClass += " fully-completed";
+                }
 
-      <div className="exam-cards-section">
-        {!selectedCategory ? (
-          <div className="exam-cards-grid">
-            {categories.map((category, index) => {
-              let cardClass = "exam-card";
-
-              if (category.id === "start") {
-                cardClass += " before-card";
-              } else if (category.id === "final") {
-                cardClass += " after-card";
-              }
-
-              return (
-                <div
-                  key={category.id}
-                  className={cardClass}
-                  onClick={() => handleCategoryClick(category.id)}
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className="card-number">{index + 1}</div>
-                  <div className="exam-card-content">
-                    <div>
-                      <h2 className="exam-card-title">{category.title}</h2>
-                      <p className="exam-card-description">{category.description}</p>
+                return (
+                  <div
+                    key={category.id}
+                    className={cardClass}
+                    onClick={() => onCategorySelect(category.id)}
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
+                    <div className="card-number">{index + 1}</div>
+                    <div className="exam-card-content">
+                      <div>
+                        <h2 className="exam-card-title">{category.title}</h2>
+                        <p className="exam-card-description">{category.description}</p>
+                        <div className="exam-completion-status">
+                          <FontAwesomeIcon 
+                            icon={isFullyCompleted ? faCheckCircle : faCircle}
+                            className={`exam-completion-indicator ${isFullyCompleted ? 'completed' : ''}`}
+                          />
+                          <span>{stats.completedCount}/{stats.totalExams} مكتمل</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          <div className="selected-category-content">
-            <h2>تفاصيل الفئة: {selectedCategory}</h2>
-          </div>
-        )}
+                );
+              })}
+            </div>
+          ) : (
+            <div className="selected-category-content">
+              <h2>تفاصيل الفئة: {categories.find(cat => cat.id === selectedCategory)?.title}</h2>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
     </>
   );
 };

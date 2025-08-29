@@ -183,7 +183,7 @@
 .card-number {
   position: absolute;
   top: 1rem;
-  left: 1rem;
+  right: 1rem;
   background-color: var(--navy-blue);
   color: var(--white);
   width: 30px;
@@ -267,3 +267,80 @@
     font-size: 1rem;
   }
 }
+/* 
+ */
+
+ .examCard.fullyCompleted {
+  border: 2px solid #28a745;
+  box-shadow: 0 5px 15px rgba(40, 167, 69, 0.2);
+}
+
+.completionStatus {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--navy-blue);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 5px 10px;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  direction: ltr;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.completionIndicator {
+  color: var(--gold);
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.completionIndicator.completed {
+  color: #28a745;
+}
+
+.examCard:hover .completionStatus {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.05);
+}
+
+.exam-completion-status {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.9rem;
+  color: var(--navy-blue);
+  direction: ltr;
+}
+
+.exam-completion-indicator {
+  color: var(--gold);
+  font-size: 1.1rem;
+}
+
+.exam-completion-indicator.completed {
+  color: #28a745;
+}
+
+/* .exam-card.fully-completed {
+  border: 2px solid #28a745;
+  box-shadow: 0 0 15px rgba(40, 167, 69, 0.3);
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transform-style: preserve-3d;
+  transform-origin: center;
+  min-height: 220px;
+} */
