@@ -1,0 +1,259 @@
+
+.dashboardContainer {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    direction: rtl;
+    text-align: right;
+  }
+  
+  .dashboardHeader {
+    background: linear-gradient(135deg, var(--navy-blue) 0%, var(--gold) 100%);
+    color: white;
+    padding: 2rem 0;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.3);
+  }
+  
+  .backButton {
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  
+  .backButton:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-50%) scale(1.05);
+  }
+  
+  .backArrow {
+    margin-left: 0.5rem;
+  }
+  
+  .dashboardTitle {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+  }
+  
+  .cardHeader {
+    background: linear-gradient(135deg, var(--navy-blue) 0%, var(--gold) 100%);
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 1rem 1.5rem;
+    border: none;
+  }
+  
+  .statCard {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-radius: 10px;
+    border-left: 4px solid var(--gold);
+    transition: all 0.3s ease;
+  }
+  
+  .statCard:hover {
+    transform: translateX(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .statIcon {
+    font-size: 2.5rem;
+    color: var(--navy-blue);
+    margin-left: 1rem;
+  }
+  
+  .statCard h4 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--navy-blue);
+  }
+  
+  .statCard p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 0.9rem;
+  }
+  
+  .progressBar {
+    height: 12px !important;
+    border-radius: 10px;
+    background-color: #e9ecef !important;
+  }
+  
+  .progressBar .progress-bar {
+    background: linear-gradient(45deg, var(--navy-blue), var(--gold)) !important;
+    border-radius: 10px;
+    transition: width 0.6s ease;
+  }
+  
+  .badge {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  
+  .chapterCard {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+    height: 100%;
+  }
+  
+  .chapterCard:hover {
+    border-color: var(--gold);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .chapterTitle {
+    font-weight: 600;
+    color: var(--navy-blue);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+  
+  .smallProgressBar {
+    height: 8px !important;
+    border-radius: 5px;
+    background-color: #e9ecef !important;
+  }
+  
+  .smallProgressBar .progress-bar {
+    border-radius: 5px;
+    transition: width 0.6s ease;
+  }
+  
+  .quizResultsList {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .quizResultItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #e9ecef;
+    transition: background-color 0.3s ease;
+  }
+  
+  .quizResultItem:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .quizResultItem:last-child {
+    border-bottom: none;
+  }
+  
+  .quizInfo h6 {
+    margin: 0;
+    font-weight: 600;
+    color: var(--navy-blue);
+  }
+  
+  .quizName {
+    font-size: 1rem;
+  }
+  
+  .scoreBadge {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+  }
+  
+  .button {
+    background: linear-gradient(45deg, var(--navy-blue), var(--gold));
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    color: white;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .dashboardHeader {
+      padding: 1.5rem 0;
+    }
+    
+    .backButton {
+      right: 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+    }
+    
+    .dashboardTitle {
+      font-size: 1.5rem;
+    }
+    
+    .statCard {
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .statIcon {
+      font-size: 2rem;
+    }
+    
+    .statCard h4 {
+      font-size: 1.5rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .quizResultItem {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .quizScore {
+      margin-top: 0.5rem;
+    }
+  }
+  
