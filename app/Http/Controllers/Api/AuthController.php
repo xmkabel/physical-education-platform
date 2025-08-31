@@ -7,14 +7,25 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 use \App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator ;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+
+    private function generateUniqueCode()
+    {
+        do {
+            // random letter + two random digits
+            $code = chr(rand(65, 90)) . str_pad(rand(0, 99), 2, '0', STR_PAD_LEFT);
+        } while (User::where('code', $code)->exists());
+
+        return $code;
+    }
+
     // Login
     public function login(Request $request)
     {
-        $credentials = $request->only(['email', 'password']);
+        $credentials = $request->only(['code', 'password']);
 
         if (!$token = Auth::guard('api')->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -27,8 +38,8 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
@@ -36,8 +47,9 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 422);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'code' => $this->generateUniqueCode(),
             'password' => bcrypt($request->password),
         ]);
 
@@ -75,4 +87,3 @@ class AuthController extends Controller
         ]);
     }
 }
-
