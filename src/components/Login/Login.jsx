@@ -26,7 +26,7 @@ function Login() {
   };
   return (
     <div className="login-page">
-      <div className="login-container">
+      <div className="login-container shadow">
         <div className="login-header">
           <h2 className="login-title">تسجيل الدخول</h2>
           <p className="login-subtitle">
@@ -65,7 +65,10 @@ function Login() {
               required
             />
           </div>
+            <div>
+                        <a href="/register" className="register-link">ليس لديك حساب؟ سجل هنا</a>
 
+            </div>
           <button
             type="submit"
             className={`login-button `}
