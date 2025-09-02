@@ -48,39 +48,23 @@ function Register() {
 
   
   if (registrationSuccess && registrationData) {
-    return (
-      <div className="register-page">
-        <div className="register-container">
-          <div className="register-header">
-            <h2 className="register-title">تم التسجيل بنجاح!</h2>
-            <p className="register-subtitle">هلاً بيك دا كود الطالب بتاعك احفظ الكود جيداً ولو نسيته متقرفناش وروح كلم مشرف المادة</p>
-          </div>
-
-          <div className="credentials-container">
-            <div className="credential-item">
-              <label>كود الطالب:</label>
-              <strong>{registrationData.code}</strong>
-            </div>
-            <div className="credential-item">
-              <label>كلمة المرور:</label>
-              <strong>{password}</strong>
-            </div>
-          </div>
-
-          <button 
-            onClick={() => navigate('/')} 
-            className="register-button"
-          >
-            الذهاب إلى تسجيل الدخول
-          </button>
-        </div>
-      </div>
-    );
+    // Redirect to welcome page with student data
+    navigate('/welcome', {
+      state: {
+        studentData: {
+          firstName,
+          lastName,
+          code: registrationData.code
+          
+        }
+      }
+    });
+    return null;
   }
 
   return (
     <div className="register-page">
-      <div className="register-container">
+      <div className="register-container shadow">
         <div className="register-header">
           <h2 className="register-title">تسجيل حساب جديد</h2>
           <p className="register-subtitle">
@@ -148,6 +132,9 @@ function Register() {
               placeholder="أدخل تأكيد كلمة المرور"
               required
             />
+          </div>
+          <div>
+            <a href="/login" className="register-link">هل لديك حساب؟ تسجيل الدخول</a>
           </div>
 
           {error && <div className="error-message">{error}</div>}
