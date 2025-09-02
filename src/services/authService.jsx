@@ -1,7 +1,7 @@
 import axiosInstance from "./axios";
 
-export const login = async (email, password) => {
-  const response = await axiosInstance.post("/login", { email, password });
+export const login = async (code, password) => {
+  const response = await axiosInstance.post("/login", { code, password });
 
   const { access_token } = response.data;
 
@@ -19,3 +19,8 @@ export const logout = () => {
 export const isAuthenticated = () => {
   return !!localStorage.getItem("token"); // Check if token exists
 };
+
+function me(){
+  return axiosInstance.get("/me");  
+}
+export { me };

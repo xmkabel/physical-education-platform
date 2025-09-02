@@ -20,6 +20,8 @@ function Login() {
       navigate("/dashboard");
     } catch (error) {
       alert("Invalid credentials. Please try again.");
+      console.log(error);
+      
     }
   };
   return (

@@ -16,6 +16,7 @@ import StartChapterRoutes from './components/routes/StartChapterRoutes';
 import Register from './components/register/register';
 import Dashboard from './components/Dashboard/Dashboard';
 import AdminDashboard from './components/Dashboard/AdminDashboard';
+import Unauthorized from '../src/components/Unauthorized/Unauthorized';
 
 function App() {
   return (
@@ -25,7 +26,9 @@ function App() {
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register/>} />
         <Route path="/" element={<Intro />} />
-        
+        <Route path="/home" element={<Home />} />
+        <Route path="/unauthorized" element={<Unauthorized title={"غير مصرح بالوصول"} code={403}/>} />
+        <Route path="/*" element={<Unauthorized title={"الرابط غير صحيح"} code={404} />} />
         {/* Protected Routes */}
         <Route path="/exams" element={<ProtectedRoute><ExamCards /></ProtectedRoute>} />
         <Route path="/video/:id" element={<ProtectedRoute><Video /></ProtectedRoute>} />
