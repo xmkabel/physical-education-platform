@@ -14,6 +14,8 @@ import SixthChapterRoutes from './components/routes/SixthChapterRoutes';
 import FinalChapterRoutes from './components/routes/FinalChapterRouters';
 import StartChapterRoutes from './components/routes/StartChapterRoutes';
 import Register from './components/register/register';
+import Dashboard from './components/Dashboard/Dashboard';
+import AdminDashboard from './components/Dashboard/AdminDashboard';
 
 function App() {
   return (
@@ -27,7 +29,9 @@ function App() {
         {/* Protected Routes */}
         <Route path="/exams" element={<ProtectedRoute><ExamCards /></ProtectedRoute>} />
         <Route path="/video/:id" element={<ProtectedRoute><Video /></ProtectedRoute>} />
-        
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+
         {/* Protected Chapter Routes */}
         {StartChapterRoutes.map(route => (
           <Route

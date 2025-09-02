@@ -12,135 +12,223 @@ import {
   faPercent,
   faListAlt
 } from '@fortawesome/free-solid-svg-icons';
-import styles from './Dashboard.css';
+import './Dashboard.css';
 
-/**
- * Dashboard component that displays the user's exam progress and statistics
- * @param {Object} props
- * @param {string} props.userName - The name of the user
- * @param {number} props.overallProgress - The overall progress percentage (0-100)
- * @param {Object} props.examStats - Statistics about exams
- * @param {number} props.examStats.averageScore - Average score across all exams
- * @param {number} props.examStats.totalExams - Total number of exams taken
- * @param {string} props.examStats.totalTimeSpent - Total time spent on exams
- * @param {string} props.lastExamDate - Date of the last exam taken
- * @param {Function} props.onStartExam - Function to handle starting a new exam
- * @param {Function} props.onViewProgress - Function to handle viewing detailed progress
- * @param {Function} props.onBack - Function to handle going back
- */
 function Dashboard({ 
-  userName,
-  overallProgress,
-  examStats,
-  lastExamDate,
-  onStartExam,
-  onViewProgress,
-  onBack
+  onBack,
+  onStartQuiz,
+  onViewAllQuizzes,
+  studentData = {
+    completedQuizzes: 0,
+    averageScore: 10,
+    overallProgress: 0,
+    remainingQuizzes: 26,
+    preTest: {
+      score: 10,
+      date: null
+    },
+    postTest: {
+      score: 90,
+      date: null
+    }
+  }
 }) {
+  // Calculate improvement percentage
+  const improvement = studentData.postTest.score - studentData.preTest.score;
+  const improvementPercentage = ((improvement) / studentData.preTest.score * 100).toFixed(1);
+  const hasImprovement = improvement > 0;
   return (
-    <div className={styles.dashboard}>
-      <Container fluid>
-        {/* Back Button */}
-        <Button 
-          variant="link" 
-          className={styles.backButton}
-          onClick={onBack}
-        >
-          <FontAwesomeIcon icon={faArrowLeft} /> العودة
-        </Button>
+    <div className="dashboardContainer">
+      <div className="dashboardHeader">
+        <h1 className="dashboardTitle">
+          لوحة تتبع التقدم الأكاديمي
+        </h1>
+        <button className="backButton" onClick={onBack}>
+          <FontAwesomeIcon icon={faArrowLeft} className="backArrow" /> العودة
+        </button>
+      </div>
 
-        {/* Header Section */}
-        <Row className="mb-4">
-          <Col>
-            <h1 className={styles.welcomeText}>
-              <FontAwesomeIcon icon={faUser} className="me-2" />
-              مرحباً {userName}
-            </h1>
-          </Col>
-        </Row>
+      <Container className="py-4">
+        {/* Student Info Card */}
+        <Card className="card mb-4">
+          <Card.Header className="cardHeader">
+            <FontAwesomeIcon icon={faUser} className="me-2" />
+            معلومات الطالب
+          </Card.Header>
+          <Card.Body>
+            <Row>
+              <Col md={4}>
+                <div className="statCard">
+                  <FontAwesomeIcon icon={faListAlt} className="statIcon" />
+                  <div>
+                    <h4>{studentData.completedQuizzes}</h4>
+                    <p>اختبار مكتمل</p>
+                  </div>
+                </div>
+              </Col>
+              <Col md={4}>
+                <div className="statCard">
+                  <FontAwesomeIcon icon={faPercent} className="statIcon" />
+                  <div>
+                    <h4>{studentData.averageScore}%</h4>
+                    <p>متوسط الدرجات</p>
+                  </div>
+                </div>
+              </Col>
+              <Col md={4}>
+                <div className="statCard">
+                  <FontAwesomeIcon icon={faChartLine} className="statIcon" />
+                  <div>
+                    <h4>{studentData.overallProgress}%</h4>
+                    <p>التقدم الإجمالي</p>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          </Card.Body>
+        </Card>
 
-        {/* Stats Cards */}
-        <Row className="g-4 mb-4">
-          {/* Overall Progress Card */}
-          <Col md={6} lg={3}>
-            <Card className={styles.statsCard}>
-              <Card.Body>
-                <div className={styles.iconContainer}>
-                  <FontAwesomeIcon icon={faChartLine} className={styles.cardIcon} />
+        {/* Pre/Post Test Comparison Card */}
+        <Card className="card mb-4">
+          <Card.Header className="cardHeader">
+            <FontAwesomeIcon icon={faTrophy} className="me-2" />
+            مقارنة الاختبار القبلي والبعدي
+          </Card.Header>
+          <Card.Body>
+            <Row>
+              <Col md={5}>
+                <div className="testScoreCard pre-test">
+                  <h5>الاختبار القبلي</h5>
+                  <div className="score-circle">
+                    <h3>{studentData.preTest.score}%</h3>
+                  </div>
+                  <p className="text-muted">
+                    {studentData.preTest.date ? new Date(studentData.preTest.date).toLocaleDateString('ar-SA') : 'لم يتم الاختبار بعد'}
+                  </p>
                 </div>
-                <h3>التقدم الكلي</h3>
-                <ProgressBar 
-                  now={overallProgress} 
-                  label={`${overallProgress}%`} 
-                  className="mb-2" 
-                />
-                <p className={styles.statValue}>{overallProgress}% مكتمل</p>
-              </Card.Body>
-            </Card>
-          </Col>
+              </Col>
+              
+              <Col md={2} className="d-flex align-items-center justify-content-center">
+                <div className="improvement-indicator">
+                  <FontAwesomeIcon 
+                    icon={faArrowLeft} 
+                    className={`improvement-arrow ${hasImprovement ? 'text-success' : 'text-danger'}`}
+                  />
+                  <div className={`improvement-value ${hasImprovement ? 'text-success' : 'text-danger'}`}>
+                    {hasImprovement ? '+' : ''}{improvementPercentage}%
+                  </div>
+                </div>
+              </Col>
 
-          {/* Average Score Card */}
-          <Col md={6} lg={3}>
-            <Card className={styles.statsCard}>
-              <Card.Body>
-                <div className={styles.iconContainer}>
-                  <FontAwesomeIcon icon={faTrophy} className={styles.cardIcon} />
+              <Col md={5}>
+                <div className="testScoreCard post-test">
+                  <h5>الاختبار البعدي</h5>
+                  <div className="score-circle">
+                    <h3>{studentData.postTest.score}%</h3>
+                  </div>
+                  <p className="text-muted">
+                    {studentData.postTest.date ? new Date(studentData.postTest.date).toLocaleDateString('ar-SA') : 'لم يتم الاختبار بعد'}
+                  </p>
                 </div>
-                <h3>متوسط الدرجات</h3>
-                <div className={styles.scoreDisplay}>
-                  <span className={styles.score}>{examStats.averageScore}%</span>
-                </div>
-                <p className={styles.statValue}>في {examStats.totalExams} اختبار</p>
-              </Card.Body>
-            </Card>
-          </Col>
+              </Col>
+            </Row>
 
-          {/* Latest Activity Card */}
-          <Col md={6} lg={3}>
-            <Card className={styles.statsCard}>
-              <Card.Body>
-                <div className={styles.iconContainer}>
-                  <FontAwesomeIcon icon={faCalendar} className={styles.cardIcon} />
-                </div>
-                <h3>آخر نشاط</h3>
-                <p className={styles.statValue}>{lastExamDate}</p>
-                <Badge bg="info" className={styles.activityBadge}>
-                  <FontAwesomeIcon icon={faCheck} /> مكتمل
+            <div className="text-center mt-4">
+              <p className={`improvement-summary ${hasImprovement ? 'text-success' : 'text-danger'}`}>
+                {hasImprovement 
+                  ? `تحسن الأداء بنسبة ${improvementPercentage}% من الاختبار القبلي إلى البعدي`
+                  : 'لم يتم إكمال الاختبارين بعد'}
+              </p>
+            </div>
+          </Card.Body>
+        </Card>
+
+        {/* Overall Progress Card */}
+        <Card className="card mb-4">
+          <Card.Header className="cardHeader">
+            <FontAwesomeIcon icon={faChartLine} className="me-2" />
+            التقدم الإجمالي
+          </Card.Header>
+          <Card.Body>
+            <div className="mb-3">
+              <div className="d-flex justify-content-between mb-2">
+                <span>تقدم الدورة التدريبية</span>
+                <span className="fw-bold">0%</span>
+              </div>
+              <ProgressBar 
+                now={studentData.overallProgress} 
+                className="progressBar"
+              />
+            </div>
+            <Row className="text-center">
+              <Col>
+                <Badge bg="success" className="badge">
+                  {studentData.completedQuizzes} اختبار مكتمل
                 </Badge>
-              </Card.Body>
-            </Card>
-          </Col>
-
-          {/* Time Spent Card */}
-          <Col md={6} lg={3}>
-            <Card className={styles.statsCard}>
-              <Card.Body>
-                <div className={styles.iconContainer}>
-                  <FontAwesomeIcon icon={faClock} className={styles.cardIcon} />
-                </div>
-                <h3>الوقت المستغرق</h3>
-                <p className={styles.statValue}>{examStats.totalTimeSpent}</p>
-                <Badge bg="secondary" className={styles.timeBadge}>
-                  <FontAwesomeIcon icon={faPercent} /> فعال
+              </Col>
+              <Col>
+                <Badge bg="warning" className="badge">
+                  {studentData.remainingQuizzes} اختبار متبقي
                 </Badge>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+              </Col>
+            </Row>
+          </Card.Body>
+        </Card>
+
+        {/* Chapters Progress */}
+        <Card className="card mb-4">
+          <Card.Header className="cardHeader">
+            <FontAwesomeIcon icon={faTrophy} className="me-2" />
+            تقدم الفصول
+          </Card.Header>
+          <Card.Body>
+            <Row>
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+                <Col md={6} lg={4} key={item} className="mb-3">
+                  <div className="chapterCard">
+                    <h6 className="chapterTitle">الفصل {item}</h6>
+                    <div className="mb-2">
+                      <ProgressBar 
+                        now={0} 
+                        className="smallProgressBar"
+                        variant="primary"
+                      />
+                    </div>
+                    <div className="d-flex justify-content-between small">
+                      <span>0/0 مكتمل</span>
+                      <span>0%</span>
+                    </div>
+                  </div>
+                </Col>
+              ))}
+            </Row>
+          </Card.Body>
+        </Card>
+
+        {/* Recent Quiz Results */}
+        <Card className="card mb-4">
+          <Card.Header className="cardHeader">
+            <FontAwesomeIcon icon={faCalendar} className="me-2" />
+            نتائج الاختبارات الأخيرة
+          </Card.Header>
+          <Card.Body>
+            <div className="text-center py-4">
+              <FontAwesomeIcon icon={faClock} size="3x" className="text-muted mb-3" />
+              <p className="text-muted">لم تكمل أي اختبارات بعد</p>
+              <Button className="button" onClick={onStartQuiz}>
+                ابدأ الاختبارات
+              </Button>
+            </div>
+          </Card.Body>
+        </Card>
 
         {/* Action Buttons */}
-        <Row className="mt-4">
-          <Col className="text-center">
-            <Button variant="primary" className={styles.actionButton} onClick={onStartExam}>
-              <FontAwesomeIcon icon={faListAlt} className="me-2" />
-              بدء اختبار جديد
-            </Button>
-            <Button variant="outline-primary" className={styles.actionButton} onClick={onViewProgress}>
-              <FontAwesomeIcon icon={faChartLine} className="me-2" />
-              عرض التقدم التفصيلي
-            </Button>
-          </Col>
-        </Row>
+        <div className="d-flex justify-content-center gap-3">
+          <Button className="button" onClick={onViewAllQuizzes}>
+            <FontAwesomeIcon icon={faListAlt} className="me-2" />
+            عرض جميع الاختبارات
+          </Button>
+        </div>
       </Container>
     </div>
   );

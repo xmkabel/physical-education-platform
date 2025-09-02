@@ -1,0 +1,141 @@
+{
+  "students": [
+    {
+      "id": 1,
+      "name": "أحمد محمد علي",
+      "code": "STU001",
+      "password": "hashed_password_1",
+      "preTest": 65,
+      "postTest": 85,
+      "testDates": {
+        "preTest": "2025-08-15",
+        "postTest": "2025-08-30"
+      },
+      "lastActive": "2025-09-01"
+    },
+    {
+      "id": 2,
+      "name": "فاطمة أحمد حسين",
+      "code": "STU002",
+      "password": "hashed_password_2",
+      "preTest": 70,
+      "postTest": 90,
+      "testDates": {
+        "preTest": "2025-08-14",
+        "postTest": "2025-08-29"
+      },
+      "lastActive": "2025-09-01"
+    },
+    {
+      "id": 3,
+      "name": "محمود عبد الرحمن",
+      "code": "STU003",
+      "password": "hashed_password_3",
+      "preTest": 55,
+      "postTest": 80,
+      "testDates": {
+        "preTest": "2025-08-16",
+        "postTest": "2025-08-31"
+      },
+      "lastActive": "2025-09-02"
+    },
+    {
+      "id": 4,
+      "name": "سارة محمد كمال",
+      "code": "STU004",
+      "password": "hashed_password_4",
+      "preTest": 75,
+      "postTest": 95,
+      "testDates": {
+        "preTest": "2025-08-15",
+        "postTest": "2025-08-30"
+      },
+      "lastActive": "2025-09-01"
+    },
+    {
+      "id": 5,
+      "name": "عمر خالد السيد",
+      "code": "STU005",
+      "password": "hashed_password_5",
+      "preTest": 60,
+      "postTest": 0,
+      "testDates": {
+        "preTest": "2025-08-20",
+        "postTest": null
+      },
+      "lastActive": "2025-08-20"
+    },
+    {
+      "id": 6,
+      "name": "نور أحمد حسن",
+      "code": "STU006",
+      "password": "hashed_password_6",
+      "preTest": 0,
+      "postTest": 0,
+      "testDates": {
+        "preTest": null,
+        "postTest": null
+      },
+      "lastActive": "2025-09-01"
+    },
+    {
+      "id": 7,
+      "name": "ياسمين محمد عبد الله",
+      "code": "STU007",
+      "password": "hashed_password_7",
+      "preTest": 68,
+      "postTest": 88,
+      "testDates": {
+        "preTest": "2025-08-17",
+        "postTest": "2025-09-01"
+      },
+      "lastActive": "2025-09-02"
+    },
+    {
+      "id": 8,
+      "name": "كريم أحمد محمود",
+      "code": "STU008",
+      "password": "hashed_password_8",
+      "preTest": 72,
+      "postTest": 92,
+      "testDates": {
+        "preTest": "2025-08-18",
+        "postTest": "2025-09-02"
+      },
+      "lastActive": "2025-09-02"
+    },
+    {
+      "id": 9,
+      "name": "رنا محمد سعيد",
+      "code": "STU009",
+      "password": "hashed_password_9",
+      "preTest": 63,
+      "postTest": 0,
+      "testDates": {
+        "preTest": "2025-08-19",
+        "postTest": null
+      },
+      "lastActive": "2025-08-19"
+    },
+    {
+      "id": 10,
+      "name": "خالد أحمد عبد العزيز",
+      "code": "STU010",
+      "password": "hashed_password_10",
+      "preTest": 70,
+      "postTest": 89,
+      "testDates": {
+        "preTest": "2025-08-16",
+        "postTest": "2025-08-31"
+      },
+      "lastActive": "2025-09-01"
+    }
+  ],
+  "metadata": {
+    "lastUpdated": "2025-09-02T10:00:00Z",
+    "totalStudents": 10,
+    "completedPreTest": 9,
+    "completedPostTest": 7,
+    "averageImprovement": 20.14
+  }
+}
