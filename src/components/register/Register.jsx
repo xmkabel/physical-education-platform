@@ -53,7 +53,7 @@ function Register() {
         <div className="register-container">
           <div className="register-header">
             <h2 className="register-title">تم التسجيل بنجاح!</h2>
-            <p className="register-subtitle">يرجى حفظ بيانات الدخول الخاصة بك</p>
+            <p className="register-subtitle">هلاً بيك دا كود الطالب بتاعك احفظ الكود جيداً ولو نسيته متقرفناش وروح كلم مشرف المادة</p>
           </div>
 
           <div className="credentials-container">
@@ -68,7 +68,7 @@ function Register() {
           </div>
 
           <button 
-            onClick={() => navigate('/login')} 
+            onClick={() => navigate('/')} 
             className="register-button"
           >
             الذهاب إلى تسجيل الدخول
