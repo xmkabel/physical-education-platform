@@ -1,17 +1,16 @@
 @font-face {
-  font-family: 'ArabicFont';
+  font-family: "ArabicFont";
   src: url(/src/assets/fonts/Rubik.ttf);
 }
-:root{
-  font-family: 'ArabicFont', sans-serif;
+:root {
+  font-family: "ArabicFont", sans-serif;
   --black: #1b1b1b;
-  --light-blue: #8DAEE1;
-  --blue: #7B94D6;
-  --grey: #4B5165;
-  --pink: #EDA1AB;
-  --orange: #FFD3BD;
-
-  
+  --light-blue: #8daee1;
+  --blue: #7b94d6;
+  --grey: #4b5165;
+  --pink: #eda1ab;
+  --orange: #ffd3bd;
+  --navy-blue: #1b3058;
 }
 ::selection {
   color: white;
@@ -22,33 +21,95 @@
   background: var(--dark-gold);
 }
 
-a{
+a {
   text-decoration: none;
   color: currentColor;
-} 
-.navbar-nav .nav-link.active{
+}
+.navbar-nav .nav-link.active {
   color: white;
 }
-.navbar-nav .nav-link.active:hover{
+.navbar-nav .nav-link.active:hover {
   color: var(--gold);
 }
 /* Styling for Webkit browsers (Chrome, Safari, Edge) */
 ::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--white);
-    border-radius: 10px;
+  background: var(--white);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--gold);
-    border-radius: 10px;
-    border: 2px solid var(--white);
+  background: var(--gold);
+  border-radius: 10px;
+  border: 2px solid var(--white);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--dark-gold);
+  background: var(--dark-gold);
 }
 
+.shadow {
+  box-shadow: 0 0px 8px rgba(0, 0, 0, 0.78);
+  transition: all ease 0.5s;
+}
+.shadow:hover {
+  box-shadow: 0 15px 20px rgb(0, 0, 0, 1);
+  border: var(--navy-blue) solid 1px;
+}
+
+
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .form-label {
+    font-size: 0.95rem;
+    color: var(--navy-blue);
+    font-weight: 600;
+  }
+  
+  .form-input {
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    font-family: 'ArabicFont', sans-serif;
+    color: var(--navy-blue);
+  
+  }
+  
+  .form-input:focus {
+    outline: var(--gold) 1px solid ;
+    color:var(--gold);
+    box-shadow: 0 0 0 3px rgba(125, 148, 214, 0.2);
+  }
+  .form-input::placeholder {
+    color: var(--grey);
+  }
+
+  .login-button , .register-button {
+  background: var(--navy-blue);
+  color: white;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all  0.3s ease,background 0.5s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.login-button:hover , .register-button:hover {
+  background: var(--dark-gold);
+
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+
+}

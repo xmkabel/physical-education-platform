@@ -17,12 +17,14 @@ import Register from './components/register/register';
 import Dashboard from './components/Dashboard/Dashboard';
 import AdminDashboard from './components/Dashboard/AdminDashboard';
 import Unauthorized from '../src/components/Unauthorized/Unauthorized';
+import Welcome from './components/Welcome/Welcome';
 
 function App() {
   return (
     <>
       <Routes>
         {/* Public Routes */}
+        <Route path="/welcome" element={<Welcome />} />
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register/>} />
         <Route path="/" element={<Intro />} />
@@ -34,8 +36,13 @@ function App() {
         <Route path="/video/:id" element={<ProtectedRoute><Video /></ProtectedRoute>} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
-
+        
+        {/* <Route path="/unauthorized" element={<Unauthorized title={"غير مصرح بالوصول"} code={403}/>} /> */}
         {/* Protected Chapter Routes */}
+
+
+
+
         {StartChapterRoutes.map(route => (
           <Route
             key={route.key}
