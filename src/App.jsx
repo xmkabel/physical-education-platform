@@ -14,7 +14,7 @@ import FifthChapterRoutes from './components/routes/FifthChapterRoutes';
 import SixthChapterRoutes from './components/routes/SixthChapterRoutes';
 import FinalChapterRoutes from './components/routes/FinalChapterRouters';
 import StartChapterRoutes from './components/routes/StartChapterRoutes';
-import Register from './components/register/register';
+import Register from './components/register/Register';
 import Dashboard from './components/Dashboard/Dashboard';
 import AdminDashboard from './components/Dashboard/AdminDashboard';
 import Unauthorized from '../src/components/Unauthorized/Unauthorized';
