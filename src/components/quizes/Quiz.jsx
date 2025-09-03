@@ -536,6 +536,33 @@ function Quiz({ quizData, name, quizId }) {
                   <div className={styles.errorMessage}>{errorMessage}</div>
                 )}
 
+                
+
+                <div className="d-flex flex-column flex-sm-row justify-content-between gap-3 mt-4">
+                  <Button
+                    className={styles.button}
+                    onClick={handlePrevious}
+                    disabled={currentStep === 0}
+                  >
+                    <FontAwesomeIcon icon={faArrowRight} className="me-2" />{" "}
+                    السابق
+                  </Button>
+                  <Button
+                    className={styles.button}
+                    onClick={handleNext}
+                    disabled={currentStep === quizContent.length - 1}
+                  >
+                    التالي{" "}
+                    <FontAwesomeIcon icon={faArrowLeft} className="ms-2" />
+                  </Button>
+                </div>
+
+                <div className="d-flex justify-content-center my-4">
+                  <Button className={styles.button} onClick={handleSubmit}>
+                    إنهاء الاختبار
+                  </Button>
+                </div>
+
                 <div className="question-navigation mb-4 d-flex flex-wrap gap-2 justify-content-center">
                   {quizContent.map((item, index) => {
                     let displayNumber;
@@ -605,31 +632,6 @@ function Quiz({ quizData, name, quizId }) {
                       </Button>
                     );
                   })}
-                </div>
-
-                <div className="d-flex flex-column flex-sm-row justify-content-between gap-3 mt-4">
-                  <Button
-                    className={styles.button}
-                    onClick={handlePrevious}
-                    disabled={currentStep === 0}
-                  >
-                    <FontAwesomeIcon icon={faArrowRight} className="me-2" />{" "}
-                    السابق
-                  </Button>
-                  <Button
-                    className={styles.button}
-                    onClick={handleNext}
-                    disabled={currentStep === quizContent.length - 1}
-                  >
-                    التالي{" "}
-                    <FontAwesomeIcon icon={faArrowLeft} className="ms-2" />
-                  </Button>
-                </div>
-
-                <div className="d-flex justify-content-center mt-4">
-                  <Button className={styles.button} onClick={handleSubmit}>
-                    إنهاء الاختبار
-                  </Button>
                 </div>
               </>
             ) : (
