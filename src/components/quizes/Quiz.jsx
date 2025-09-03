@@ -167,6 +167,7 @@ function Quiz({ quizData, name, quizId }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [animationClass, setAnimationClass] = useState("animate__fadeIn");
   const [showAnswerReview, setShowAnswerReview] = useState(false);
+  const [showQuestionNavigation, setShowQuestionNavigation] = useState(true);
 
   useEffect(() => {
     // if external prop provided, use it
@@ -563,76 +564,94 @@ function Quiz({ quizData, name, quizId }) {
                   </Button>
                 </div>
 
-                <div className="question-navigation mb-4 d-flex flex-wrap gap-2 justify-content-center">
-                  {quizContent.map((item, index) => {
-                    let displayNumber;
-                    if (item.type === "reading") {
-                      displayNumber = (
-                        <FontAwesomeIcon
-                          icon={faBookOpen}
-                          className="me-2 ms-2"
-                          size="lg"
+                <div className="d-flex justify-content-center mb-3">
+                  <Button 
+                    // variant="outline-secondary" 
+                    size="sm"
+                    onClick={() => setShowQuestionNavigation(!showQuestionNavigation)}
+                    style={{
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      color: 'var(--navy-blue)',
+                      padding: '0.25rem 1rem'
+                    }}
+                  >
+                    {showQuestionNavigation ? `إخفاء التنقل \\/` : `إظهار التنقل/\\`}
+                  </Button>
+                </div>
+
+                {showQuestionNavigation && (
+                  <div className="question-navigation mb-4 d-flex flex-wrap gap-2 justify-content-center">
+                    {quizContent.map((item, index) => {
+                      let displayNumber;
+                      if (item.type === "reading") {
+                        displayNumber = (
+                          <FontAwesomeIcon
+                            icon={faBookOpen}
+                            className="me-2 ms-2"
+                            size="lg"
+                            style={{
+                              color:
+                                currentStep === index ||
+                                answers[item.id] !== undefined
+                                  ? "white"
+                                  : "var(--navy-blue)",
+                            }}
+                          />
+                        );
+                      } else {
+                        displayNumber = quizContent.filter(
+                          (q) =>
+                            (q.type === "question" || q.type === "essay") &&
+                            quizContent.indexOf(q) <= index
+                        ).length;
+                      }
+
+                      return (
+                        <Button
+                          key={index}
+                          size="sm"
+                          variant={
+                            currentStep === index
+                              ? "primary"
+                              : answers[item.id] !== undefined
+                              ? "success"
+                              : "outline-secondary"
+                        }
+                          onClick={() => {
+                            setAnimationClass("animate__fadeOut");
+                            setTimeout(() => {
+                              setCurrentStep(index);
+                              setAnimationClass("animate__fadeIn");
+                            }, 200);
+                          }}
                           style={{
+                            minWidth: "45px",
+                            padding: "8px 12px",
+                            borderRadius: "8px",
+                            backgroundColor:
+                              currentStep === index
+                                ? "var(--navy-blue)"
+                                : answers[item.id] !== undefined
+                                ? "var(--gold)"
+                                : "white",
+                            borderColor: "var(--navy-blue)",
                             color:
                               currentStep === index ||
                               answers[item.id] !== undefined
                                 ? "white"
                                 : "var(--navy-blue)",
+                            transition: "all 0.3s ease",
+                            transform:
+                              currentStep === index ? "scale(1.05)" : "scale(1)",
                           }}
-                        />
+                        >
+                          {displayNumber}
+                        </Button>
                       );
-                    } else {
-                      displayNumber = quizContent.filter(
-                        (q) =>
-                          (q.type === "question" || q.type === "essay") &&
-                          quizContent.indexOf(q) <= index
-                      ).length;
-                    }
-
-                    return (
-                      <Button
-                        key={index}
-                        size="sm"
-                        variant={
-                          currentStep === index
-                            ? "primary"
-                            : answers[item.id] !== undefined
-                            ? "success"
-                            : "outline-secondary"
-                        }
-                        onClick={() => {
-                          setAnimationClass("animate__fadeOut");
-                          setTimeout(() => {
-                            setCurrentStep(index);
-                            setAnimationClass("animate__fadeIn");
-                          }, 200);
-                        }}
-                        style={{
-                          minWidth: "45px",
-                          padding: "8px 12px",
-                          borderRadius: "8px",
-                          backgroundColor:
-                            currentStep === index
-                              ? "var(--navy-blue)"
-                              : answers[item.id] !== undefined
-                              ? "var(--gold)"
-                              : "white",
-                          borderColor: "var(--navy-blue)",
-                          color:
-                            currentStep === index ||
-                            answers[item.id] !== undefined
-                              ? "white"
-                              : "var(--navy-blue)",
-                          transition: "all 0.3s ease",
-                          transform:
-                            currentStep === index ? "scale(1.05)" : "scale(1)",
-                        }}
-                      >
-                        {displayNumber}
-                      </Button>
-                    );
-                  })}
-                </div>
+                    })}
+                  </div>
+                )}
               </>
             ) : (
               <div className="animate__animated animate__fadeIn">
