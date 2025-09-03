@@ -108,19 +108,19 @@
 }
 
 .correctSelection {
-  composes: option;
+  /* composes: option; */
   background-color: rgba(40, 167, 69, 0.1);
   border: 1px solid var(--green);
 }
 
 .incorrectSelection {
-  composes: option;
+  /* composes: option; */
   background-color: rgba(220, 53, 69, 0.1);
   border: 1px solid var(--pink);
 }
 
 .correctAnswer {
-  composes: option;
+  /* composes: option; */
   background-color: rgba(40, 167, 69, 0.05);
   border: 1px solid var(--green);
 }
