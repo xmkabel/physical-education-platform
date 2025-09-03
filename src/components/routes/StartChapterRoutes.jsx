@@ -7,9 +7,9 @@ import StartCards from '../ExamCards/StartCards';
 
 const StartRoutes = [
   <Route key="finals" path="/exams/start/" element={<StartCards />} />,
-  <Route key="final_1" path="/exams/start/1" element={<Quiz quizData={quizData7_2} name={"الاختبار القبلى"} />} />,
-  <Route key="final_2" path="/exams/start/2" element={<Quiz quizData={quizData7_1} name={"الاختبار القبلى"} />} />,
-  <Route key="final_3" path="/exams/start/3" element={<Quiz quizData={quizData7_3} name={"الاختبار القبلى"} />} />,
+  <Route key="final_1" path="/exams/start/1" element={<Quiz quizData={quizData7_2} quizId={11} name={"الاختبار القبلى"} />} />,
+  <Route key="final_2" path="/exams/start/2" element={<Quiz quizData={quizData7_1} quizId={12} name={"الاختبار القبلى"} />} />,
+  <Route key="final_3" path="/exams/start/3" element={<Quiz quizData={quizData7_3} quizId={13} name={"الاختبار القبلى"} />} />,
 ];
 
 export default StartRoutes;

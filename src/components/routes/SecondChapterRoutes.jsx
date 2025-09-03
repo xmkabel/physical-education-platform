@@ -7,8 +7,8 @@ import quizData2_2 from '../../data/second/2.json';
 
 const SecondChapterRoutes = [
   <Route key="second-cards" path="/exams/second" element={<SecondCards />} />,
-  <Route key="second-1" path="/exams/second/1" element={<Quiz quizData={quizData2_1} name={" المدخل لطرق وأساليب واستراتيجيات التدريس"} />} />,
-  <Route key="second-2" path="/exams/second/2" element={<Quiz quizData={quizData2_2} name={" لمدخل لطرق وأساليب واستراتيجيات التدريس"} />} />
+  <Route key="second-1" path="/exams/second/1" element={<Quiz quizData={quizData2_1} quizId={31} name={" المدخل لطرق وأساليب واستراتيجيات التدريس"} />} />,
+  <Route key="second-2" path="/exams/second/2" element={<Quiz quizData={quizData2_2} quizId={32} name={" لمدخل لطرق وأساليب واستراتيجيات التدريس"} />} />
 ];
 
 export default SecondChapterRoutes;

@@ -10,11 +10,11 @@ import quizData3_5 from '../../data/third/5.json';
 
 const ThirdChapterRoutes = [
   <Route key="third-cards" path="/exams/third" element={<ThirdCards />} />,
-  <Route key="third-1" path="/exams/third/1" element={<Quiz quizData={quizData3_1} name={"مهارات التدريس والتدريس الفعال"} />} />,
-  <Route key="third-2" path="/exams/third/2" element={<Quiz quizData={quizData3_2} name={"مهارات التدريس والتدريس الفعال"} />} />,
-  <Route key="third-3" path="/exams/third/3" element={<Quiz quizData={quizData3_3} name={"مهارات التدريس والتدريس الفعال"} />} />,
-  <Route key="third-4" path="/exams/third/4" element={<Quiz quizData={quizData3_4} name={"مهارات التدريس والتدريس الفعال"} />} />,
-  <Route key="third-5" path="/exams/third/5" element={<Quiz quizData={quizData3_5} name={"مهارات التدريس والتدريس الفعال"} />} />
+  <Route key="third-1" path="/exams/third/1" element={<Quiz quizData={quizData3_1} quizId={41} name={"مهارات التدريس والتدريس الفعال"} />} />,
+  <Route key="third-2" path="/exams/third/2" element={<Quiz quizData={quizData3_2} quizId={42} name={"مهارات التدريس والتدريس الفعال"} />} />,
+  <Route key="third-3" path="/exams/third/3" element={<Quiz quizData={quizData3_3} quizId={43} name={"مهارات التدريس والتدريس الفعال"} />} />,
+  <Route key="third-4" path="/exams/third/4" element={<Quiz quizData={quizData3_4} quizId={44} name={"مهارات التدريس والتدريس الفعال"} />} />,
+  <Route key="third-5" path="/exams/third/5" element={<Quiz quizData={quizData3_5} quizId={45} name={"مهارات التدريس والتدريس الفعال"} />} />
 ];
 
 export default ThirdChapterRoutes;

@@ -7,9 +7,9 @@ import SixthCards from '../ExamCards/SixthCards';
 
 const SixthChapterRoutes = [
   <Route key="sixth-cards" path="/exams/sixth" element={<SixthCards />} />,
-  <Route key="sixth-1" path="/exams/sixth/1" element={<Quiz quizData={quizData6_1} name={"أسئلة  عامة "} />} />,
-  <Route key="sixth-2" path="/exams/sixth/2" element={<Quiz quizData={quizData6_2} name={"أسئلة  عامة "} />} />,
-  <Route key="sixth-3" path="/exams/sixth/3" element={<Quiz quizData={quizData6_3} name={"أسئلة  عامة "} />} />,
+  <Route key="sixth-1" path="/exams/sixth/1" element={<Quiz quizData={quizData6_1} quizId={71} name={"أسئلة  عامة "} />} />,
+  <Route key="sixth-2" path="/exams/sixth/2" element={<Quiz quizData={quizData6_2} quizId={72} name={"أسئلة  عامة "} />} />,
+  <Route key="sixth-3" path="/exams/sixth/3" element={<Quiz quizData={quizData6_3} quizId={73} name={"أسئلة  عامة "} />} />,
 ];
 
 export default SixthChapterRoutes;

@@ -7,9 +7,9 @@ import FinalCards from '../ExamCards/FinalCards';
 
 const FinalRoutes = [
   <Route key="finals" path="/exams/final/" element={<FinalCards />} />,
-  <Route key="final_1" path="/exams/final/1" element={<Quiz quizData={quizData7_2} name={"الاختبار البعدى"} />} />,
-  <Route key="final_2" path="/exams/final/2" element={<Quiz quizData={quizData7_1} name={"الاختبار البعدى"} />} />,
-  <Route key="final_3" path="/exams/final/3" element={<Quiz quizData={quizData7_3} name={"الاختبار البعدى"} />} />,
+  <Route key="final_1" path="/exams/final/1" element={<Quiz quizData={quizData7_2} quizId={81} name={"الاختبار البعدى"} />} />,
+  <Route key="final_2" path="/exams/final/2" element={<Quiz quizData={quizData7_1} quizId={82} name={"الاختبار البعدى"} />} />,
+  <Route key="final_3" path="/exams/final/3" element={<Quiz quizData={quizData7_3} quizId={83} name={"الاختبار البعدى"} />} />,
 ];
 
 export default FinalRoutes;
