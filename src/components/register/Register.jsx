@@ -48,19 +48,18 @@ function Register() {
 
   
   if (registrationSuccess && registrationData) {
-    // Redirect to welcome page with student data
-    navigate('/welcome', {
-      state: {
-        studentData: {
-          firstName,
-          lastName,
-          code: registrationData.code
-          
-        }
+  navigate('/welcome', {
+    state: {
+      studentData: {
+        firstName,
+        lastName,
+        code: registrationData.code // خد الكود من البيانات المخزنة
       }
-    });
-    return null;
-  }
+    }
+  });
+  return null;
+}
+
 
   return (
     <div className="register-page">

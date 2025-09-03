@@ -6,18 +6,15 @@ import {
   faChartLine, 
   faTrophy, 
   faCalendar,
-  faCheck,
   faArrowLeft,
   faClock,
   faPercent,
   faListAlt
 } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from "react-router-dom";
 import './Dashboard.css';
 
 function Dashboard({ 
-  onBack,
-  onStartQuiz,
-  onViewAllQuizzes,
   studentData = {
     completedQuizzes: 0,
     averageScore: 10,
@@ -33,17 +30,23 @@ function Dashboard({
     }
   }
 }) {
+  const navigate = useNavigate();
+
   // Calculate improvement percentage
   const improvement = studentData.postTest.score - studentData.preTest.score;
   const improvementPercentage = ((improvement) / studentData.preTest.score * 100).toFixed(1);
   const hasImprovement = improvement > 0;
+
   return (
     <div className="dashboardContainer">
       <div className="dashboardHeader">
         <h1 className="dashboardTitle">
           لوحة تتبع التقدم الأكاديمي
         </h1>
-        <button className="backButton" onClick={onBack}>
+        <button 
+          className="backButton" 
+          onClick={() => navigate(-1)} // 🔙 Go Back
+        >
           <FontAwesomeIcon icon={faArrowLeft} className="backArrow" /> العودة
         </button>
       </div>
@@ -153,7 +156,7 @@ function Dashboard({
             <div className="mb-3">
               <div className="d-flex justify-content-between mb-2">
                 <span>تقدم الدورة التدريبية</span>
-                <span className="fw-bold">0%</span>
+                <span className="fw-bold">{studentData.overallProgress}%</span>
               </div>
               <ProgressBar 
                 now={studentData.overallProgress} 
@@ -215,7 +218,7 @@ function Dashboard({
             <div className="text-center py-4">
               <FontAwesomeIcon icon={faClock} size="3x" className="text-muted mb-3" />
               <p className="text-muted">لم تكمل أي اختبارات بعد</p>
-              <Button className="button" onClick={onStartQuiz}>
+              <Button className="button" onClick={() => navigate("/exams")}>
                 ابدأ الاختبارات
               </Button>
             </div>
@@ -224,7 +227,7 @@ function Dashboard({
 
         {/* Action Buttons */}
         <div className="d-flex justify-content-center gap-3">
-          <Button className="button" onClick={onViewAllQuizzes}>
+          <Button className="button" onClick={() => navigate("/exams")}>
             <FontAwesomeIcon icon={faListAlt} className="me-2" />
             عرض جميع الاختبارات
           </Button>
