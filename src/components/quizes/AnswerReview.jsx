@@ -6,7 +6,11 @@ import styles from './AnswerReview.module.css';
 
 const AnswerReview = ({ quizContent, userAnswers, onClose }) => {
   // Filter only question items
-  const questions = quizContent.filter(item => item.type === 'question' || item.type === 'essay');
+  const questions = quizContent;
+  // .filter(item => item.type === 'question' || item.type === 'essay');
+//   const questions = quizContent.filter(
+//   item => (item.type === 'question' || item.type === 'essay') && item.question
+// );
 
   return (
     <div className={styles.reviewContainer}>

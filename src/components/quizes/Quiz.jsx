@@ -14,25 +14,23 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "animate.css";
 import styles from "./Quiz.module.css";
 import { useNavigate } from "react-router-dom";
-import AnswerReview from "./AnswerReview";
 import { saveExamScore } from "../../services/examService";
 
-// Error Boundary Component
+/* ---------------------------
+   Error Boundary (same file)
+   --------------------------- */
 class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false, error: null, errorInfo: null };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError(/*error*/) {
     return { hasError: true };
   }
 
   componentDidCatch(error, errorInfo) {
-    this.setState({
-      error: error,
-      errorInfo: errorInfo,
-    });
+    this.setState({ error, errorInfo });
     console.error("Error caught by ErrorBoundary:", error, errorInfo);
   }
 
@@ -57,9 +55,111 @@ class ErrorBoundary extends Component {
   }
 }
 
+/* ---------------------------
+   Small AnswerReview component
+   (embedded — لو عندك واحد فعليًا ممكن تستبدله)
+   --------------------------- */
+function AnswerReview({ quizContent, userAnswers, onClose }) {
+  return (
+    <div style={{ textAlign: "right" }}>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h5>مراجعة الإجابات</h5>
+        <Button size="sm" onClick={onClose}>
+          إغلاق
+        </Button>
+      </div>
+      <div style={{ maxHeight: 320, overflowY: "auto" }}>
+        {quizContent.map((item, idx) => {
+          const isEssay = item.type === "essay";
+          const userAns = userAnswers[item.id];
+          const correctIndex = getCorrectIndex(item);
+          return (
+            <Card key={idx} className="mb-2">
+              <Card.Body style={{ textAlign: "right" }}>
+                <div className="mb-2">
+                  <strong>
+                    {(isEssay ? "مقالي" : "سؤال") + " " + (idx + 1)}:{" "}
+                    {item.question}
+                  </strong>
+                </div>
+                {!isEssay ? (
+                  <div>
+                    <div>إجابات:</div>
+                    <ul style={{ paddingInlineStart: 20 }}>
+                      {item.options &&
+                        item.options.map((opt, i) => {
+                          const isUser = userAns === i;
+                          const isCorrect = correctIndex === i;
+                          return (
+                            <li
+                              key={i}
+                              style={{
+                                color: isCorrect
+                                  ? "green"
+                                  : isUser
+                                  ? "orange"
+                                  : "inherit",
+                                fontWeight: isCorrect || isUser ? "600" : "400",
+                              }}
+                            >
+                              {opt}{" "}
+                              {isCorrect
+                                ? " (صحيح)"
+                                : isUser
+                                ? " (اختيارك)"
+                                : ""}
+                            </li>
+                          );
+                        })}
+                    </ul>
+                  </div>
+                ) : (
+                  <div>
+                    <div>
+                      <strong>إجابتك:</strong>
+                    </div>
+                    <div style={{ whiteSpace: "pre-wrap" }}>
+                      {userAns || <em>لم تُجب</em>}
+                    </div>
+                    <div className="mt-2 text-muted">
+                      <small>هذه الأسئلة المقالية ستراجع من قبل المعلم.</small>
+                    </div>
+                  </div>
+                )}
+              </Card.Body>
+            </Card>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ---------------------------
+   Helper: get correct index (handles camelCase / snake_case)
+   --------------------------- */
+function getCorrectIndex(item) {
+  // support: correctAnswer, correct_answer, correct_answer_index, correctAnswerIndex
+  if (item == null) return null;
+  const val =
+    item.correctAnswer ??
+    item.correct_answer ??
+    item.correctAnswerIndex ??
+    item.correct_answer_index ??
+    item.correct; // fallback
+  // ensure number (0-based)
+  if (val === undefined || val === null) return null;
+  return Number(val);
+}
+
+/* ---------------------------
+   Main Quiz Component
+   --------------------------- */
 function Quiz({ quizData, name, quizId }) {
   const navigate = useNavigate();
+
   const [currentStep, setCurrentStep] = useState(0);
+  const [quizContent, setQuizContent] = useState([]);
   const [answers, setAnswers] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
@@ -68,55 +168,67 @@ function Quiz({ quizData, name, quizId }) {
   const [animationClass, setAnimationClass] = useState("animate__fadeIn");
   const [showAnswerReview, setShowAnswerReview] = useState(false);
 
-  const goBack = () => {
-    navigate(-1); // العودة للصفحة السابقة
-  };
-  console.log(quizId);
-
-  // Restart Quiz
-  const restartQuiz = () => {
-    setCurrentStep(0);
-    setAnswers({});
-    setIsSubmitted(false);
-    setShowCorrectAnswers(false);
-    setValidationError(false);
-    setErrorMessage("");
-    setShowAnswerReview(false);
-    setAnimationClass("animate__fadeIn");
-  };
-
-  // Quiz Content from props
-  const [quizContent, setQuizContent] = useState([]);
-
-  // Initialize quiz content
   useEffect(() => {
-    if (quizData) {
-      setQuizContent(quizData);
+    // if external prop provided, use it
+    if (Array.isArray(quizData) && quizData.length > 0) {
+      setQuizContent(normalizeQuiz(quizData));
       setAnswers({});
     }
   }, [quizData, quizId]);
 
-  const handleAnswerSelect = (questionId, selectedOption) => {
-    setAnswers((prev) => ({
-      ...prev,
-      [questionId]: selectedOption,
-    }));
+  // normalize JSON: convert keys to expected form if needed (keeps original otherwise)
+  function normalizeQuiz(raw) {
+    // If user passed nested arrays, flatten
+    let arr = raw;
+    if (Array.isArray(arr) && arr.every(Array.isArray)) arr = arr.flat();
+    return arr.map((item) => {
+      // unify key names (but we won't rename, we only ensure options exists)
+      return { ...item };
+    });
+  }
+
+  const goBack = () => navigate(-1);
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        let parsed = JSON.parse(ev.target.result);
+        if (Array.isArray(parsed) && parsed.every(Array.isArray))
+          parsed = parsed.flat();
+        // if object with keys containing arrays
+        if (!Array.isArray(parsed) && typeof parsed === "object") {
+          const maybeArr = Object.values(parsed).find((v) => Array.isArray(v));
+          if (maybeArr) parsed = maybeArr;
+        }
+        setQuizContent(normalizeQuiz(parsed));
+        setAnswers({});
+        setCurrentStep(0);
+      } catch (err) {
+        console.error(err);
+        alert("ملف JSON غير صالح. افتح الملف وتأكد من الصيغة.");
+      }
+    };
+    reader.readAsText(file);
   };
 
-  const handleEssayAnswer = (questionId, answer) => {
-    setAnswers((prev) => ({
-      ...prev,
-      [questionId]: answer,
-    }));
+  const handleAnswerSelect = (questionId, selectedOption) => {
+    setAnswers((prev) => ({ ...prev, [questionId]: selectedOption }));
+  };
+
+  const handleEssayAnswer = (questionId, value) => {
+    setAnswers((prev) => ({ ...prev, [questionId]: value }));
   };
 
   const handleNext = () => {
     if (currentStep < quizContent.length - 1) {
       setAnimationClass("animate__fadeOut");
       setTimeout(() => {
-        setCurrentStep(currentStep + 1);
+        setCurrentStep((s) => s + 1);
         setAnimationClass("animate__fadeIn");
-      }, 300);
+      }, 250);
     }
   };
 
@@ -124,36 +236,51 @@ function Quiz({ quizData, name, quizId }) {
     if (currentStep > 0) {
       setAnimationClass("animate__fadeOut");
       setTimeout(() => {
-        setCurrentStep(currentStep - 1);
+        setCurrentStep((s) => s - 1);
         setAnimationClass("animate__fadeIn");
-      }, 300);
+      }, 250);
     }
   };
 
-  const handleSubmit = async () => {
-    const unanswered = [];
-
+  const calculateScore = () => {
+    let score = 0;
+    let total = 0;
     quizContent.forEach((item) => {
-      if (item.type === "question" && answers[item.id] === undefined) {
-        unanswered.push(item.id);
-      } else if (item.type === "essay") {
-        const answer = answers[item.id];
-        if (!answer || answer.trim().length === 0) {
-          unanswered.push(item.id);
+      if (item.type === "question") {
+        total++;
+        const correctIndex = getCorrectIndex(item);
+        if (correctIndex !== null && answers[item.id] !== undefined) {
+          if (Number(answers[item.id]) === Number(correctIndex)) score++;
         }
+      }
+    });
+    return { score, totalQuestions: total };
+  };
+
+  const getEssayQuestionsCount = () =>
+    quizContent.filter((i) => i.type === "essay").length;
+
+  const getRegularQuestionsCount = () =>
+    quizContent.filter((i) => i.type === "question").length;
+
+  const handleSubmit = async () => {
+    // validation: ensure all non-essay questions answered, and essay has at least a char
+    const unanswered = [];
+    quizContent.forEach((item) => {
+      if (item.type === "question" && answers[item.id] === undefined)
+        unanswered.push(item.id);
+      if (item.type === "essay") {
+        const a = answers[item.id];
+        if (!a || (typeof a === "string" && a.trim().length === 0))
+          unanswered.push(item.id);
       }
     });
 
     if (unanswered.length > 0) {
       setValidationError(true);
-      setErrorMessage(`يرجى الإجابة على جميع الأسئلة قبل إنهاء الاختبار`);
-
-      const firstUnansweredIndex = quizContent.findIndex(
-        (item) => item.id === unanswered[0]
-      );
-      if (firstUnansweredIndex !== -1) {
-        setCurrentStep(firstUnansweredIndex);
-      }
+      setErrorMessage("يرجى الإجابة على جميع الأسئلة قبل إنهاء الاختبار");
+      const firstIndex = quizContent.findIndex((it) => it.id === unanswered[0]);
+      if (firstIndex >= 0) setCurrentStep(firstIndex);
       return;
     }
 
@@ -168,33 +295,18 @@ function Quiz({ quizData, name, quizId }) {
 
     try {
       await saveExamScore(percentage, quizId);
-      console.log("Score saved successfully ✅ : ", percentage);
-    } catch (error) {
-      console.error("Error saving exam score:", error);
+      console.log("Score saved:", percentage);
+    } catch (err) {
+      console.error("Error saving exam score:", err);
+      // you may show user-friendly message here
     }
   };
 
-  const calculateScore = () => {
-    let score = 0;
-    let total = 0;
-
-    quizContent.forEach((item) => {
-      if (item.type === "question") {
-        total++;
-        if (answers[item.id] === item.correctAnswer) {
-          score++;
-        }
-      }
-    });
-
-    return { score, totalQuestions: total };
-  };
-
-  const getEssayQuestionsCount = () =>
-    quizContent.filter((item) => item.type === "essay").length;
-
-  const getRegularQuestionsCount = () =>
-    quizContent.filter((item) => item.type === "question").length;
+  // UI helpers
+  const answeredCount = Object.keys(answers).length;
+  const totalVisibleQuestions = quizContent.filter(
+    (i) => i.type === "question" || i.type === "essay"
+  ).length;
 
   return (
     <div className={styles.quizContainer}>
@@ -221,9 +333,25 @@ function Quiz({ quizData, name, quizId }) {
               className="mb-0 fs-4 fw-bold quiz-title"
               style={{ fontSize: "clamp(1rem, 4vw, 1.5rem)" }}
             >
-              {name}
+              {name || "الاختبار"}
             </h2>
           </div>
+
+          {/* If no quiz content loaded yet, allow file upload */}
+          {quizContent.length === 0 && !isSubmitted && (
+            <div className="p-4 text-center">
+              <p>
+                لم يتم تحميل أسئلة الاختبار بعد. يمكنك رفع ملف JSON يحتوي على
+                الأسئلة.
+              </p>
+              <input
+                type="file"
+                accept=".json,application/json"
+                onChange={handleFileUpload}
+              />
+            </div>
+          )}
+
           {!isSubmitted && quizContent.length > 0 && (
             <div
               className="p-3 text-center"
@@ -234,14 +362,7 @@ function Quiz({ quizData, name, quizId }) {
             >
               <div className="d-flex justify-content-center align-items-center mb-2">
                 <span style={{ fontSize: "0.9rem", color: "var(--navy-blue)" }}>
-                  تم الإجابة على {Object.keys(answers).length} من{" "}
-                  {
-                    quizContent.filter(
-                      (item) =>
-                        item.type === "question" || item.type === "essay"
-                    ).length
-                  }{" "}
-                  سؤال
+                  تم الإجابة على {answeredCount} من {totalVisibleQuestions} سؤال
                 </span>
                 <span
                   style={{
@@ -251,14 +372,9 @@ function Quiz({ quizData, name, quizId }) {
                     marginRight: "12px",
                   }}
                 >
-                  {Math.round(
-                    (Object.keys(answers).length /
-                      quizContent.filter(
-                        (item) =>
-                          item.type === "question" || item.type === "essay"
-                      ).length) *
-                      100
-                  )}
+                  {totalVisibleQuestions === 0
+                    ? 0
+                    : Math.round((answeredCount / totalVisibleQuestions) * 100)}
                   %
                 </span>
               </div>
@@ -267,35 +383,33 @@ function Quiz({ quizData, name, quizId }) {
                   className={styles.progressBar}
                   style={{
                     width: `${
-                      (Object.keys(answers).length /
-                        quizContent.filter(
-                          (item) =>
-                            item.type === "question" || item.type === "essay"
-                        ).length) *
-                      100
+                      totalVisibleQuestions === 0
+                        ? 0
+                        : (answeredCount / totalVisibleQuestions) * 100
                     }%`,
                   }}
-                ></div>
+                />
               </div>
             </div>
           )}
+
           <Card.Body className="p-3 p-md-4" style={{ textAlign: "right" }}>
-            {quizContent.length === 0 && !isSubmitted && (
+            {quizContent.length === 0 && !isSubmitted ? (
               <div
                 className="alert alert-warning"
                 role="alert"
                 style={{ textAlign: "right" }}
               >
-                لا توجد أسئلة متاحة للاختبار
+                لا توجد أسئلة متاحة للاختبار — ارفع ملف JSON أو أرسل `quizData`
+                للكمبوننت.
               </div>
-            )}
+            ) : null}
 
             {!isSubmitted ? (
               <>
-                <div className="animate__animated animate__fadeIn">
+                <div className={`animate__animated ${animationClass}`}>
                   {quizContent &&
                   quizContent.length > 0 &&
-                  currentStep < quizContent.length &&
                   quizContent[currentStep] &&
                   quizContent[currentStep].type === "reading" ? (
                     <div className="reading-container mb-4">
@@ -331,7 +445,7 @@ function Quiz({ quizData, name, quizId }) {
                               margin: 0,
                               textAlign: "right",
                               direction: "rtl",
-                              lineHeight: "1.8",
+                              lineHeight: 1.8,
                             }}
                           >
                             {quizContent[currentStep].content}
@@ -341,7 +455,6 @@ function Quiz({ quizData, name, quizId }) {
                     </div>
                   ) : quizContent &&
                     quizContent.length > 0 &&
-                    currentStep < quizContent.length &&
                     quizContent[currentStep] ? (
                     <div
                       className="question-container mb-4"
@@ -370,6 +483,7 @@ function Quiz({ quizData, name, quizId }) {
                           : {quizContent[currentStep].question}
                         </h4>
                       </div>
+
                       <div className="d-grid gap-3">
                         {quizContent[currentStep].type === "essay" ? (
                           <Form.Control
@@ -387,7 +501,7 @@ function Quiz({ quizData, name, quizId }) {
                             style={{ direction: "rtl", textAlign: "right" }}
                           />
                         ) : (
-                          quizContent[currentStep].options.map(
+                          (quizContent[currentStep].options || []).map(
                             (option, index) => (
                               <Button
                                 key={index}
@@ -424,7 +538,6 @@ function Quiz({ quizData, name, quizId }) {
 
                 <div className="question-navigation mb-4 d-flex flex-wrap gap-2 justify-content-center">
                   {quizContent.map((item, index) => {
-                    // Calculate question number for display
                     let displayNumber;
                     if (item.type === "reading") {
                       displayNumber = (
@@ -442,7 +555,6 @@ function Quiz({ quizData, name, quizId }) {
                         />
                       );
                     } else {
-                      // For questions, find the position among only question items
                       displayNumber = quizContent.filter(
                         (q) =>
                           (q.type === "question" || q.type === "essay") &&
@@ -466,7 +578,7 @@ function Quiz({ quizData, name, quizId }) {
                           setTimeout(() => {
                             setCurrentStep(index);
                             setAnimationClass("animate__fadeIn");
-                          }, 300);
+                          }, 200);
                         }}
                         style={{
                           minWidth: "45px",
@@ -486,7 +598,7 @@ function Quiz({ quizData, name, quizId }) {
                               : "var(--navy-blue)",
                           transition: "all 0.3s ease",
                           transform:
-                            currentStep === index ? "scale(1.1)" : "scale(1)",
+                            currentStep === index ? "scale(1.05)" : "scale(1)",
                         }}
                       >
                         {displayNumber}
@@ -533,6 +645,10 @@ function Quiz({ quizData, name, quizId }) {
                     const { score, totalQuestions } = calculateScore();
                     const essayCount = getEssayQuestionsCount();
                     const regularCount = getRegularQuestionsCount();
+                    const percentage =
+                      totalQuestions > 0
+                        ? Math.round((score / totalQuestions) * 100)
+                        : 0;
 
                     return (
                       <div className="text-center">
@@ -549,20 +665,20 @@ function Quiz({ quizData, name, quizId }) {
                                   fontWeight: "bold",
                                 }}
                               >
-                                {Math.round((score / totalQuestions) * 100)}%
+                                {percentage}%
                               </span>
                             </div>
                             <div className={styles.progressBarContainer}>
                               <div
                                 className={styles.progressBar}
                                 style={{
-                                  width: `${(score / totalQuestions) * 100}%`,
+                                  width: `${percentage}%`,
                                   background:
-                                    score / totalQuestions >= 0.7
+                                    percentage >= 70
                                       ? "linear-gradient(45deg, #3498db, #f1c40f)"
                                       : "linear-gradient(45deg, #e74c3c, #3498db)",
                                 }}
-                              ></div>
+                              />
                             </div>
                           </>
                         ) : (
@@ -584,117 +700,48 @@ function Quiz({ quizData, name, quizId }) {
                         <div
                           className={`${styles.medalContainer} mt-4 animate__animated animate__bounceIn`}
                         >
+                          {/* Medal visual */}
                           {regularCount > 0 &&
                             (() => {
-                              const percentage = (score / totalQuestions) * 100;
-
-                              if (percentage === 100) {
+                              if (percentage === 100)
                                 return (
                                   <>
-                                    <div
-                                      className={styles.perfectScoreCelebration}
-                                    >
-                                      <div className={styles.confettiContainer}>
-                                        <div
-                                          className={`${styles.confetti} ${styles.confetti1}`}
-                                        ></div>
-                                        <div
-                                          className={`${styles.confetti} ${styles.confetti2}`}
-                                        ></div>
-                                        <div
-                                          className={`${styles.confetti} ${styles.confetti3}`}
-                                        ></div>
-                                        <div
-                                          className={`${styles.confetti} ${styles.confetti4}`}
-                                        ></div>
-                                        <div
-                                          className={`${styles.confetti} ${styles.confetti5}`}
-                                        ></div>
-                                        <div
-                                          className={`${styles.confetti} ${styles.confetti6}`}
-                                        ></div>
-                                        <div
-                                          className={`${styles.confetti} ${styles.confetti7}`}
-                                        ></div>
-                                        <div
-                                          className={`${styles.confetti} ${styles.confetti8}`}
-                                        ></div>
-                                      </div>
-
-                                      <div className={styles.starContainer}>
-                                        <FontAwesomeIcon
-                                          icon={faStar}
-                                          className={`${styles.star} ${styles.star1}`}
-                                        />
-                                        <FontAwesomeIcon
-                                          icon={faStar}
-                                          className={`${styles.star} ${styles.star2}`}
-                                        />
-                                        <FontAwesomeIcon
-                                          icon={faStar}
-                                          className={`${styles.star} ${styles.star3}`}
-                                        />
-                                      </div>
-
-                                      <div className={styles.trophyContainer}>
-                                        <FontAwesomeIcon
-                                          icon={faTrophy}
-                                          className={styles.trophy}
-                                        />
-                                      </div>
-
-                                      <div className={styles.medal}>🎖</div>
-                                      <p
-                                        className={`${styles.medalText} animate__animated animate__tada animate__infinite`}
-                                        style={{ color: "var(--gold)" }}
-                                      >
-                                        ممتاز!
-                                      </p>
-                                      <p
-                                        className={`${styles.perfectScoreText} animate__animated animate__fadeIn`}
-                                      >
-                                        أحسنت! لقد حصلت على العلامة الكاملة! 🎉
-                                      </p>
-                                    </div>
-                                  </>
-                                );
-                              } else if (percentage >= 50) {
-                                return (
-                                  <>
-                                    <div className={styles.medal}>🏅</div>
+                                    <div className={styles.medal}>🎖</div>
                                     <p
                                       className={styles.medalText}
                                       style={{ color: "var(--gold)" }}
                                     >
-                                      {percentage >= 75 ? "جيد جداً!" : "جيد!"}
+                                      ممتاز!
                                     </p>
                                   </>
                                 );
-                              } else if (percentage > 0) {
+                              if (percentage >= 75)
                                 return (
                                   <>
-                                    <div className={styles.medal}>🥉</div>
-                                    <p
-                                      className={styles.medalText}
-                                      style={{ color: "var(--pink)" }}
-                                    >
-                                      استمر!
+                                    <div className={styles.medal}>🏅</div>
+                                    <p className={styles.medalText}>
+                                      جيد جداً!
                                     </p>
                                   </>
                                 );
-                              } else {
+                              if (percentage >= 50)
                                 return (
                                   <>
-                                    <div className={styles.medal}>🥉</div>
-                                    <p
-                                      className={styles.medalText}
-                                      style={{ color: "var(--pink)" }}
-                                    >
-                                      حاول مرة أخرى!
-                                    </p>
+                                    <div className={styles.medal}>🏅</div>
+                                    <p className={styles.medalText}>جيد!</p>
                                   </>
                                 );
-                              }
+                              return (
+                                <>
+                                  <div className={styles.medal}>🥉</div>
+                                  <p
+                                    className={styles.medalText}
+                                    style={{ color: "var(--pink)" }}
+                                  >
+                                    حاول مرة أخرى!
+                                  </p>
+                                </>
+                              );
                             })()}
 
                           {regularCount === 0 && (
@@ -713,6 +760,8 @@ function Quiz({ quizData, name, quizId }) {
                     );
                   })()}
                 </div>
+
+                {console.log(quizContent)}
                 {!showAnswerReview ? (
                   <div className="d-flex flex-column flex-sm-row justify-content-center gap-3 mt-4">
                     <Button
@@ -724,13 +773,15 @@ function Quiz({ quizData, name, quizId }) {
                     </Button>
                     <Button
                       className={styles.button}
-                      onClick={restartQuiz}
+                      onClick={() => {
+                        setIsSubmitted(false);
+                        restartOnSubmit();
+                      }}
                       style={{
                         backgroundColor: "var(--gold)",
                         borderColor: "var(--gold)",
                       }}
                     >
-                      <FontAwesomeIcon icon={faArrowRight} className="me-2" />{" "}
                       إعادة الاختبار
                     </Button>
                     <Button className={styles.button} onClick={goBack}>
@@ -738,11 +789,16 @@ function Quiz({ quizData, name, quizId }) {
                     </Button>
                   </div>
                 ) : (
-                  <AnswerReview
-                    quizContent={quizContent}
-                    userAnswers={answers}
-                    onClose={() => setShowAnswerReview(false)}
-                  />
+                  <>
+                    <AnswerReview
+                      quizContent={quizContent.filter(
+                        (item) =>
+                          item.type === "question" || item.type === "essay"
+                      )}
+                      userAnswers={answers}
+                      onClose={() => setShowAnswerReview(false)}
+                    />
+                  </>
                 )}
               </div>
             )}
@@ -751,6 +807,19 @@ function Quiz({ quizData, name, quizId }) {
       </Container>
     </div>
   );
+
+  // small helper to reset view after pressing "اعادة الاختبار" from submitted state
+  function restartOnSubmit() {
+    setCurrentStep(0);
+    setAnswers({});
+    setIsSubmitted(false);
+    setShowCorrectAnswers(false);
+    setValidationError(false);
+    setErrorMessage("");
+    setShowAnswerReview(false);
+    setAnimationClass("animate__fadeIn");
+  }
 }
 
+export { ErrorBoundary };
 export default Quiz;
