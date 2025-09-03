@@ -5,6 +5,7 @@ import Intro from './components/Intro';
 import Video from './components/Video';
 import Login from './components/Login/Login';
 import ProtectedRoute from './components/ProtectedRoutes';
+import AdminProtectedRoute from './components/AdminProtectedRoutes';
 import FirstChapterRoutes from './components/routes/FirstChapterRoutes';
 import SecondChapterRoutes from './components/routes/SecondChapterRoutes';
 import ThirdChapterRoutes from './components/routes/ThirdChapterRoutes';
@@ -35,8 +36,8 @@ function App() {
         <Route path="/exams" element={<ProtectedRoute><ExamCards /></ProtectedRoute>} />
         <Route path="/video/:id" element={<ProtectedRoute><Video /></ProtectedRoute>} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        
+        <Route path="/admin-dashboard" element={<AdminProtectedRoute><AdminDashboard /></AdminProtectedRoute>} />
+
         {/* <Route path="/unauthorized" element={<Unauthorized title={"غير مصرح بالوصول"} code={403}/>} /> */}
         {/* Protected Chapter Routes */}
 

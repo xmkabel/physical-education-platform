@@ -29,7 +29,7 @@ const Nav = ({title, selectedCategory, setSelectedCategory}) => {
                 navigate('/exams');
             }
         } else {
-            navigate('/');
+            navigate('/exams');
         }
     };
     
