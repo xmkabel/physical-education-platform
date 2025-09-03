@@ -187,7 +187,7 @@
 }
 
 .closeButton {
-  background-color: var(--navy-blue);
+  background-color: var(--navy-blue)!important;
   border: none;
   padding: 0.5rem 1.5rem;
   border-radius: 8px;
@@ -196,7 +196,6 @@
 }
 
 .closeButton:hover {
-  background-color: var(--dark-navy-blue);
   transform: translateY(-2px);
 }
 
