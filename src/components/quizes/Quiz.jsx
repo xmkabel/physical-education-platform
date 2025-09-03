@@ -1,13 +1,15 @@
 import React, { useState, useEffect, Component } from 'react';
 import { Container, Card, Button, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faCheck, faBookOpen, faArrowRight, faStar, faTrophy, faListAlt } from '@fortawesome/free-solid-svg-icons';
+import { 
+  faArrowLeft, faCheck, faBookOpen, faArrowRight, 
+  faStar, faTrophy, faListAlt 
+} from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'animate.css';
 import styles from './Quiz.module.css';
 import { useNavigate } from 'react-router-dom';
 import AnswerReview from './AnswerReview';
-import { saveQuizAnswers, loadQuizAnswers, updateQuizAnswers, clearQuizAnswers } from '../../utils/quizStorage';
 
 // Error Boundary Component
 class ErrorBoundary extends Component {
@@ -47,7 +49,7 @@ class ErrorBoundary extends Component {
   }
 }
 
-function Quiz({ quizData, name }) {
+function Quiz({ quizData, name ,quizId}) {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -57,16 +59,13 @@ function Quiz({ quizData, name }) {
   const [errorMessage, setErrorMessage] = useState('');
   const [animationClass, setAnimationClass] = useState('animate__fadeIn');
   const [showAnswerReview, setShowAnswerReview] = useState(false);
-  const [hasLoadedSavedAnswers, setHasLoadedSavedAnswers] = useState(false);
-
-  // Generate a unique quiz ID based on the quiz data
-  const quizId = quizData ? `quiz_${name}_${JSON.stringify(quizData).length}` : 'default';
 
   const goBack = () => {
-    navigate(-1); // This will go back to the previous page (chapter view)
+    navigate(-1); // العودة للصفحة السابقة
   };
-
-  // Function to restart the quiz
+ console.log(quizId);
+ 
+  // Restart Quiz
   const restartQuiz = () => {
     setCurrentStep(0);
     setAnswers({});
@@ -76,61 +75,31 @@ function Quiz({ quizData, name }) {
     setErrorMessage('');
     setShowAnswerReview(false);
     setAnimationClass('animate__fadeIn');
-    setHasLoadedSavedAnswers(false);
-    
-    // Clear saved answers when restarting
-    clearQuizAnswers(quizId);
   };
 
-  // Use quiz data from props
+  // Quiz Content from props
   const [quizContent, setQuizContent] = useState([]);
 
-  // Initialize quiz content from props and load saved answers
+  // Initialize quiz content
   useEffect(() => {
     if (quizData) {
       setQuizContent(quizData);
-      
-      // Load saved answers if they exist
-      const savedData = loadQuizAnswers(quizId);
-      if (savedData && savedData.answers) {
-        setAnswers(savedData.answers);
-        setHasLoadedSavedAnswers(true);
-        console.log('Loaded saved answers:', savedData.answers);
-      }
+      setAnswers({});
     }
   }, [quizData, quizId]);
 
-  // Auto-save answers when they change
-  useEffect(() => {
-    if (quizContent.length > 0 && Object.keys(answers).length > 0 && hasLoadedSavedAnswers) {
-      updateQuizAnswers(quizId, answers, quizContent);
-    }
-  }, [answers, quizContent, quizId, hasLoadedSavedAnswers]);
-
   const handleAnswerSelect = (questionId, selectedOption) => {
-    const newAnswers = {
-      ...answers,
+    setAnswers(prev => ({
+      ...prev,
       [questionId]: selectedOption
-    };
-    setAnswers(newAnswers);
-    
-    // Save immediately for regular questions
-    if (quizContent.length > 0) {
-      updateQuizAnswers(quizId, newAnswers, quizContent);
-    }
+    }));
   };
 
   const handleEssayAnswer = (questionId, answer) => {
-    const newAnswers = {
-      ...answers,
+    setAnswers(prev => ({
+      ...prev,
       [questionId]: answer
-    };
-    setAnswers(newAnswers);
-    
-    // Save immediately for essay answers
-    if (quizContent.length > 0) {
-      updateQuizAnswers(quizId, newAnswers, quizContent);
-    }
+    }));
   };
 
   const handleNext = () => {
@@ -154,73 +123,59 @@ function Quiz({ quizData, name }) {
   };
 
   const handleSubmit = () => {
-    // Check if all questions have been answered
-    const unansweredQuestions = [];
-    
+    const unanswered = [];
+
     quizContent.forEach(item => {
       if (item.type === 'question' && answers[item.id] === undefined) {
-        unansweredQuestions.push(item.id);
+        unanswered.push(item.id);
       } else if (item.type === 'essay') {
-        // For essay questions, check if answer exists and has at least one character
         const answer = answers[item.id];
         if (!answer || answer.trim().length === 0) {
-          unansweredQuestions.push(item.id);
+          unanswered.push(item.id);
         }
       }
     });
-    
-    if (unansweredQuestions.length > 0) {
+
+    if (unanswered.length > 0) {
       setValidationError(true);
       setErrorMessage(`يرجى الإجابة على جميع الأسئلة قبل إنهاء الاختبار`);
-      
-      // Find the first unanswered question and navigate to it
-      const firstUnansweredQuestionIndex = quizContent.findIndex(
-        item => item.id === unansweredQuestions[0]
+
+      const firstUnansweredIndex = quizContent.findIndex(
+        item => item.id === unanswered[0]
       );
-      
-      if (firstUnansweredQuestionIndex !== -1) {
-        setCurrentStep(firstUnansweredQuestionIndex);
+      if (firstUnansweredIndex !== -1) {
+        setCurrentStep(firstUnansweredIndex);
       }
-      
       return;
     }
-    
-    // If all questions are answered, proceed with submission
+
     setValidationError(false);
     setErrorMessage('');
     setIsSubmitted(true);
     setShowCorrectAnswers(true);
-    
-    // Save final answers
-    saveQuizAnswers(quizId, answers, quizContent);
   };
 
   const calculateScore = () => {
     let score = 0;
-    let totalQuestions = 0;
-    
+    let total = 0;
+
     quizContent.forEach(item => {
       if (item.type === 'question') {
-        totalQuestions++;
+        total++;
         if (answers[item.id] === item.correctAnswer) {
           score++;
         }
       }
-      // Essay questions are not scored - they will be reviewed by teacher
     });
-    
-    return { score, totalQuestions };
+
+    return { score, totalQuestions: total };
   };
 
-  // Get essay questions count for display
-  const getEssayQuestionsCount = () => {
-    return quizContent.filter(item => item.type === 'essay').length;
-  };
+  const getEssayQuestionsCount = () =>
+    quizContent.filter(item => item.type === 'essay').length;
 
-  // Get regular questions count for display
-  const getRegularQuestionsCount = () => {
-    return quizContent.filter(item => item.type === 'question').length;
-  };
+  const getRegularQuestionsCount = () =>
+    quizContent.filter(item => item.type === 'question').length;
 
   return (
     <div className={styles.quizContainer}>
