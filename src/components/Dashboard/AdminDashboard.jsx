@@ -15,7 +15,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import './Dashboard.css';
 import { getStudents, getStudentStats, updateStudent, deleteStudent, updatePassword, formatDate } from '../../utils/studentUtils';
-import { Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 // added data to test
 function AdminDashboard() {
