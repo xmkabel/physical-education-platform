@@ -1,14 +1,12 @@
-import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { isAuthenticated } from "../services/authService";
-import get from "./api/get";
+// import { isAuthenticated } from "../services/authService";
 import { useAuth } from "../context/AuthContext";
 const AdminProtectedRoute = ({ children }) => {
-  const { user, loading } = useAuth();
+  const { user, loading ,isAuthenticated} = useAuth();
 
   if (loading) return <div>Loading...</div>;
 
-  if (isAuthenticated() && user) {
+  if (isAuthenticated() ) {
     if (user.role === "admin") {
       console.log("user", user);
       return children;
