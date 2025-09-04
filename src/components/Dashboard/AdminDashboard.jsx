@@ -16,6 +16,7 @@ import {
 import './Dashboard.css';
 import { getStudents, getStudentStats, updateStudent, deleteStudent, updatePassword, formatDate } from '../../utils/studentUtils';
 import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // added data to test
 function AdminDashboard() {
   const [students, setStudents] = useState([]);
@@ -33,6 +34,7 @@ function AdminDashboard() {
     preTest: 0,
     postTest: 0
   });
+  const navigate = useNavigate();
 
   // Load initial data
   useEffect(() => {
@@ -135,7 +137,7 @@ function AdminDashboard() {
   return (
     <div className="dashboardContainer">
       <div className="dashboardHeader">
-        <button className="backButton" onClick={() => Navigate("/exams")}>
+        <button className="backButton" onClick={() => navigate("/exams")}>
           <FontAwesomeIcon icon={faArrowLeft} className="backArrow" /> العودة
         </button>
         <h1 className="dashboardTitle">
