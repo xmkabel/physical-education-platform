@@ -6,7 +6,7 @@ const AdminProtectedRoute = ({ children }) => {
 
   if (loading) return <div>Loading...</div>;
 
-  if (isAuthenticated() ) {
+  if (isAuthenticated() && user) {
     if (user.role === "admin") {
       console.log("user", user);
       return children;
