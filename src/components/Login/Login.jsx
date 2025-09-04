@@ -3,12 +3,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './Login.css'
 import { login } from "../../services/authService";
+// import { useAuth } from "../../context/AuthContext";
 
 function Login() {
+  // const { user } = useAuth();
   const [code, setCode] = useState("");
-
   const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -17,12 +17,14 @@ function Login() {
     try {
       await login(code, password);
 
-      navigate("/dashboard");
+      navigate("/redirect");
     } catch (error) {
       alert("Invalid credentials. Please try again.");
       console.log(error);
       
     }
+ 
+
   };
   return (
     <div className="login-page">
