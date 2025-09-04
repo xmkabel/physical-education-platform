@@ -40,9 +40,9 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-    if(!(localStorage.getItem("token"))) {
-      setUser(null);
-    }
+    // if(!(localStorage.getItem("token"))) {
+    //   setUser(null);
+    // }
   };
 
   const login = async (code, password) => {

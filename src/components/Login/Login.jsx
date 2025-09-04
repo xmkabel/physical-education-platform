@@ -1,31 +1,30 @@
 import React, { useState } from "react";
-
 import { useNavigate } from "react-router-dom";
-import './Login.css'
-import { login } from "../../services/authService";
-// import { useAuth } from "../../context/AuthContext";
+import "./Login.css";
+import { useAuth } from "../../context/AuthContext";
 
 function Login() {
-  // const { user } = useAuth();
+  const { login } = useAuth();
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false); // ✅ حالة جديدة
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true); // ✅ أول ما يبدأ
 
     try {
       await login(code, password);
-
       navigate("/redirect");
     } catch (error) {
       alert("Invalid credentials. Please try again.");
       console.log(error);
-      
+    } finally {
+      setIsSubmitting(false); // ✅ مهما حصل رجّع الزرار لحالته
     }
- 
-
   };
+
   return (
     <div className="login-page">
       <div className="login-container shadow">
@@ -50,6 +49,7 @@ function Login() {
               placeholder="أدخل كود المستخدم"
               required
               autoFocus
+              disabled={isSubmitting} // ✅ يمنع الكتابة أثناء التحميل
             />
           </div>
 
@@ -65,20 +65,22 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="أدخل كلمة المرور"
               required
+              disabled={isSubmitting} // ✅ يمنع الكتابة أثناء التحميل
             />
           </div>
-            <div>
-                        <a href="/register" className="register-link">ليس لديك حساب؟ سجل هنا</a>
 
-            </div>
+          <div>
+            <a href="/register" className="register-link">
+              ليس لديك حساب؟ سجل هنا
+            </a>
+          </div>
+
           <button
             type="submit"
-            className={`login-button `}
-
+            className="login-button"
+            disabled={isSubmitting} // ✅ يمنع الضغط المتكرر
           >
-
-              تسجيل الدخول
-
+            {isSubmitting ? "جاري تسجيل الدخول..." : "تسجيل الدخول"} {/* ✅ يتغير النص */}
           </button>
         </form>
       </div>
