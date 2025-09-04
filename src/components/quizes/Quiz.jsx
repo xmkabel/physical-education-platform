@@ -499,7 +499,7 @@ function Quiz({ quizData, name, quizId }) {
                             as="textarea"
                             rows={6}
                             placeholder="اكتب اجابتك هنا... (يجب كتابة حرف واحد على الأقل)"
-                            style={{ direction: "rtl", textAlign: "right" }}
+                            style={{ direction: "rtl", textAlign: "right" ,resize: "none"}}
                           />
                         ) : (
                           (quizContent[currentStep].options || []).map(
