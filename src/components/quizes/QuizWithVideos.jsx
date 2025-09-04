@@ -2,6 +2,8 @@ import React, { useState, useEffect, Component } from "react";
 import { Container, Card, Button, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faChevronDown,
+  faChevronUp,
   faArrowLeft,
   faCheck,
   faBookOpen,
@@ -11,6 +13,7 @@ import {
   faListAlt,
   faVideo,
 } from "@fortawesome/free-solid-svg-icons";
+import { motion, AnimatePresence } from "framer-motion";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "animate.css";
 import styles from "./Quiz.module.css";
@@ -375,22 +378,22 @@ function QuizWithVideos({ quizData, name }) {
                 )}
                 <div className="d-flex flex-column flex-sm-row justify-content-between gap-3 mt-4">
                   <Button
-                                      className={styles.button}
-                                      onClick={handlePrevious}
-                                      disabled={currentStep === 0}
-                                    >
-                                      <FontAwesomeIcon icon={faArrowRight} className="me-2" />{" "}
-                                      السابق
-                                    </Button>
-                                    <Button
-                                      className={styles.button}
-                                      onClick={handleNext}
-                                      disabled={currentStep === quizContent.length - 1}
-                                    >
-                                      التالي{" "}
-                                      <FontAwesomeIcon icon={faArrowLeft} className="ms-2" />
-                                    </Button>
-                                  </div>
+                    className={styles.button}
+                    onClick={handlePrevious}
+                    disabled={currentStep === 0}
+                  >
+                    <FontAwesomeIcon icon={faArrowRight} className="me-2" />{" "}
+                    السابق
+                  </Button>
+                  <Button
+                    className={styles.button}
+                    onClick={handleNext}
+                    disabled={currentStep === quizContent.length - 1}
+                  >
+                    التالي{" "}
+                    <FontAwesomeIcon icon={faArrowLeft} className="ms-2" />
+                  </Button>
+                </div>
 
                 <div className="d-flex justify-content-center my-4">
                   <Button className={styles.button} onClick={handleSubmit}>
@@ -399,99 +402,101 @@ function QuizWithVideos({ quizData, name }) {
                 </div>
 
                 <div className="d-flex justify-content-center mb-3">
-                  <Button
-                    // variant="outline-secondary"
-                    size="sm"
-                    onClick={() =>
-                      setShowQuestionNavigation(!showQuestionNavigation)
-                    }
-                    style={{
-                      backgroundColor: "transparent",
-                      border: "none",
-                      color: "var(--navy-blue)",
-                      padding: "0.25rem 1rem",
-                    }}
-                  >
-                    {showQuestionNavigation
-                      ? `إظهار التنقل/\\`
-                      : `إخفاء التنقل \\/`}
-                  </Button>
-                </div>
+  <Button
+    size="sm"
+    onClick={() => setShowQuestionNavigation(!showQuestionNavigation)}
+    style={{
+      backgroundColor: "transparent",
+      border: "none",
+      color: "var(--navy-blue)",
+      padding: "0.25rem 1rem",
+    }}
+  >
+    <FontAwesomeIcon
+      icon={showQuestionNavigation ? faChevronUp : faChevronDown}
+      size="lg"
+    />
+  </Button>
+</div>
 
-                {showQuestionNavigation && (
-                  <div className="question-navigation mb-4 d-flex flex-wrap gap-2 justify-content-center">
-                    {quizContent.map((item, index) => {
-                      // Calculate question number for display
-                      let displayNumber;
-                      if (item.type === "video") {
-                        displayNumber = (
-                          <FontAwesomeIcon
-                            icon={faVideo}
-                            className="me-2 ms-2"
-                            size="lg"
-                            style={{
-                              color:
-                                currentStep === index ||
-                                answers[item.id] !== undefined
-                                  ? "white"
-                                  : "var(--navy-blue)",
-                            }}
-                          />
-                        );
-                      } else {
-                        // For questions, find the position among only question items
-                        displayNumber = quizContent.filter(
-                          (q) =>
-                            q.type === "question" &&
-                            quizContent.indexOf(q) <= index
-                        ).length;
-                      }
+{/* هنا نستخدم AnimatePresence */}
+<AnimatePresence>
+  {showQuestionNavigation && (
+    <motion.div
+      className="question-navigation mb-4 d-flex flex-wrap gap-2 justify-content-center"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.1 }}
+    >
+      {quizContent.map((item, index) => {
+        // نفس اللوجيك بتاعك لعرض السؤال أو الفيديو
+        let displayNumber;
+        if (item.type === "video") {
+          displayNumber = (
+            <FontAwesomeIcon
+              icon={faVideo}
+              className="me-2 ms-2"
+              size="lg"
+              style={{
+                color:
+                  currentStep === index || answers[item.id] !== undefined
+                    ? "white"
+                    : "var(--navy-blue)",
+              }}
+            />
+          );
+        } else {
+          displayNumber = quizContent.filter(
+            (q) => q.type === "question" && quizContent.indexOf(q) <= index
+          ).length;
+        }
 
-                      return (
-                        <Button
-                          key={index}
-                          size="sm"
-                          variant={
-                            currentStep === index
-                              ? "primary"
-                              : answers[item.id] !== undefined
-                              ? "success"
-                              : "outline-secondary"
-                          }
-                          onClick={() => {
-                            setAnimationClass("animate__fadeOut");
-                            setTimeout(() => {
-                              setCurrentStep(index);
-                              setAnimationClass("animate__fadeIn");
-                            }, 300);
-                          }}
-                          style={{
-                            minWidth: "45px",
-                            padding: "8px 12px",
-                            borderRadius: "8px",
-                            backgroundColor:
-                              currentStep === index
-                                ? "var(--navy-blue)"
-                                : answers[item.id] !== undefined
-                                ? "var(--gold)"
-                                : "white",
-                            borderColor: "var(--navy-blue)",
-                            color:
-                              currentStep === index ||
-                              answers[item.id] !== undefined
-                                ? "white"
-                                : "var(--navy-blue)",
-                            transition: "all 0.3s ease",
-                            transform:
-                              currentStep === index ? "scale(1.1)" : "scale(1)",
-                          }}
-                        >
-                          {displayNumber}
-                        </Button>
-                      );
-                    })}
-                  </div>
-                )}
+        return (
+          <Button
+            key={index}
+            size="sm"
+            variant={
+              currentStep === index
+                ? "primary"
+                : answers[item.id] !== undefined
+                ? "success"
+                : "outline-secondary"
+            }
+            onClick={() => {
+              setAnimationClass("animate__fadeOut");
+              setTimeout(() => {
+                setCurrentStep(index);
+                setAnimationClass("animate__fadeIn");
+              }, 300);
+            }}
+            style={{
+              minWidth: "45px",
+              padding: "8px 12px",
+              borderRadius: "8px",
+              backgroundColor:
+                currentStep === index
+                  ? "var(--navy-blue)"
+                  : answers[item.id] !== undefined
+                  ? "var(--gold)"
+                  : "white",
+              borderColor: "var(--navy-blue)",
+              color:
+                currentStep === index || answers[item.id] !== undefined
+                  ? "white"
+                  : "var(--navy-blue)",
+              transition: "all 0.3s ease",
+              transform: currentStep === index ? "scale(1.1)" : "scale(1)",
+            }}
+          >
+            {displayNumber}
+          </Button>
+        );
+      })}
+    </motion.div>
+  )}
+</AnimatePresence>
+                
               </>
             ) : (
               <div className="animate__animated animate__fadeIn">
