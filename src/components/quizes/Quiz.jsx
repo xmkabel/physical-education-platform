@@ -401,7 +401,7 @@ function Quiz({ quizData, name, quizId }) {
                 role="alert"
                 style={{ textAlign: "right" }}
               >
-                لا توجد أسئلة متاحة للاختبار — ارفع ملف JSON أو أرسل `quizData`
+                لا توجد أسئلة متاحة للاختبار — ارفع ملف `
                 للكمبوننت.
               </div>
             ) : null}
@@ -576,7 +576,7 @@ function Quiz({ quizData, name, quizId }) {
                       padding: '0.25rem 1rem'
                     }}
                   >
-                    {showQuestionNavigation ? `إخفاء التنقل \\/` : `إظهار التنقل/\\`}
+                    {showQuestionNavigation ?  `إظهار التنقل/\\`  : `إخفاء التنقل \\/`}
                   </Button>
                 </div>
 
