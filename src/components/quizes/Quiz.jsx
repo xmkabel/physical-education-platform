@@ -188,7 +188,7 @@ function Quiz({ quizData, name, quizId }) {
     });
   }
 
-  const goBack = () => navigate(-1);
+  const goBack = () => navigate("/exams");
 
   const handleFileUpload = (e) => {
     const file = e.target.files?.[0];

@@ -19,6 +19,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import AdminDashboard from './components/Dashboard/AdminDashboard';
 import Unauthorized from '../src/components/Unauthorized/Unauthorized';
 import Welcome from './components/Welcome/Welcome';
+import Redirect from './components/Redirect';
 
 function App() {
   return (
@@ -36,8 +37,8 @@ function App() {
         <Route path="/exams" element={<ProtectedRoute><ExamCards /></ProtectedRoute>} />
         <Route path="/video/:id" element={<ProtectedRoute><Video /></ProtectedRoute>} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/admin-dashboard" element={<AdminProtectedRoute><AdminDashboard /></AdminProtectedRoute>} />
-
+        <Route path="/admin-dashboard" element={<AdminProtectedRoute><AdminDashboard  /></AdminProtectedRoute>} />
+        <Route path="/redirect" element={<Redirect />} />
         {/* <Route path="/unauthorized" element={<Unauthorized title={"غير مصرح بالوصول"} code={403}/>} /> */}
         {/* Protected Chapter Routes */}
 

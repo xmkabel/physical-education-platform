@@ -15,8 +15,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import './Dashboard.css';
 import { getStudents, getStudentStats, updateStudent, deleteStudent, updatePassword, formatDate } from '../../utils/studentUtils';
+import { Navigate } from 'react-router-dom';
 // added data to test
-function AdminDashboard({ onBack }) {
+function AdminDashboard() {
   const [students, setStudents] = useState([]);
   const [stats, setStats] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
@@ -134,7 +135,7 @@ function AdminDashboard({ onBack }) {
   return (
     <div className="dashboardContainer">
       <div className="dashboardHeader">
-        <button className="backButton" onClick={onBack}>
+        <button className="backButton" onClick={() => Navigate("/exams")}>
           <FontAwesomeIcon icon={faArrowLeft} className="backArrow" /> العودة
         </button>
         <h1 className="dashboardTitle">
