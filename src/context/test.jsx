@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import axiosInstance from "../services/axios";
+import LoadingScreen from "../components/LoadingScreen";
 
 export const AuthContext = createContext(null);
 
@@ -65,7 +66,7 @@ export const AuthProvider = ({ children }) => {
         error 
       }}
     >
-      {!loading ? children : <div>Loading...</div>}
+      {!loading ? children : <LoadingScreen />}
     </AuthContext.Provider>
   );
 };
