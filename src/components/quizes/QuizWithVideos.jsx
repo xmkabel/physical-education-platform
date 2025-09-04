@@ -19,6 +19,8 @@ import "animate.css";
 import styles from "./Quiz.module.css";
 import { useNavigate, useParams } from "react-router-dom";
 import AnswerReview from "./AnswerReview";
+import { saveExamScore } from "../../services/examService";
+
 import Video from "../Video";
 // Error Boundary Component
 class ErrorBoundary extends Component {
@@ -60,7 +62,7 @@ class ErrorBoundary extends Component {
   }
 }
 
-function QuizWithVideos({ quizData, name }) {
+function QuizWithVideos({ quizData, name , quizId}) {
   const navigate = useNavigate();
 
   const [currentStep, setCurrentStep] = useState(0);
@@ -137,7 +139,7 @@ function QuizWithVideos({ quizData, name }) {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Check if all questions have been answered
     const unansweredQuestions = [];
 
@@ -168,6 +170,18 @@ function QuizWithVideos({ quizData, name }) {
     setErrorMessage("");
     setIsSubmitted(true);
     setShowCorrectAnswers(true);
+
+    const { score, totalQuestions } = calculateScore();
+        const percentage =
+          totalQuestions > 0 ? Math.round((score / totalQuestions) * 100) : 0;
+    
+        try {
+          await saveExamScore(percentage, quizId);
+          console.log("Score saved:", percentage);
+        } catch (err) {
+          console.error("Error saving exam score:", err);
+          // you may show user-friendly message here
+        }
   };
 
   const calculateScore = () => {
@@ -402,101 +416,111 @@ function QuizWithVideos({ quizData, name }) {
                 </div>
 
                 <div className="d-flex justify-content-center mb-3">
-  <Button
-    size="sm"
-    onClick={() => setShowQuestionNavigation(!showQuestionNavigation)}
-    style={{
-      backgroundColor: "transparent",
-      border: "none",
-      color: "var(--navy-blue)",
-      padding: "0.25rem 1rem",
-    }}
-  >
-    <FontAwesomeIcon
-      icon={showQuestionNavigation ? faChevronUp : faChevronDown}
-      size="lg"
-    />
-  </Button>
-</div>
+                  <Button
+                    size="sm"
+                    onClick={() =>
+                      setShowQuestionNavigation(!showQuestionNavigation)
+                    }
+                    style={{
+                      backgroundColor: "transparent",
+                      border: "none",
+                      color: "var(--navy-blue)",
+                      padding: "0.25rem 1rem",
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={
+                        showQuestionNavigation ? faChevronUp : faChevronDown
+                      }
+                      size="lg"
+                    />
+                  </Button>
+                </div>
 
-{/* هنا نستخدم AnimatePresence */}
-<AnimatePresence>
-  {showQuestionNavigation && (
-    <motion.div
-      className="question-navigation mb-4 d-flex flex-wrap gap-2 justify-content-center"
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.1 }}
-    >
-      {quizContent.map((item, index) => {
-        // نفس اللوجيك بتاعك لعرض السؤال أو الفيديو
-        let displayNumber;
-        if (item.type === "video") {
-          displayNumber = (
-            <FontAwesomeIcon
-              icon={faVideo}
-              className="me-2 ms-2"
-              size="lg"
-              style={{
-                color:
-                  currentStep === index || answers[item.id] !== undefined
-                    ? "white"
-                    : "var(--navy-blue)",
-              }}
-            />
-          );
-        } else {
-          displayNumber = quizContent.filter(
-            (q) => q.type === "question" && quizContent.indexOf(q) <= index
-          ).length;
-        }
+                {/* هنا نستخدم AnimatePresence */}
+                <AnimatePresence>
+                  {showQuestionNavigation && (
+                    <motion.div
+                      className="question-navigation mb-4 d-flex flex-wrap gap-2 justify-content-center"
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.1 }}
+                    >
+                      {quizContent.map((item, index) => {
+                        // نفس اللوجيك بتاعك لعرض السؤال أو الفيديو
+                        let displayNumber;
+                        if (item.type === "video") {
+                          displayNumber = (
+                            <FontAwesomeIcon
+                              icon={faVideo}
+                              className="me-2 ms-2"
+                              size="lg"
+                              style={{
+                                color:
+                                  currentStep === index ||
+                                  answers[item.id] !== undefined
+                                    ? "white"
+                                    : "var(--navy-blue)",
+                              }}
+                            />
+                          );
+                        } else {
+                          displayNumber = quizContent.filter(
+                            (q) =>
+                              q.type === "question" &&
+                              quizContent.indexOf(q) <= index
+                          ).length;
+                        }
 
-        return (
-          <Button
-            key={index}
-            size="sm"
-            variant={
-              currentStep === index
-                ? "primary"
-                : answers[item.id] !== undefined
-                ? "success"
-                : "outline-secondary"
-            }
-            onClick={() => {
-              setAnimationClass("animate__fadeOut");
-              setTimeout(() => {
-                setCurrentStep(index);
-                setAnimationClass("animate__fadeIn");
-              }, 300);
-            }}
-            style={{
-              minWidth: "45px",
-              padding: "8px 12px",
-              borderRadius: "8px",
-              backgroundColor:
-                currentStep === index
-                  ? "var(--navy-blue)"
-                  : answers[item.id] !== undefined
-                  ? "var(--gold)"
-                  : "white",
-              borderColor: "var(--navy-blue)",
-              color:
-                currentStep === index || answers[item.id] !== undefined
-                  ? "white"
-                  : "var(--navy-blue)",
-              transition: "all 0.3s ease",
-              transform: currentStep === index ? "scale(1.1)" : "scale(1)",
-            }}
-          >
-            {displayNumber}
-          </Button>
-        );
-      })}
-    </motion.div>
-  )}
-</AnimatePresence>
-                
+                        return (
+                          <Button
+                            key={index}
+                            size="sm"
+                            variant={
+                              currentStep === index
+                                ? "primary"
+                                : answers[item.id] !== undefined
+                                ? "success"
+                                : "outline-secondary"
+                            }
+                            onClick={() => {
+                              setAnimationClass("animate__fadeOut");
+                              setTimeout(() => {
+                                setCurrentStep(index);
+                                setAnimationClass("animate__fadeIn");
+                              }, 300);
+                            }}
+                            style={{
+                              minWidth: "45px",
+                              padding: "8px 12px",
+                              borderRadius: "8px",
+                              backgroundColor:
+                                currentStep === index
+                                  ? "var(--navy-blue)"
+                                  : answers[item.id] !== undefined
+                                  ? "var(--gold)"
+                                  : "white",
+                              borderColor: "var(--navy-blue)",
+                              color:
+                                currentStep === index ||
+                                answers[item.id] !== undefined
+                                  ? "white"
+                                  : "var(--navy-blue)",
+                              transition: "all 0.3s ease",
+                              transform:
+                                currentStep === index
+                                  ? "scale(1.1)"
+                                  : "scale(1)",
+                            }}
+                          >
+                            {displayNumber}
+                          </Button>
+                        );
+                      })}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </>
             ) : (
               <div className="animate__animated animate__fadeIn">
@@ -679,10 +703,13 @@ function QuizWithVideos({ quizData, name }) {
                   </div>
                 ) : (
                   <AnswerReview
-                    quizContent={quizContent}
-                    userAnswers={answers}
-                    onClose={() => setShowAnswerReview(false)}
-                  />
+                      quizContent={quizContent.filter(
+                        (item) =>
+                          item.type === "question" || item.type === "essay"
+                      )}
+                      userAnswers={answers}
+                      onClose={() => setShowAnswerReview(false)}
+                    />
                 )}
               </div>
             )}

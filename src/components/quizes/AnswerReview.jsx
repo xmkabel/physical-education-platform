@@ -1,123 +1,144 @@
-import React from 'react';
-import { Card, Button } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTimes, faArrowLeft, faEdit } from '@fortawesome/free-solid-svg-icons';
-import styles from './AnswerReview.module.css';
+import React, { useState, useEffect, Component } from "react";
+import { Container, Card, Button, Form } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronDown,
+  faChevronUp,
+  faArrowLeft,
+  faCheck,
+  faBookOpen,
+  faArrowRight,
+  faStar,
+  faTrophy,
+  faListAlt,
+  faVideo,
+  faTimes,
+  faEdit
+} from "@fortawesome/free-solid-svg-icons";
+// import { motion, AnimatePresence } from "framer-motion";
+import styless from './AnswerReview.module.css';
 
-const AnswerReview = ({ quizContent, userAnswers, onClose }) => {
-  // Filter only question items
-  const questions = quizContent;
-  // .filter(item => item.type === 'question' || item.type === 'essay');
-//   const questions = quizContent.filter(
-//   item => (item.type === 'question' || item.type === 'essay') && item.question
-// );
+import "bootstrap/dist/css/bootstrap.min.css";
+import "animate.css";
+import styles from "./Quiz.module.css";
 
+export function getCorrectIndex(item) {
+  // support: correctAnswer, correct_answer, correct_answer_index, correctAnswerIndex
+  if (item == null) return null;
+  const val =
+    item.correctAnswer ??
+    item.correct_answer ??
+    item.correctAnswerIndex ??
+    item.correct_answer_index ??
+    item.correct; // fallback
+  // ensure number (0-based)
+  if (val === undefined || val === null) return null;
+  return Number(val);
+}
+
+function AnswerReview({ quizContent, userAnswers, onClose }) {
   return (
-    <div className={styles.reviewContainer}>
-      <div className={styles.reviewHeader}>
-        <h3 className={styles.reviewTitle}>مراجعة الإجابات</h3>
-        <p className={styles.reviewSubtitle}>مقارنة إجاباتك مع الإجابات الصحيحة</p>
+    <div style={{ textAlign: "right" }}>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h5>مراجعة الإجابات</h5>
+        <Button size="sm" onClick={onClose}>
+          إغلاق
+        </Button>
       </div>
 
-      <div className={styles.questionsContainer}>
-        {questions.map((question, index) => {
-          const userAnswer = userAnswers[question.id];
-          const isEssayQuestion = question.type === 'essay';
-          const isCorrect = isEssayQuestion ? null : userAnswer === question.correctAnswer;
+      <div style={{ maxHeight: 320, overflowY: "auto" }}>
+        {quizContent.map((item, idx) => {
+          const isEssay = item.type === "essay";
+          const userAns = userAnswers[item.id];
+          const correctIndex = getCorrectIndex(item);
+          const isCorrect =
+            !isEssay && userAns !== undefined && userAns === correctIndex;
 
           return (
-            <Card key={question.id} className={`${styles.questionCard} ${isEssayQuestion ? styles.essayCard : (isCorrect ? styles.correctCard : styles.incorrectCard)}`}>
-              <Card.Header className={styles.questionHeader}>
-                <div className={styles.questionNumber}>
-                  {isEssayQuestion ? 'سؤال مقالي' : 'سؤال'} {index + 1}
+            <Card key={idx} className="mb-2">
+              <Card.Header className={styless.questionHeader}>
+                <div className={styless.questionNumber}>
+                  {isEssay ? "سؤال مقالي" : "سؤال"} {idx + 1}
                 </div>
                 <div className={styles.questionStatus}>
-                  {isEssayQuestion ? (
-                    <span className={styles.essayStatus}>
+                  {isEssay ? (
+                    <span className={styless.essayStatus}>
                       <FontAwesomeIcon icon={faEdit} /> مقالي
                     </span>
+                  ) : isCorrect ? (
+                    <span className={styless.correct}>
+                      <FontAwesomeIcon icon={faCheck} /> صحيح
+                    </span>
                   ) : (
-                    isCorrect ? (
-                      <span className={styles.correct}>
-                        <FontAwesomeIcon icon={faCheck} /> صحيح
-                      </span>
-                    ) : (
-                      <span className={styles.incorrect}>
-                        <FontAwesomeIcon icon={faTimes} /> غير صحيح
-                      </span>
-                    )
+                    <span className={styless.incorrect}>
+                      <FontAwesomeIcon icon={faTimes} /> غير صحيح
+                    </span>
                   )}
                 </div>
               </Card.Header>
-              <Card.Body>
-                <div className={styles.questionText}>{question.question}</div>
 
-                <div className={styles.answersContainer}>
-                  {isEssayQuestion ? (
-                    <div className={styles.essayAnswerContainer}>
-                      <div className={styles.essayAnswer}>
-                        <h5 className={styles.answerLabel}>إجابتك:</h5>
-                        <div className={styles.essayText}>
-                          {userAnswer ? userAnswer : 'لم يتم الإجابة على هذا السؤال'}
-                        </div>
-                      </div>
-                      
-                      {question.correctAnswer && (
-                        <div className={styles.essayAnswer}>
-                          <h5 className={styles.answerLabel}>الإجابة النموذجية:</h5>
-                          <div className={styles.essayText} style={{ whiteSpace: 'pre-line' }}>
-                            {question.correctAnswer}
-                          </div>
-                        </div>
-                      )}
-                      
-                      {!question.correctAnswer && (
-                        <div className={styles.essayAnswer}>
-                          <h5 className={styles.answerLabel}>ملاحظة:</h5>
-                          <div className={styles.essayText} style={{ color: 'var(--navy-blue)', fontStyle: 'italic' }}>
-                            سيتم مراجعة إجابتك من قبل المعلم
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    question.options.map((option, optionIndex) => {
-                      const isUserSelection = userAnswer === optionIndex;
-                      const isCorrectAnswer = question.correctAnswer === optionIndex;
-
-                      let optionClass = styles.option;
-                      if (isUserSelection) {
-                        optionClass = isCorrectAnswer ? styles.correctSelection : styles.incorrectSelection;
-                      } else if (isCorrectAnswer) {
-                        optionClass = styles.correctAnswer;
-                      }
-
-                      return (
-                        <div key={optionIndex} className={optionClass}>
-                          <div className={styles.optionText}>{option}</div>
-                          <div className={styles.optionIndicator}>
-                            {isUserSelection && isCorrectAnswer && <FontAwesomeIcon icon={faCheck} className={styles.correctIcon} />}
-                            {isUserSelection && !isCorrectAnswer && <FontAwesomeIcon icon={faTimes} className={styles.incorrectIcon} />}
-                            {!isUserSelection && isCorrectAnswer && <FontAwesomeIcon icon={faCheck} className={styles.correctIcon} />}
-                          </div>
-                        </div>
-                      );
-                    })
-                  )}
+              <Card.Body style={{ textAlign: "right" }}>
+                <div className="mb-2">
+                  <strong>
+                    {(isEssay ? "مقالي" : "سؤال") + " " + (idx + 1)}:{" "}
+                    {item.question}
+                  </strong>
                 </div>
+
+                {!isEssay ? (
+                  <div>
+                    <div>إجابات:</div>
+                    <ul style={{ paddingInlineStart: 20 }}>
+                      {item.options &&
+                        item.options.map((opt, i) => {
+                          const isUser = userAns === i;
+                          const optionCorrect = correctIndex === i;
+                          return (
+                            <li
+                              key={i}
+                              style={{
+                                color: optionCorrect
+                                  ? "green"
+                                  : isUser
+                                  ? "orange"
+                                  : "inherit",
+                                fontWeight:
+                                  optionCorrect || isUser ? "600" : "400",
+                              }}
+                            >
+                              {opt}{" "}
+                              {optionCorrect
+                                ? " (صحيح)"
+                                : isUser
+                                ? " (اختيارك)"
+                                : ""}
+                            </li>
+                          );
+                        })}
+                    </ul>
+                  </div>
+                ) : (
+                  <div>
+                    <div>
+                      <strong>إجابتك:</strong>
+                    </div>
+                    <div style={{ whiteSpace: "pre-wrap" }}>
+                      {userAns || <em>لم تُجب</em>}
+                    </div>
+                    <div className="mt-2 text-muted">
+                      <small>
+                        هذه الأسئلة المقالية ستراجع من قبل المعلم.
+                      </small>
+                    </div>
+                  </div>
+                )}
               </Card.Body>
             </Card>
           );
         })}
       </div>
-
-      <div className={styles.actionContainer}>
-        <Button className={styles.closeButton} onClick={onClose}>
-          <FontAwesomeIcon icon={faArrowLeft} className="ms-2" /> العودة للنتائج
-        </Button>
-      </div>
     </div>
   );
-};
+}
 
 export default AnswerReview;
