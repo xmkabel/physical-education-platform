@@ -71,7 +71,7 @@ function Welcome() {
             يرجى الاحتفاظ بهذه المعلومات. في حالة نسيان الكود ، يرجى التواصل مع مشرف المادة.
           </p>
           <button 
-            onClick={() => navigate('/')} 
+            onClick={() => navigate('/login')} 
             className="login-button"
           >
             <FontAwesomeIcon icon={faArrowLeft} className="me-2" />
