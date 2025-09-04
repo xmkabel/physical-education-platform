@@ -2,6 +2,8 @@ import React, { useState, useEffect, Component } from "react";
 import { Container, Card, Button, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faChevronDown,
+  faChevronUp,
   faArrowLeft,
   faCheck,
   faBookOpen,
@@ -9,7 +11,10 @@ import {
   faStar,
   faTrophy,
   faListAlt,
+  faVideo,
 } from "@fortawesome/free-solid-svg-icons";
+import { motion, AnimatePresence } from "framer-motion";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "animate.css";
 import styles from "./Quiz.module.css";
@@ -401,8 +406,7 @@ function Quiz({ quizData, name, quizId }) {
                 role="alert"
                 style={{ textAlign: "right" }}
               >
-                لا توجد أسئلة متاحة للاختبار — ارفع ملف `
-                للكمبوننت.
+                لا توجد أسئلة متاحة للاختبار — ارفع ملف ` للكمبوننت.
               </div>
             ) : null}
 
@@ -499,7 +503,11 @@ function Quiz({ quizData, name, quizId }) {
                             as="textarea"
                             rows={6}
                             placeholder="اكتب اجابتك هنا... (يجب كتابة حرف واحد على الأقل)"
-                            style={{ direction: "rtl", textAlign: "right" ,resize: "none"}}
+                            style={{
+                              direction: "rtl",
+                              textAlign: "right",
+                              resize: "none",
+                            }}
                           />
                         ) : (
                           (quizContent[currentStep].options || []).map(
@@ -537,8 +545,6 @@ function Quiz({ quizData, name, quizId }) {
                   <div className={styles.errorMessage}>{errorMessage}</div>
                 )}
 
-                
-
                 <div className="d-flex flex-column flex-sm-row justify-content-between gap-3 mt-4">
                   <Button
                     className={styles.button}
@@ -565,93 +571,110 @@ function Quiz({ quizData, name, quizId }) {
                 </div>
 
                 <div className="d-flex justify-content-center mb-3">
-                  <Button 
-                    // variant="outline-secondary" 
+                  <Button
                     size="sm"
-                    onClick={() => setShowQuestionNavigation(!showQuestionNavigation)}
+                    onClick={() =>
+                      setShowQuestionNavigation(!showQuestionNavigation)
+                    }
                     style={{
-                      backgroundColor: 'transparent',
-                      border: 'none',
-                      color: 'var(--navy-blue)',
-                      padding: '0.25rem 1rem'
+                      backgroundColor: "transparent",
+                      border: "none",
+                      color: "var(--navy-blue)",
+                      padding: "0.25rem 1rem",
                     }}
                   >
-                    {showQuestionNavigation ?  `إظهار التنقل/\\`  : `إخفاء التنقل \\/`}
+                    <FontAwesomeIcon
+                      icon={
+                        showQuestionNavigation ? faChevronDown : faChevronUp 
+                      }
+                      size="lg"
+                    />{" "}
                   </Button>
                 </div>
 
-                {!showQuestionNavigation && (
-                  <div className="question-navigation mb-4 d-flex flex-wrap gap-2 justify-content-center">
-                    {quizContent.map((item, index) => {
-                      let displayNumber;
-                      if (item.type === "reading") {
-                        displayNumber = (
-                          <FontAwesomeIcon
-                            icon={faBookOpen}
-                            className="me-2 ms-2"
-                            size="lg"
+                <AnimatePresence>
+                  {!showQuestionNavigation && (
+                    <motion.div
+                      key="question-navigation"
+                      className="question-navigation mb-4 d-flex flex-wrap gap-2 justify-content-center"
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.1 }}
+                    >
+                      {quizContent.map((item, index) => {
+                        let displayNumber;
+                        if (item.type === "reading") {
+                          displayNumber = (
+                            <FontAwesomeIcon
+                              icon={faBookOpen}
+                              className="me-2 ms-2"
+                              size="lg"
+                              style={{
+                                color:
+                                  currentStep === index ||
+                                  answers[item.id] !== undefined
+                                    ? "white"
+                                    : "var(--navy-blue)",
+                              }}
+                            />
+                          );
+                        } else {
+                          displayNumber = quizContent.filter(
+                            (q) =>
+                              (q.type === "question" || q.type === "essay") &&
+                              quizContent.indexOf(q) <= index
+                          ).length;
+                        }
+
+                        return (
+                          <Button
+                            key={index}
+                            size="sm"
+                            variant={
+                              currentStep === index
+                                ? "primary"
+                                : answers[item.id] !== undefined
+                                ? "success"
+                                : "outline-secondary"
+                            }
+                            onClick={() => {
+                              setAnimationClass("animate__fadeOut");
+                              setTimeout(() => {
+                                setCurrentStep(index);
+                                setAnimationClass("animate__fadeIn");
+                              }, 200);
+                            }}
                             style={{
+                              minWidth: "45px",
+                              padding: "8px 12px",
+                              borderRadius: "8px",
+                              backgroundColor:
+                                currentStep === index
+                                  ? "var(--navy-blue)"
+                                  : answers[item.id] !== undefined
+                                  ? "var(--gold)"
+                                  : "white",
+                              borderColor: "var(--navy-blue)",
                               color:
                                 currentStep === index ||
                                 answers[item.id] !== undefined
                                   ? "white"
                                   : "var(--navy-blue)",
+                              transition: "all 0.3s ease",
+                              transform:
+                                currentStep === index
+                                  ? "scale(1.05)"
+                                  : "scale(1)",
                             }}
-                          />
+                          >
+                            {displayNumber}
+                          </Button>
                         );
-                      } else {
-                        displayNumber = quizContent.filter(
-                          (q) =>
-                            (q.type === "question" || q.type === "essay") &&
-                            quizContent.indexOf(q) <= index
-                        ).length;
-                      }
-
-                      return (
-                        <Button
-                          key={index}
-                          size="sm"
-                          variant={
-                            currentStep === index
-                              ? "primary"
-                              : answers[item.id] !== undefined
-                              ? "success"
-                              : "outline-secondary"
-                        }
-                          onClick={() => {
-                            setAnimationClass("animate__fadeOut");
-                            setTimeout(() => {
-                              setCurrentStep(index);
-                              setAnimationClass("animate__fadeIn");
-                            }, 200);
-                          }}
-                          style={{
-                            minWidth: "45px",
-                            padding: "8px 12px",
-                            borderRadius: "8px",
-                            backgroundColor:
-                              currentStep === index
-                                ? "var(--navy-blue)"
-                                : answers[item.id] !== undefined
-                                ? "var(--gold)"
-                                : "white",
-                            borderColor: "var(--navy-blue)",
-                            color:
-                              currentStep === index ||
-                              answers[item.id] !== undefined
-                                ? "white"
-                                : "var(--navy-blue)",
-                            transition: "all 0.3s ease",
-                            transform:
-                              currentStep === index ? "scale(1.05)" : "scale(1)",
-                          }}
-                        >
-                          {displayNumber}
-                        </Button>
-                      );
-                    })}
-                  </div>
-                )}
+                      })}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </>
             ) : (
               <div className="animate__animated animate__fadeIn">
