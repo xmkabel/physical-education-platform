@@ -537,8 +537,6 @@ function Quiz({ quizData, name, quizId }) {
                   <div className={styles.errorMessage}>{errorMessage}</div>
                 )}
 
-                
-
                 <div className="d-flex flex-column flex-sm-row justify-content-between gap-3 mt-4">
                   <Button
                     className={styles.button}
@@ -565,22 +563,26 @@ function Quiz({ quizData, name, quizId }) {
                 </div>
 
                 <div className="d-flex justify-content-center mb-3">
-                  <Button 
-                    // variant="outline-secondary" 
+                  <Button
+                    // variant="outline-secondary"
                     size="sm"
-                    onClick={() => setShowQuestionNavigation(!showQuestionNavigation)}
+                    onClick={() =>
+                      setShowQuestionNavigation(!showQuestionNavigation)
+                    }
                     style={{
-                      backgroundColor: 'transparent',
-                      border: 'none',
-                      color: 'var(--navy-blue)',
-                      padding: '0.25rem 1rem'
+                      backgroundColor: "transparent",
+                      border: "none",
+                      color: "var(--navy-blue)",
+                      padding: "0.25rem 1rem",
                     }}
                   >
-                    {showQuestionNavigation ? `إخفاء التنقل \\/` : `إظهار التنقل/\\`}
+                    {showQuestionNavigation
+                      ? ` إظهار التنقل /\\`
+                      : `إخفاء التنقل \\/`}{" "}
                   </Button>
                 </div>
 
-                {showQuestionNavigation && (
+                {!showQuestionNavigation && (
                   <div className="question-navigation mb-4 d-flex flex-wrap gap-2 justify-content-center">
                     {quizContent.map((item, index) => {
                       let displayNumber;
@@ -617,7 +619,7 @@ function Quiz({ quizData, name, quizId }) {
                               : answers[item.id] !== undefined
                               ? "success"
                               : "outline-secondary"
-                        }
+                          }
                           onClick={() => {
                             setAnimationClass("animate__fadeOut");
                             setTimeout(() => {
@@ -643,7 +645,9 @@ function Quiz({ quizData, name, quizId }) {
                                 : "var(--navy-blue)",
                             transition: "all 0.3s ease",
                             transform:
-                              currentStep === index ? "scale(1.05)" : "scale(1)",
+                              currentStep === index
+                                ? "scale(1.05)"
+                                : "scale(1)",
                           }}
                         >
                           {displayNumber}
