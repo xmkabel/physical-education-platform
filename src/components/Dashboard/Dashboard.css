@@ -7,7 +7,7 @@
   }
   
   .dashboardHeader {
-    background: linear-gradient(135deg, var(--navy-blue) 0%, var(--gold) 100%);
+    background: var(--navy-blue);
     color: white;
     padding: 2rem 0;
     text-align: center;
@@ -17,7 +17,7 @@
   
   .backButton {
     position: absolute;
-    right: 2rem;
+    left: 2rem;
     top: 50%;
     transform: translateY(-50%);
     background: rgba(255, 255, 255, 0.2);
@@ -52,19 +52,19 @@
   .card {
     border: none;
     border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
   .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 1);
   }
   
   .cardHeader {
-    background: linear-gradient(135deg, var(--navy-blue) 0%, var(--gold) 100%);
-    color: white;
+    background: linear-gradient(135deg, var(--navy-blue) 20%, var(--gold) 0%);
+    color: var(--navy-blue);
     font-weight: 600;
     font-size: 1.1rem;
     padding: 1rem 1.5rem;
@@ -77,9 +77,13 @@
     padding: 1.5rem;
     background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
     border-radius: 10px;
-    border-left: 4px solid var(--gold);
+    /* border-left: 4px solid var(--gold); */
     transition: all 0.3s ease;
   }
+  /* .statCard:nth-child(1) {
+    border-left: var(--gold) 4px solid;
+    border-right: var(--gold) 4px solid;
+  } */
   
   .statCard:hover {
     transform: translateX(-5px);
@@ -223,13 +227,15 @@
     }
     
     .backButton {
-      right: 1rem;
+      left: 1rem;
       padding: 0.5rem 1rem;
       font-size: 0.9rem;
     }
     
     .dashboardTitle {
       font-size: 1.5rem;
+      text-align: start;
+      margin-right: 2rem;
     }
     
     .statCard {
@@ -341,6 +347,8 @@
     margin: -1rem;
     padding: 1rem;
     overflow-x: auto;
+    border: var(--gold ) 1px solid;
+    border-top: none;
   }
 
   .table {
@@ -349,33 +357,33 @@
   }
 
   .table th {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    background: white;
     white-space: nowrap;
     padding: 1rem;
     font-weight: 600;
     color: var(--navy-blue);
+    border-bottom: var(--gold) 1px solid;
   }
 
   .table td {
     padding: 1rem;
     vertical-align: middle;
-  }
-
-  .table tbody tr {
     transition: background-color 0.2s ease;
   }
 
-  .table tbody tr:hover {
-    background-color: #f8f9fa;
+   tr, td {
+    transition: background-color 0.2s ease;
   }
 
+  
+  
   /* Modal Styles */
   .modal-content {
     border-radius: 15px;
     border: none;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   }
-
+  
   .modal-header {
     background: linear-gradient(135deg, var(--navy-blue) 0%, var(--gold) 100%);
     color: white;
@@ -394,6 +402,17 @@
     border-radius: 4px;
     transition: all 0.2s ease;
   }
+  .btn-outline-primary {
+    color: var(--navy-blue);
+    border-color: var(--navy-blue);
+  }
+
+  .btn-outline-warning {
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+
+
 
   .btn-outline-primary:hover,
   .btn-outline-warning:hover,
@@ -405,28 +424,29 @@
   .search-input {
     border-radius: 20px;
     padding: 0.5rem 2.5rem;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    background: rgba(255, 255, 255, 0.9);
-    width: 300px;
+    border: 1px solid var(--navy-blue);
+    /* background: rgba(255, 255, 255, 0.9); */
+    width:13rem;
     transition: all 0.3s ease;
+    /* color: var(--navy-blue)!important; */
   }
 
   .search-input:focus {
-    width: 350px;
+    width: 14rem;
     box-shadow: 0 0 0 0.2rem rgba(var(--navy-blue-rgb), 0.25);
-    border-color: var(--navy-blue);
+    border-color: var(--gold);
   }
 
   .search-input::placeholder {
-    color: #6c757d;
+    color: var(--dark-gold);
     opacity: 0.7;
   }
-
   .form-control {
     border-radius: 6px;
     padding: 0.5rem 1rem;
     border: 1px solid rgba(0, 0, 0, 0.1);
-    background: rgba(255, 255, 255, 0.9);
+    /* background: rgba(255, 255, 255, 0.9); */
+
   }
 
   .form-control:focus {
