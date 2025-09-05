@@ -31,7 +31,7 @@ a {
 .navbar-nav .nav-link.active:hover {
   color: var(--gold);
 }
-/* Styling for Webkit browsers (Chrome, Safari, Edge) */
+/* --------- Chrome / Edge / Safari --------- */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -50,6 +50,14 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--dark-gold);
 }
+
+/* --------- Firefox --------- */
+* {
+  scrollbar-width:10px; /* رفيع */
+  scrollbar-color: var(--gold) var(--white); /* لون المسكة + لون الخلفية */
+}
+
+
 
 .shadow {
   box-shadow: 0 0px 8px rgba(0, 0, 0, 0.78);
