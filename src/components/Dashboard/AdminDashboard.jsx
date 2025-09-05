@@ -255,8 +255,10 @@ function AdminDashboard() {
                     <th onClick={() => handleSort('postTest')} style={{ cursor: 'pointer' }}>
                       الاختبار البعدي {sortField === 'postTest' && <FontAwesomeIcon icon={faSort} />}
                     </th>
-                    <th>التحسن</th>
-                    <th>الإجراءات</th>
+                    <th onClick={() => handleSort('improvement')} style={{ cursor: 'pointer' }}>
+                      التحسن {sortField === 'improvement' && <FontAwesomeIcon icon={faSort} />}
+                    </th>
+                    <th style={{ textAlign: 'center', width: '160px' }}>الإجراءات</th>
                   </tr>
                 </thead>
                 <tbody>
