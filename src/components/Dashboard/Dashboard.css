@@ -426,13 +426,13 @@
     padding: 0.5rem 2.5rem;
     border: 1px solid var(--navy-blue);
     /* background: rgba(255, 255, 255, 0.9); */
-    width:13rem;
+    width:14rem;
     transition: all 0.3s ease;
     /* color: var(--navy-blue)!important; */
   }
 
   .search-input:focus {
-    width: 14rem;
+    width: 15rem;
     box-shadow: 0 0 0 0.2rem rgba(var(--navy-blue-rgb), 0.25);
     border-color: var(--gold);
   }

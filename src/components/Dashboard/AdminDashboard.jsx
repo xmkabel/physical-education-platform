@@ -220,10 +220,12 @@ function AdminDashboard() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <FontAwesomeIcon 
-                  icon={faSearch} 
-                  className="position-absolute top-50 start-0 translate-middle-y mx-2 text-muted"
-                />
+                {searchTerm === '' && (
+                  <FontAwesomeIcon 
+                    icon={faSearch} 
+                    className="position-absolute top-50 start-0 translate-middle-y mx-2 text-muted"
+                  />
+                )}
               </div>
               {/* {searchTerm && (
                 <Button 
