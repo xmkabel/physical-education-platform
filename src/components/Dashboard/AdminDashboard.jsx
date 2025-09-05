@@ -16,6 +16,8 @@ import {
 import './Dashboard.css';
 import { getStudents, getStudentStats, updateStudent, deleteStudent, updatePassword, formatDate } from '../../utils/studentUtils';
 import { useNavigate } from 'react-router-dom';
+import "bootstrap/dist/css/bootstrap.min.css";
+
 // added data to test
 function AdminDashboard() {
   const [students, setStudents] = useState([]);
@@ -189,24 +191,24 @@ function AdminDashboard() {
         <Card className="card">
           <Card.Header className="cardHeader d-flex justify-content-between align-items-center">
             <div>
-              <FontAwesomeIcon icon={faUser} className="me-2" />
-              قائمة الطلاب
+              <FontAwesomeIcon icon={faUser} className="mx-2" />
+                الطلاب 
             </div>
             <div className="d-flex align-items-center">
               <div className="position-relative">
                 <Form.Control
                   type="search"
-                  placeholder="بحث بالاسم أو الكود أو الدرجة..."
-                  className="search-input"
+                  placeholder=" بالاسم أو الكود أو الدرجة"
+                  className="search-input "
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <FontAwesomeIcon 
                   icon={faSearch} 
-                  className="position-absolute top-50 start-0 translate-middle-y ms-2 text-muted"
+                  className="position-absolute top-50 start-0 translate-middle-y mx-2 text-muted"
                 />
               </div>
-              {searchTerm && (
+              {/* {searchTerm && (
                 <Button 
                   variant="link" 
                   className="text-light ms-2"
@@ -214,12 +216,12 @@ function AdminDashboard() {
                 >
                   مسح
                 </Button>
-              )}
+              )} */}
             </div>
           </Card.Header>
           <Card.Body>
             <div className="table-responsive">
-              <Table className="table-hover">
+              <Table className="table-striped table-hover">
                 <thead>
                   <tr>
                     <th onClick={() => handleSort('name')} style={{ cursor: 'pointer' }}>
@@ -274,11 +276,11 @@ function AdminDashboard() {
                             <strong>{improvement > 0 ? '+' : ''}{improvement}%</strong>
                           ) : '-'}
                         </td>
-                        <td>
+                        <td className="d-flex">
                           <Button 
                             variant="outline-primary" 
                             size="sm" 
-                            className="me-2"
+                            className=""
                             onClick={() => handleEditClick(student)}
                           >
                             <FontAwesomeIcon icon={faEdit} />
@@ -286,7 +288,7 @@ function AdminDashboard() {
                           <Button 
                             variant="outline-warning" 
                             size="sm" 
-                            className="me-2"
+                            className="mx-2"
                             onClick={() => handlePasswordClick(student)}
                           >
                             <FontAwesomeIcon icon={faKey} />
