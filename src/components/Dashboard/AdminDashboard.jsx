@@ -243,10 +243,10 @@ function AdminDashboard() {
               <Table className="table-striped table-hover">
                 <thead>
                   <tr>
-                    <th onClick={() => handleSort('name')} style={{ cursor: 'pointer' }}>
+                    <th onClick={() => handleSort('name')} style={{ cursor: 'pointer', width: '180px' }}>
                       اسم الطالب {sortField === 'name' && <FontAwesomeIcon icon={faSort} />}
                     </th>
-                    <th onClick={() => handleSort('code')} style={{ cursor: 'pointer' }}>
+                    <th onClick={() => handleSort('code')} style={{ cursor: 'pointer', textAlign: 'center' }}>
                       كود الطالب {sortField === 'code' && <FontAwesomeIcon icon={faSort} />}
                     </th>
                     <th onClick={() => handleSort('preTest')} style={{ cursor: 'pointer' }}>
@@ -297,30 +297,30 @@ function AdminDashboard() {
                             <strong>{improvement > 0 ? '+' : ''}{improvement}%</strong>
                           ) : '-'}
                         </td>
-                        <td className="d-flex">
-                          <Button 
-                            variant="outline-primary" 
-                            size="sm" 
-                            className=""
-                            onClick={() => handleEditClick(student)}
-                          >
-                            <FontAwesomeIcon icon={faEdit} />
-                          </Button>
-                          <Button 
-                            variant="outline-warning" 
-                            size="sm" 
-                            className="mx-2"
-                            onClick={() => handlePasswordClick(student)}
-                          >
-                            <FontAwesomeIcon icon={faKey} />
-                          </Button>
-                          <Button 
-                            variant="outline-danger" 
-                            size="sm"
-                            onClick={() => handleDeleteStudent(student.id)}
-                          >
-                            <FontAwesomeIcon icon={faTrash} />
-                          </Button>
+                        <td>
+                          <div className="action-buttons d-flex gap-2 justify-content-center align-items-center">
+                            <Button 
+                              variant="outline-primary" 
+                              size="sm"
+                              onClick={() => handleEditClick(student)}
+                            >
+                              <FontAwesomeIcon icon={faEdit} />
+                            </Button>
+                            <Button 
+                              variant="outline-warning" 
+                              size="sm"
+                              onClick={() => handlePasswordClick(student)}
+                            >
+                              <FontAwesomeIcon icon={faKey} />
+                            </Button>
+                            <Button 
+                              variant="outline-danger" 
+                              size="sm"
+                              onClick={() => handleDeleteStudent(student.id)}
+                            >
+                              <FontAwesomeIcon icon={faTrash} />
+                            </Button>
+                          </div>
                         </td>
                       </tr>
                     );
