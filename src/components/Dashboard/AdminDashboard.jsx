@@ -76,6 +76,11 @@ function AdminDashboard() {
       if (sortField === 'code') return a.code.localeCompare(b.code) * direction;
       if (sortField === 'preTest') return (a.preTest - b.preTest) * direction;
       if (sortField === 'postTest') return (a.postTest - b.postTest) * direction;
+      if (sortField === 'improvement') {
+        const aImprovement = (a.postTest || 0) - (a.preTest || 0);
+        const bImprovement = (b.postTest || 0) - (b.preTest || 0);
+        return (aImprovement - bImprovement) * direction;
+      }
       return 0;
     });
 
