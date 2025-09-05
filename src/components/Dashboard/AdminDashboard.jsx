@@ -8,10 +8,12 @@ import {
   faTrash,
   faKey,
   faArrowLeft,
+  faArrowRight,
   faSearch,
   faSort,
   faChartLine,
-  faSyncAlt
+  faSyncAlt,
+  faSignOut
 } from '@fortawesome/free-solid-svg-icons';
 import './Dashboard.css';
 import { getStudents, getStudentStats, updateStudent, deleteStudent, updatePassword, formatDate } from '../../utils/studentUtils';
@@ -142,13 +144,23 @@ function AdminDashboard() {
 
   return (
     <div className="dashboardContainer">
-      <div className="dashboardHeader">
-        <button className="backButton" onClick={() => navigate("/exams")}>
-          <FontAwesomeIcon icon={faArrowLeft} className="backArrow" /> العودة
+      <div className="dashboardHeader position-relative">
+        <button 
+          className="logoutButton position-absolute" 
+          style={{ left: '2rem', top: '50%', transform: 'translateY(-50%)' }}
+          onClick={() => {
+            localStorage.removeItem('token');
+            navigate('/login');
+          }}
+        >
+          تسجيل الخروج <FontAwesomeIcon icon={faSignOut} className="mx-2 fa-flip-horizontal" />
         </button>
         <h1 className="dashboardTitle">
           لوحة تحكم المسؤول
         </h1>
+        <button className="backButton" onClick={() => navigate("/exams")}>
+          <FontAwesomeIcon icon={faArrowRight} className="backArrow" /> العودة
+        </button>
       </div>
 
       <Container className="py-4">
