@@ -53,7 +53,7 @@ function Dashboard({
 
       <Container className="py-4">
         {/* Student Info Card */}
-        <Card className="card mb-4">
+        <Card className="cardD mb-4">
           <Card.Header className="cardHeader">
             <FontAwesomeIcon icon={faUser} className="me-2" />
             معلومات الطالب
@@ -92,7 +92,7 @@ function Dashboard({
         </Card>
 
         {/* Pre/Post Test Comparison Card */}
-        <Card className="card mb-4">
+        <Card className="cardD mb-4">
           <Card.Header className="cardHeader">
             <FontAwesomeIcon icon={faTrophy} className="me-2" />
             مقارنة الاختبار القبلي والبعدي
@@ -147,7 +147,7 @@ function Dashboard({
         </Card>
 
         {/* Overall Progress Card */}
-        <Card className="card mb-4">
+        <Card className="cardD mb-4">
           <Card.Header className="cardHeader">
             <FontAwesomeIcon icon={faChartLine} className="me-2" />
             التقدم الإجمالي
@@ -179,7 +179,7 @@ function Dashboard({
         </Card>
 
         {/* Chapters Progress */}
-        <Card className="card mb-4">
+        <Card className="cardD mb-4">
           <Card.Header className="cardHeader">
             <FontAwesomeIcon icon={faTrophy} className="me-2" />
             تقدم الفصول
@@ -209,7 +209,7 @@ function Dashboard({
         </Card>
 
         {/* Recent Quiz Results */}
-        <Card className="card mb-4">
+        <Card className="cardD mb-4">
           <Card.Header className="cardHeader">
             <FontAwesomeIcon icon={faCalendar} className="me-2" />
             نتائج الاختبارات الأخيرة

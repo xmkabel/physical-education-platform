@@ -49,17 +49,17 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   }
   
-  .card {
+  .cardD {
     border: none;
     border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0px 60px rgba(0, 0, 0, .20)!important;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
-  .card:hover {
+  .cardD:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 1);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.50)!important;
   }
   
   .cardHeader {

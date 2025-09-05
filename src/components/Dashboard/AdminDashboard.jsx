@@ -188,7 +188,7 @@ function AdminDashboard() {
         </Row>
 
         {/* Students Table Card */}
-        <Card className="card">
+        <Card className="cardD">
           <Card.Header className="cardHeader d-flex justify-content-between align-items-center">
             <div>
               <FontAwesomeIcon icon={faUser} className="mx-2" />
