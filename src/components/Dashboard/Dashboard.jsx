@@ -41,7 +41,17 @@ function Dashboard({
 
   return (
     <div className="dashboardContainer">
-      <div className="dashboardHeader">
+      <div className="dashboardHeader position-relative">
+        <button 
+          className="logoutButton position-absolute" 
+          style={{ left: '2rem', top: '50%', transform: 'translateY(-50%)' }}
+          onClick={() => {
+            localStorage.removeItem('token');
+            navigate('/login');
+          }}
+        >
+          تسجيل الخروج <FontAwesomeIcon icon={faSignOut} className="mx-2 fa-flip-horizontal" />
+        </button>
         <h1 className="dashboardTitle">
           لوحة تتبع التقدم الأكاديمي
         </h1>
@@ -49,7 +59,7 @@ function Dashboard({
           className="backButton" 
           onClick={() => navigate(-1)} // 🔙 Go Back
         >
-          <FontAwesomeIcon icon={faArrowLeft} className="backArrow" /> العودة
+          <FontAwesomeIcon icon={faArrowRight} className="backArrow" /> العودة
         </button>
       </div>
 
