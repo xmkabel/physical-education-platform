@@ -67,7 +67,7 @@ function Dashboard({
         {/* Student Info Card */}
         <Card className="cardD mb-4">
           <Card.Header className="cardHeader">
-            <FontAwesomeIcon icon={faUser} className="me-2" />
+            <FontAwesomeIcon icon={faUser} className="mx-2" />
             معلومات الطالب
           </Card.Header>
           <Card.Body>
@@ -106,7 +106,7 @@ function Dashboard({
         {/* Pre/Post Test Comparison Card */}
         <Card className="cardD mb-4">
           <Card.Header className="cardHeader">
-            <FontAwesomeIcon icon={faTrophy} className="me-2" />
+            <FontAwesomeIcon icon={faTrophy} className="mx-2" />
             مقارنة الاختبار القبلي والبعدي
           </Card.Header>
           <Card.Body>
@@ -161,7 +161,7 @@ function Dashboard({
         {/* Overall Progress Card */}
         <Card className="cardD mb-4">
           <Card.Header className="cardHeader">
-            <FontAwesomeIcon icon={faChartLine} className="me-2" />
+            <FontAwesomeIcon icon={faChartLine} className="mx-2" />
             التقدم الإجمالي
           </Card.Header>
           <Card.Body>
@@ -193,7 +193,7 @@ function Dashboard({
         {/* Chapters Progress */}
         <Card className="cardD mb-4">
           <Card.Header className="cardHeader">
-            <FontAwesomeIcon icon={faTrophy} className="me-2" />
+            <FontAwesomeIcon icon={faTrophy} className="mx-2" />
             تقدم الفصول
           </Card.Header>
           <Card.Body>
@@ -223,7 +223,7 @@ function Dashboard({
         {/* Recent Quiz Results */}
         <Card className="cardD mb-4">
           <Card.Header className="cardHeader">
-            <FontAwesomeIcon icon={faCalendar} className="me-2" />
+            <FontAwesomeIcon icon={faCalendar} className="mx-2" />
             نتائج الاختبارات الأخيرة
           </Card.Header>
           <Card.Body>
@@ -240,7 +240,7 @@ function Dashboard({
         {/* Action Buttons */}
         <div className="d-flex justify-content-center gap-3">
           <Button className="button" onClick={() => navigate("/exams")}>
-            <FontAwesomeIcon icon={faListAlt} className="me-2" />
+            <FontAwesomeIcon icon={faListAlt} className="mx-2" />
             عرض جميع الاختبارات
           </Button>
         </div>
