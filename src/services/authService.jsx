@@ -20,7 +20,7 @@ export const isAuthenticated = () => {
   return !!localStorage.getItem("token"); // Check if token exists
 };
 
-function me(){
-  return axiosInstance.get("/me");  
-}
-export { me };
+// function me(){
+//   return axiosInstance.get("/me");  
+// }
+// export { me };
