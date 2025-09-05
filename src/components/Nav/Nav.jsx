@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight , faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import './Nav.css';
 import { useLocation } from 'react-router-dom';
@@ -34,12 +34,26 @@ const Nav = ({title, selectedCategory, setSelectedCategory}) => {
     };
     
   return (
-    <div className="exam-cards-header">
-        <button className="back-button" onClick={goBack}>
-          <FontAwesomeIcon icon={faArrowLeft} className="back-arrow" /> العودة
-        </button>
-        <h1 className="exam-cards-title">{title}</h1>
+    <div className="exam-cards-header nav-flex-layout">
+      <button
+        className="back-button nav-back-btn"
+        onClick={goBack}
+      >
+        <FontAwesomeIcon icon={faArrowRight} className="back-arrow" /> العودة
+      </button>
+      <div className="nav-title-center">
+    <h1 className="exam-cards-title" style={{ margin: 0 }}>{title}</h1>
       </div>
+      <button
+        className="back-button nav-profile-btn"
+        onClick={() => {
+          if (role === 'admin') navigate('/admin-dashboard');
+          else navigate('/dashboard');
+        }}
+      >
+        {role === 'admin' ? 'لوحة التحكم' : 'الملف الشخصي'} <FontAwesomeIcon icon={faArrowLeft} className="back-arrow" />
+      </button>
+    </div>
   )
 }
 export default Nav;
