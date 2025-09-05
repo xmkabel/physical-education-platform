@@ -7,9 +7,11 @@ import {
   faTrophy, 
   faCalendar,
   faArrowLeft,
+  faArrowRight,
   faClock,
   faPercent,
-  faListAlt
+  faListAlt,
+  faSignOut
 } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 import './Dashboard.css';
@@ -165,12 +167,12 @@ function Dashboard({
             </div>
             <Row className="text-center">
               <Col>
-                <Badge bg="success" className="badge">
+                <Badge className="badge completed-quizzes">
                   {studentData.completedQuizzes} اختبار مكتمل
                 </Badge>
               </Col>
               <Col>
-                <Badge bg="warning" className="badge">
+                <Badge className="badge remaining-quizzes">
                   {studentData.remainingQuizzes} اختبار متبقي
                 </Badge>
               </Col>
