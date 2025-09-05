@@ -209,7 +209,7 @@ function AdminDashboard() {
           <Card.Header className="cardHeader d-flex justify-content-between align-items-center">
             <div>
               <FontAwesomeIcon icon={faUser} className="mx-2" />
-                الطلاب 
+                قائمة الطلاب 
             </div>
             <div className="d-flex align-items-center">
               <div className="position-relative">
@@ -271,13 +271,13 @@ function AdminDashboard() {
                     return (
                       <tr key={student.id}>
                         <td>{student.name}</td>
-                        <td>{student.code}</td>
+                        <td style={{ textAlign: 'center' }}>{student.code}</td>
                         <td>
                           {hasPreTest ? (
                             <div>
                               <div>{student.preTest}%</div>
                               <small className="text-muted">
-                                {formatDate(student.testDates?.preTest)}
+                                {student.testDates?.preTest ? new Date(student.testDates.preTest).toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' }) : ''}
                               </small>
                             </div>
                           ) : '-'}
@@ -287,7 +287,7 @@ function AdminDashboard() {
                             <div>
                               <div>{student.postTest}%</div>
                               <small className="text-muted">
-                                {formatDate(student.testDates?.postTest)}
+                                {student.testDates?.postTest ? new Date(student.testDates.postTest).toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' }) : ''}
                               </small>
                             </div>
                           ) : '-'}
