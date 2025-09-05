@@ -30,8 +30,10 @@ const LoadingScreen = () => {
         style={{
           width: "4rem",
           height: "4rem",
-          borderColor: "var(--light-blue)",
+          borderColor: "var(--navy-blue)",
+          borderTopColor: "var(--gold)",
           borderRightColor: "transparent",
+          borderWidth: "0.5rem"
         }}
       />
     </motion.div>
