@@ -3,10 +3,14 @@ import { faArrowRight , faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import './Nav.css';
 import { useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+
 
 const Nav = ({title, selectedCategory, setSelectedCategory}) => {
     const location = useLocation();
     const navigate = useNavigate();
+    const {user} = useAuth();
+    const role = user?.role || 'user'; // افتراضياً 'user' إذا لم تكن بيانات اليوزر متاحة
     
     const goBack = () => {
         const currentPath = location.pathname;
