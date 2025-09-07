@@ -19,6 +19,7 @@ Route::middleware('jwt-auth')->group(function () {
     Route::get('/user-rating-exams',[RatingExamController::class, 'user_results']);
     Route::post('/chapter-exams',[ChapterExamController::class, 'store']);
     Route::get('/chapter-exams',[ChapterExamController::class, 'results'])->middleware('role:admin');
+    Route::get('/exams-count',[ChapterExamController::class, 'get_exams_count']);
     Route::get("/chapter-exams/is-final-exam-avilable",[ChapterExamController::class, 'isFinalExamAvilable']);
 
 

@@ -77,11 +77,42 @@ class ChapterExamController extends Controller
         ], 200);
     }
 
+    public function get_exams_count(){
+        try {
+            $id = Auth::guard('api')->id();
+         
+
+            $user = User::withCount([
+                'chapter_exams as finished_exams_count' => function ($q) {
+                    $q->select(DB::raw('count(distinct concat(chapter_no, "-", exam_no))'));
+                }
+            ])->findOrFail($id);
+
+            return response()->json([
+
+                'finished_exams' => $user->finished_exams_count
+
+            ]);
+        } catch (\Throwable $e) {
+            // أي error غير متوقع (غير ModelNotFound)
+            Log::error('Error fetching user exams', [
+                'user_id' => $id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong while fetching user data'
+            ], 500);
+        }
+    }
+
     public function isFinalExamAvilable()
     {
         try {
             $id = Auth::guard('api')->id();
-            $totalExams = 10;
+            $totalExams = 22;
 
             $user = User::withCount([
                 'chapter_exams as finished_exams_count' => function ($q) {
