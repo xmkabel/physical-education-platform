@@ -80,10 +80,12 @@ class AuthController extends Controller
     // Token response helper
     protected function respondWithToken($token)
     {
+        $user=User::all()->find(Auth::guard('api')->id());
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => Auth::guard('api')->factory()->getTTL() * 60
+            'expires_in' => Auth::guard('api')->factory()->getTTL() * 60,
+            'code'=>$user->code
         ]);
     }
 }
