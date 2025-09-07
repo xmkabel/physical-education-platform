@@ -16,9 +16,10 @@ import {
   faSignOut
 } from '@fortawesome/free-solid-svg-icons';
 import './Dashboard.css';
-import { getStudents, getStudentStats, updateStudent, deleteStudent, updatePassword, formatDate } from '../../utils/studentUtils';
+// import { getStudents, getStudentStats, updateStudent, deleteStudent, updatePassword, formatDate } from '../../utils/studentUtils';
 import { useNavigate } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
+// import { get } from '../../components/api/get';
 
 // added data to test
 function AdminDashboard() {
@@ -39,16 +40,31 @@ function AdminDashboard() {
   });
   const navigate = useNavigate();
 
-  // Load initial data
-  useEffect(() => {
-    const loadData = () => {
-      const studentData = getStudents();
-      const statsData = getStudentStats();
-      setStudents(studentData);
-      setStats(statsData);
-    };
-    loadData();
-  }, []);
+
+
+
+  // useEffect(() => {
+  //   const loadData = async () => {
+  //     try {
+  //       const [studentData, statsData] = await Promise.all([
+  //         get("/api/students"),
+  //         get("/api/students/stats")
+  //       ]);
+  //       setStudents(studentData);
+  //       setStats(statsData);
+  //     } catch (error) {
+  //       console.error("Error loading data:", error);
+  //       // Fallback to local data if API fails
+  //       // setStudents(getStudents());
+  //       // setStats(getStudentStats());z
+  //     }
+  //   };
+  //   loadData();
+  // }, []);
+
+
+
+
 
   // Handle sorting
   const handleSort = (field) => {
