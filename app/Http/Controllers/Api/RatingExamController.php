@@ -47,4 +47,11 @@ class RatingExamController extends Controller
 
 
     }
+
+    public function user_results(){
+        $user_id= Auth::guard('api')->id();
+        $user=User::with("rating_exams")->find($user_id);
+        return response()->json($user,200);
+    }
+
 }
