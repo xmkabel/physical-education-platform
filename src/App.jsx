@@ -36,13 +36,13 @@ function App() {
         {/* Protected Routes */}
         <Route path="/exams" element={<ProtectedRoute><ExamCards /></ProtectedRoute>} />
         <Route path="/video/:id" element={<ProtectedRoute><Video /></ProtectedRoute>} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/admin-dashboard" element={<AdminProtectedRoute><AdminDashboard  /></AdminProtectedRoute>} />
         <Route path="/redirect" element={<Redirect />} />
         {/* <Route path="/unauthorized" element={<Unauthorized title={"غير مصرح بالوصول"} code={403}/>} /> */}
         {/* Protected Chapter Routes */}
 
-
+npm 
 
 
         {StartChapterRoutes.map(route => (
