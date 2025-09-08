@@ -46,7 +46,7 @@ const Nav = ({title, selectedCategory, setSelectedCategory}) => {
         <FontAwesomeIcon icon={faArrowRight} className="back-arrow" /> العودة
       </button>
       <div className="nav-title-center">
-    <h1 className="exam-cards-title" style={{ margin: 0 }}>{title}</h1>
+    <h1 className="exam-title" style={{ margin: 0 }}>{title}</h1>
       </div>
       <button
         className="back-button nav-profile-btn"

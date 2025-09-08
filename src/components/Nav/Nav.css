@@ -12,9 +12,9 @@
   box-sizing: border-box;
 }
 
-.exam-cards-title {
+.exam-title {
   color: var(--navy-blue);
-  font-size: 2.8rem;
+  font-size: 2.5rem;
   font-weight: 700;
   position: relative;
   display: inline-block;
@@ -25,7 +25,7 @@
   order: 1;
 }
 
-.exam-cards-title::after {
+.exam-title::after {
   content: '';
   position: absolute;
    bottom: 0;
@@ -105,7 +105,7 @@
     margin: 10px auto;
   }
   
-  .exam-cards-title {
+  .exam-title {
     font-size: 2.2rem;
   }
   
@@ -126,19 +126,19 @@
     justify-content: space-between;
   }
   
-  .exam-cards-title {
-    font-size: 2.5rem;
-    text-align: right;
+  .exam-title {
+    font-size: 1.6rem;
+    text-align: center;
     order: 1;
     flex: 1;
     margin-right: 8px;
   }
-  .exam-cards-title::after {
+  .exam-title::after {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 55%;
-    right: 25%; 
+    left: 25%;
+    right: 25%;
     height: 4px;
     background: linear-gradient(90deg, transparent, var(--gold), transparent);
     border-radius: 2px;
@@ -161,8 +161,8 @@
     /* margin: 6px auto; */
   }
   
-  .exam-cards-title {
-    font-size: 2.2rem;
+  .exam-title {
+    font-size: 1.2rem!important;
     /* margin-right: 8px; */
   }
   
