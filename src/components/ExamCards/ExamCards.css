@@ -7,7 +7,7 @@
   min-height: 100vh;
 }
 
-.exam-cards-title {
+/* .exam-cards-title {
   margin-bottom: 1rem;
   color: var(--navy-blue);
   font-size: 2.8rem;
@@ -26,7 +26,7 @@
   height: 4px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
   border-radius: 2px;
-}
+} */
 
 .exam-cards-container h2 {
   color: var(--navy-blue);
@@ -129,7 +129,7 @@
 }
 
 .exam-card-title {
-  font-size: 1.8rem;
+  font-size: 12.8rem;
   color: var(--navy-blue);
   margin-bottom: 1rem;
   font-weight: 700;
@@ -232,9 +232,9 @@
     gap: 1rem;
   }
   
-  .exam-cards-title {
+  /* .exam-cards-title {
     font-size: 2rem;
-  }
+  } */
   
   .before-card,
   .after-card {
@@ -249,9 +249,9 @@
     gap: 1rem;
   }
   
-  .exam-cards-title {
+  /* .exam-cards-title {
     font-size: 1.8rem;
-  }
+  } */
   
   .before-card,
   .after-card {
@@ -329,9 +329,9 @@
   color: #28a745;
 }
 
-/* .exam-card.fully-completed {
+.exam-card.fully-completed {
   border: 2px solid #28a745;
-  box-shadow: 0 0 15px rgba(40, 167, 69, 0.3);
+  box-shadow: 0 0 15px var(--gold);
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   cursor: pointer;
@@ -343,4 +343,5 @@
   transform-style: preserve-3d;
   transform-origin: center;
   min-height: 220px;
-} */
+  
+}
