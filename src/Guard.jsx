@@ -7,10 +7,12 @@ import LoadingScreen from './components/LoadingScreen';
 const ALLOWLIST = new Set([
   '/login',
   '/register',
-  '/exams/start',
+  // '/exams/start', // Removed from allowlist as logic now controls access
   '/welcome',
   '/unauthorized',
   '/redirect',
+  // Add /exams to the allowlist since that's where users with ratings go
+  '/exams'
 ]);
 
 export default function Guard({ children }) {
@@ -41,9 +43,24 @@ export default function Guard({ children }) {
         const ratingsCount = Array.isArray(me?.rating_exams) ? me.rating_exams.length : 0;
 
         if (!cancelled) {
-          if (ratingsCount === 0 && location.pathname !== '/exams/start') {
-            navigate('/exams/start', { replace: true, state: { from: location } });
+          // --- Logic Change Starts Here ---
+          if (ratingsCount === 0) {
+            // User has taken no rating exams
+            if (location.pathname !== '/exams/start') {
+              // Redirect them to start the first one
+              navigate('/exams/start', { replace: true, state: { from: location } });
+            }
+            // If they are already on /exams/start, do nothing (allow access)
+          } else {
+            // User has taken 1 or more rating exams
+            if (location.pathname === '/exams/start') {
+              // Redirect them away from the start page
+              // Assuming '/exams' is the correct path for the main exams page
+              navigate('/exams', { replace: true }); 
+            }
+            // If they are on any other non-allowlisted page, access is determined by the ALLOWLIST check above
           }
+          // --- Logic Change Ends Here ---
         }
       } catch (e) {
         // Let existing auth flow handle 401s, etc.
@@ -57,7 +74,7 @@ export default function Guard({ children }) {
     return () => {
       cancelled = true;
     };
-  }, [isAuthenticated, user?.role, location.pathname, navigate]);
+  }, [isAuthenticated, user?.role, location.pathname, navigate]); // Dependencies remain the same
 
   // Optional: spinner/skeleton while checking
   if (checking) return <LoadingScreen />;
