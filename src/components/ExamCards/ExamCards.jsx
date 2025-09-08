@@ -4,27 +4,37 @@ import { useState, useEffect } from 'react';
 import Nav from '../Nav/Nav';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faCircle } from '@fortawesome/free-solid-svg-icons';
-
-
+import get from '../api/get';
+import { useExamData } from '../../services/GetExams';
+import MyAlert from '../alert/MyAlert';
+import LoadingScreen from '../LoadingScreen';
 const ExamCards = () => {
   const navigate = useNavigate();
-  const [isLoaded, setIsLoaded] = useState(false);
+    const [alert, setAlert] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
-
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
-
-  // Mock data for category stats - in a real app this would come from an API or context
+  const { loading: firstExamLoading, examData: firstExamData } = useExamData('start');
+  // useEffect(() => {
+  //   if (!firstExamLoading && firstExamData) {
+  //     // firstExamData is [completedCount, score] or [0, null]
+  //     console.log('First Exam Data:', firstExamData);
+  //     setLoading(false);
+  //   } else {
+  //     setLoading(true);
+  //   }
+  // }, [firstExamLoading, firstExamData]);
+  // if (loading) {
+  //   return <LoadingScreen/>;
+  // }
   const categoryStats = {
-    'start': { completedCount: 1, totalExams: 1 },
-    'first': { completedCount: 8, totalExams: 8 },
-    'second': { completedCount: 2, totalExams: 2 },
-    'third': { completedCount: 5, totalExams: 5 },
-    'fourth': { completedCount: 3, totalExams: 3 },
-    'fifth': { completedCount: 1, totalExams: 1 },
-    'sixth': { completedCount: 3, totalExams: 3 },
-    'final': { completedCount: 3, totalExams: 3 }
+    'start': { completedCount: firstExamData ? firstExamData[0] : 0, totalExams: 1 },
+    'first': { completedCount: 0, totalExams: 8 },
+    'second': { completedCount: 0, totalExams: 2 },
+    'third': { completedCount: 0, totalExams: 5 },
+    'fourth': { completedCount: 0, totalExams: 3 },
+    'fifth': { completedCount: 0, totalExams: 1 },
+    'sixth': { completedCount: 0, totalExams: 3 },
+    'final': { completedCount: 0, totalExams: 1 }
   };
 
   const categories = [
@@ -70,9 +80,28 @@ const ExamCards = () => {
     }
   ];
 
+  const start = () => {
+    setAlert({
+      type: 'success',
+      message: 'انت بالفعل أنهيت الاختبار القبلي بنجاح!'
+    });
+  };
+
+  const showDangerAlert = () => {
+    setAlert({
+      type: 'danger',
+      message: 'حدث خطأ! يرجى التحقق من البيانات وإعادة المحاولة.'
+    });
+  };
+   const closeAlert = () => {
+    setAlert(null);
+  };
   const handleCategoryClick = (categoryId) => {
     if (categoryId === 'first') {
-      navigate('/exams/first');
+      
+        navigate('/exams/first');
+        
+      
     }
     else if (categoryId === 'second') {
       navigate('/exams/second');
@@ -93,7 +122,13 @@ const ExamCards = () => {
       navigate('/exams/final');
     }
     else if (categoryId === 'start') {
+      if(firstExamData[0] == 1) {
+        console.log(firstExamData);
+        
+         start(); // Show success alert if the first exam is completed
+      } else {
       navigate('/exams/start');
+      }
     }
     else {
       setSelectedCategory(categoryId === selectedCategory ? null : categoryId);
@@ -165,6 +200,13 @@ const ExamCards = () => {
           )}
         </div>
       </div>
+      {alert && (
+        <MyAlert 
+          type={alert.type} 
+          message={alert.message} 
+          onClose={closeAlert}
+        />
+      )}
     </>
   );
 };
