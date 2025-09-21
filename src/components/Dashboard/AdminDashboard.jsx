@@ -3,6 +3,7 @@ import { Container, Card, Row, Col, Button, Table, Form, Modal } from 'react-boo
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faUser, 
+  faUsers, 
   faUserGraduate,
   faEdit,
   faTrash,
@@ -26,6 +27,7 @@ import get from '../api/get';
 // added data to test
 function AdminDashboard() {
   const [students, setStudents] = useState([]);
+  const [analytics, setAnalytics] = useState([]);
   const [stats, setStats] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
   const [sortField, setSortField] = useState('name');
@@ -55,6 +57,20 @@ function AdminDashboard() {
   loadData();
 },[]);
 console.log(students);
+
+  const fetchAnalytics = async () => {
+    const data = await get('/students-analytics');
+    return data.data;
+  };
+
+  useEffect(() => {
+    const loadAnalytics = async () => {
+      const analytics = await fetchAnalytics();
+      setAnalytics(analytics);
+  };
+  loadAnalytics();
+},[]);
+console.log(analytics);
   // Load initial data
 
 
@@ -169,34 +185,34 @@ console.log(students);
       <Container className="py-4">
         {/* Stats Cards */}
         <Row className="g-4 mb-4">
-          <Col md={3}>
+          <Col md={4}>
             <div className="statCard">
-              <FontAwesomeIcon icon={faUserGraduate} className="statIcon" />
+              <FontAwesomeIcon icon={faUsers} className="statIcon" />
               <div>
-                <h4>{stats.totalStudents || 0}</h4>
+                <h4>{analytics.all_users || 0}</h4>
                 <p>إجمالي عدد الطلاب</p>
               </div>
             </div>
           </Col>
-          <Col md={3}>
+          <Col md={4}>
             <div className="statCard">
               <FontAwesomeIcon icon={faChartLine} className="statIcon" />
               <div>
-                <h4>{stats.completedPreTest || 0}</h4>
+                <h4>{analytics.pre || 0}</h4>
                 <p>أكملوا الاختبار القبلي</p>
               </div>
             </div>
           </Col>
-          <Col md={3}>
+          <Col md={4}>
             <div className="statCard">
-              <FontAwesomeIcon icon={faChartLine} className="statIcon" />
+              <FontAwesomeIcon icon={faUserGraduate} className="statIcon" />
               <div>
-                <h4>{stats.completedPostTest || 0}</h4>
+                <h4>{analytics.post || 0}</h4>
                 <p>أكملوا الاختبار البعدي</p>
               </div>
             </div>
           </Col>
-          <Col md={3}>
+          {/* <Col md={3}>
             <div className="statCard">
               <FontAwesomeIcon icon={faSyncAlt} className="statIcon" />
               <div>
@@ -204,7 +220,7 @@ console.log(students);
                 <p>متوسط التحسن</p>
               </div>
             </div>
-          </Col>
+          </Col> */}
         </Row>
 
         {/* Students Table Card */}
