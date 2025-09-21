@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Card, Row, Col, Button, ProgressBar, Badge } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
@@ -15,6 +15,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 import './Dashboard.css';
+import get from '../api/get';
+import { object } from 'framer-motion/client';
+
+
+
 
 function Dashboard({ 
   studentData = {
@@ -33,6 +38,44 @@ function Dashboard({
   }
 }) {
   const navigate = useNavigate();
+
+  const [completedExams,setCompletedExams]=useState(0);
+  const [preExam,setPreExam]=useState({});
+  const [postExam,setPostExam]=useState({});
+
+  const fetchExamsCount=async ()=>{
+    let completed_exams= await get('/exams-count');
+   
+    return completed_exams.finished_exams
+  }
+  const fetchPreExam=async ()=>{
+    let pre_exam= await get('/user-rating-exams');
+    
+    return pre_exam.rating_exams[0]?pre_exam.rating_exams[0] :{}
+  }
+
+  const fetchPostExam=async ()=>{
+    let post_exam= await get('/user-rating-exams');
+   
+    return post_exam.rating_exams[1]?post_exam.rating_exams[1] :{}
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const examsCount = await fetchExamsCount();
+      setCompletedExams(examsCount);
+
+      const preExamData = await fetchPreExam();
+      setPreExam(preExamData);
+
+      const postExamData = await fetchPostExam();
+      setPostExam(postExamData);
+
+      console.log("after setting state:", preExamData);
+    };
+
+    fetchData();
+  }, []);
 
   // Calculate improvement percentage
   const improvement = studentData.postTest.score - studentData.preTest.score;
@@ -76,7 +119,7 @@ function Dashboard({
                 <div className="statCard">
                   <FontAwesomeIcon icon={faListAlt} className="statIcon" />
                   <div>
-                    <h4>{studentData.completedQuizzes}</h4>
+                    <h4>{completedExams}</h4>
                     <p>اختبار مكتمل</p>
                   </div>
                 </div>
@@ -115,10 +158,10 @@ function Dashboard({
                 <div className="testScoreCard pre-test">
                   <h5>الاختبار القبلي</h5>
                   <div className="score-circle">
-                    <h3>{studentData.preTest.score}%</h3>
+                    <h3>{preExam.score?preExam.score:'__' }%</h3>
                   </div>
                   <p className="text-muted">
-                    {studentData.preTest.date ? new Date(studentData.preTest.date).toLocaleDateString('ar-SA') : 'لم يتم الاختبار بعد'}
+                    {preExam.score ? new Date(preExam.created_at).toLocaleDateString('en-Eg') : 'لم يتم الاختبار بعد'}
                   </p>
                 </div>
               </Col>
@@ -139,10 +182,10 @@ function Dashboard({
                 <div className="testScoreCard post-test">
                   <h5>الاختبار البعدي</h5>
                   <div className="score-circle">
-                    <h3>{studentData.postTest.score}%</h3>
+                    <h3>{postExam.score?postExam.score:'__' }</h3>
                   </div>
                   <p className="text-muted">
-                    {studentData.postTest.date ? new Date(studentData.postTest.date).toLocaleDateString('ar-SA') : 'لم يتم الاختبار بعد'}
+                    {postExam.score ? new Date(postExam.created_at).toLocaleDateString('en-Eg') : 'لم يتم الاختبار بعد'}
                   </p>
                 </div>
               </Col>
