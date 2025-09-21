@@ -109,6 +109,39 @@ class ChapterExamController extends Controller
         }
     }
 
+    public function get_chapter_exams_count($chapter_no){
+        try {
+            $id = Auth::guard('api')->id();
+         
+
+            $user = User::withCount([
+                'chapter_exams as finished_exams_count' => function ($q) use($chapter_no) {
+                    $q->select(DB::raw('count(distinct concat(chapter_no, "-", exam_no))'));
+                    $q->where('chapter_no','=',$chapter_no);
+                }
+            ])->findOrFail($id);
+
+            return response()->json([
+                'finished_exams' => $user->finished_exams_count
+
+                
+
+            ]);
+        } catch (\Throwable $e) {
+            // أي error غير متوقع (غير ModelNotFound)
+            Log::error('Error fetching user exams', [
+                'user_id' => $id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong while fetching user data'
+            ], 500);
+        }
+    }
+
     public function isFinalExamAvilable()
     {
         try {

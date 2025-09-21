@@ -20,6 +20,8 @@ Route::middleware('jwt-auth')->group(function () {
     Route::post('/chapter-exams',[ChapterExamController::class, 'store']);
     Route::get('/chapter-exams',[ChapterExamController::class, 'results'])->middleware('role:admin');
     Route::get('/exams-count',[ChapterExamController::class, 'get_exams_count']);
+    Route::get('/chapter-exams-count/{chapter_no}',[ChapterExamController::class, 'get_chapter_exams_count']);
+
     Route::get("/chapter-exams/is-final-exam-avilable",[ChapterExamController::class, 'isFinalExamAvilable']);
     Route::get('/students-analytics',[RatingExamController::class, 'usersAnalytics']);
 
