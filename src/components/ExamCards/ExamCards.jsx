@@ -72,7 +72,7 @@ const ExamCards = () => {
   const showDangerAlert = () => {
     setAlert({
       type: "danger",
-      message: "حدث خطأ! يرجى التحقق من البيانات وإعادة المحاولة.",
+      message: "عذراً، الاختبار البعدى غير متاح حالياً.",
     });
   };
 
