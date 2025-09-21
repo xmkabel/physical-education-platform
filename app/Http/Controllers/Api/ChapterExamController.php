@@ -89,8 +89,9 @@ class ChapterExamController extends Controller
             ])->findOrFail($id);
 
             return response()->json([
-
                 'finished_exams' => $user->finished_exams_count
+
+                
 
             ]);
         } catch (\Throwable $e) {
