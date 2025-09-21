@@ -7,19 +7,21 @@ import {
   faEdit,
   faTrash,
   faKey,
+  faSignOut,
   faArrowLeft,
   faArrowRight,
   faSearch,
   faSort,
   faChartLine,
-  faSyncAlt,
-  faSignOut
+  faSyncAlt
 } from '@fortawesome/free-solid-svg-icons';
 import './Dashboard.css';
-// import { getStudents, getStudentStats, updateStudent, deleteStudent, updatePassword, formatDate } from '../../utils/studentUtils';
+import { getStudents, getStudentStats, updateStudent, deleteStudent, updatePassword, formatDate } from '../../utils/studentUtils';
 import { useNavigate } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
-// import { get } from '../../components/api/get';
+import get from '../api/get';
+
+
 
 // added data to test
 function AdminDashboard() {
@@ -40,30 +42,20 @@ function AdminDashboard() {
   });
   const navigate = useNavigate();
 
+  const fetchStudents = async () => {
+    const data = await get('/rating-exams');
+    return data.data;
+  };
 
-
-
-  // useEffect(() => {
-  //   const loadData = async () => {
-  //     try {
-  //       const [studentData, statsData] = await Promise.all([
-  //         get("/api/students"),
-  //         get("/api/students/stats")
-  //       ]);
-  //       setStudents(studentData);
-  //       setStats(statsData);
-  //     } catch (error) {
-  //       console.error("Error loading data:", error);
-  //       // Fallback to local data if API fails
-  //       // setStudents(getStudents());
-  //       // setStats(getStudentStats());z
-  //     }
-  //   };
-  //   loadData();
-  // }, []);
-
-
-
+  useEffect(() => {
+    const loadData = async () => {
+      const students = await fetchStudents();
+      setStudents(students);
+  };
+  loadData();
+},[]);
+console.log(students);
+  // Load initial data
 
 
   // Handle sorting
@@ -84,8 +76,8 @@ function AdminDashboard() {
         student.name.toLowerCase().includes(searchLower) ||
         student.code.toLowerCase().includes(searchLower) ||
         // Also search by test scores
-        (student.preTest?.toString() || '').includes(searchLower) ||
-        (student.postTest?.toString() || '').includes(searchLower)
+        (student.rating_exams[0]?.score.toString() || '').includes(searchLower) ||
+        (student.rating_exams[1]?.score.toString() || '').includes(searchLower)
       );
     })
     .sort((a, b) => {
@@ -94,11 +86,6 @@ function AdminDashboard() {
       if (sortField === 'code') return a.code.localeCompare(b.code) * direction;
       if (sortField === 'preTest') return (a.preTest - b.preTest) * direction;
       if (sortField === 'postTest') return (a.postTest - b.postTest) * direction;
-      if (sortField === 'improvement') {
-        const aImprovement = (a.postTest || 0) - (a.preTest || 0);
-        const bImprovement = (b.postTest || 0) - (b.preTest || 0);
-        return (aImprovement - bImprovement) * direction;
-      }
       return 0;
     });
 
@@ -160,7 +147,7 @@ function AdminDashboard() {
 
   return (
     <div className="dashboardContainer">
-      <div className="dashboardHeader position-relative">
+      <div className="dashboardHeader">
         <button 
           className="logoutButton position-absolute" 
           style={{ left: '2rem', top: '50%', transform: 'translateY(-50%)' }}
@@ -171,12 +158,12 @@ function AdminDashboard() {
         >
           تسجيل الخروج <FontAwesomeIcon icon={faSignOut} className="mx-2 fa-flip-horizontal" />
         </button>
-        <h1 className="dashboardTitle">
-          لوحة تحكم المسؤول
-        </h1>
         <button className="backButton" onClick={() => navigate("/exams")}>
           <FontAwesomeIcon icon={faArrowRight} className="backArrow" /> العودة
         </button>
+        <h1 className="dashboardTitle">
+          لوحة تحكم المسؤول
+        </h1>
       </div>
 
       <Container className="py-4">
@@ -236,12 +223,10 @@ function AdminDashboard() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                {searchTerm === '' && (
-                  <FontAwesomeIcon 
-                    icon={faSearch} 
-                    className="position-absolute top-50 start-0 translate-middle-y mx-2 text-muted"
-                  />
-                )}
+                <FontAwesomeIcon 
+                  icon={faSearch} 
+                  className="position-absolute top-50 start-0 translate-middle-y mx-2 text-muted"
+                />
               </div>
               {/* {searchTerm && (
                 <Button 
@@ -259,10 +244,10 @@ function AdminDashboard() {
               <Table className="table-striped table-hover">
                 <thead>
                   <tr>
-                    <th onClick={() => handleSort('name')} style={{ cursor: 'pointer', width: '180px' }}>
+                    <th onClick={() => handleSort('name')} style={{ cursor: 'pointer' }}>
                       اسم الطالب {sortField === 'name' && <FontAwesomeIcon icon={faSort} />}
                     </th>
-                    <th onClick={() => handleSort('code')} style={{ cursor: 'pointer', textAlign: 'center' }}>
+                    <th onClick={() => handleSort('code')} style={{ cursor: 'pointer' }}>
                       كود الطالب {sortField === 'code' && <FontAwesomeIcon icon={faSort} />}
                     </th>
                     <th onClick={() => handleSort('preTest')} style={{ cursor: 'pointer' }}>
@@ -271,50 +256,47 @@ function AdminDashboard() {
                     <th onClick={() => handleSort('postTest')} style={{ cursor: 'pointer' }}>
                       الاختبار البعدي {sortField === 'postTest' && <FontAwesomeIcon icon={faSort} />}
                     </th>
-                    <th onClick={() => handleSort('improvement')} style={{ cursor: 'pointer' }}>
-                      التحسن {sortField === 'improvement' && <FontAwesomeIcon icon={faSort} />}
-                    </th>
-                    <th style={{ textAlign: 'center', width: '160px' }}>الإجراءات</th>
+                    <th>التحسن</th>
+                    <th>الإجراءات</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredStudents.map((student) => {
-                    const improvement = student.postTest - student.preTest;
-                    const hasPreTest = student.preTest > 0;
-                    const hasPostTest = student.postTest > 0;
+                    const improvement = student.rating_exams[1]?.score - student.rating_exams[0]?.score;
+                    const hasPreTest = student.rating_exams[0]?.score;
+                    const hasPostTest = student.rating_exams[1]?.score ;
                     const hasBothTests = hasPreTest && hasPostTest;
-                    
                     return (
-                      <tr key={student.id}>
-                        <td>{student.name}</td>
-                        <td style={{ textAlign: 'center' }}>{student.code}</td>
-                        <td>
+                      <tr key={student.id} className="student-table-row">
+                        <td className="student-table-name">{student.name}</td>
+                        <td className="student-table-code">{student.code}</td>
+                        <td className="student-table-pretest">
                           {hasPreTest ? (
                             <div>
-                              <div>{student.preTest}%</div>
+                              <div>{student.rating_exams[0]?.score}%</div>
                               <small className="text-muted">
-                                {student.testDates?.preTest ? new Date(student.testDates.preTest).toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' }) : ''}
+                                {formatDate(student.rating_exams[0]?.created_at)}
                               </small>
                             </div>
                           ) : '-'}
                         </td>
-                        <td>
+                        <td className="student-table-posttest">
                           {hasPostTest ? (
                             <div>
-                              <div>{student.postTest}%</div>
+                              <div>{student.rating_exams[1]?.score}%</div>
                               <small className="text-muted">
-                                {student.testDates?.postTest ? new Date(student.testDates.postTest).toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' }) : ''}
+                                {formatDate(student.rating_exams[1]?.created_at)}
                               </small>
                             </div>
                           ) : '-'}
                         </td>
-                        <td className={hasBothTests ? (improvement > 0 ? 'text-success' : 'text-danger') : ''}>
+                        <td className={`student-table-improvement ${hasBothTests ? (improvement > 0 ? 'text-success' : 'text-danger') : ''}`}>
                           {hasBothTests ? (
                             <strong>{improvement > 0 ? '+' : ''}{improvement}%</strong>
                           ) : '-'}
                         </td>
-                        <td>
-                          <div className="action-buttons d-flex gap-2 justify-content-center align-items-center">
+                        <td className="student-table-actions">
+                          <div className="d-flex flex-nowrap gap-2 justify-content-center align-items-center">
                             <Button 
                               variant="outline-primary" 
                               size="sm"
