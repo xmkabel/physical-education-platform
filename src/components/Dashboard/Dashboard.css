@@ -245,17 +245,21 @@
     font-size: 0.9rem;
   }
   
-  .progressBar {
-    height: 12px !important;
-    border-radius: 10px;
-    background-color: #e9ecef !important;
-  }
-  
-  .progressBar .progress-bar {
-    background: linear-gradient(45deg, var(--navy-blue), var(--gold)) !important;
-    border-radius: 10px;
-    transition: width 0.6s ease;
-  }
+.progressBar {
+  /* padding: 1rem; */
+  height: 20px !important;
+  border-radius: 10px;              /* ✅ correct radius */
+  border: 1px solid var(--gold);          /* ✅ proper border */
+  background-color: #e9ecef !important;
+  overflow: hidden;                 /* keeps the inner bar rounded */
+}
+
+.progressBar .progress-bar {
+  background: linear-gradient(45deg, var(--navy-blue), var(--navy-blue)) !important;
+  border-radius: 10px;              /* ✅ match outer radius */
+  transition: width 0.6s ease;
+  height: 18px; /* ✅ slightly less than outer */
+}
   
   .badge {
     font-size: 0.85rem;
