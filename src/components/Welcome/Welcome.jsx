@@ -74,7 +74,7 @@ function Welcome() {
             onClick={() => navigate('/login')} 
             className="login-button"
           >
-            <FontAwesomeIcon icon={faArrowLeft} className="me-2" />
+            <FontAwesomeIcon icon={faArrowLeft} className="m-5" />
             الذهاب إلى تسجيل الدخول
           </button>
         </div>
