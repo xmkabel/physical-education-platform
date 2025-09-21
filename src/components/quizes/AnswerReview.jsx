@@ -41,9 +41,9 @@ function AnswerReview({ quizContent, userAnswers, onClose }) {
     <div style={{ textAlign: "right" }}>
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h5>مراجعة الإجابات</h5>
-        <Button size="sm" onClick={onClose}>
+        <button  onClick={onClose} className={styles.button}>
           إغلاق
-        </Button>
+        </button>
       </div>
 
       <div style={{ maxHeight: 320, overflowY: "auto" }}>
