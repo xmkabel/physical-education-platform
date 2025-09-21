@@ -1,3 +1,58 @@
+/* Student Info Row Modern Wide Style */
+.student-info-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3.5rem;
+  color: #1b3058;
+  font-weight: 600;
+  font-size: 1.35rem;
+  letter-spacing: 0.5px;
+  padding: 1.5rem 0 1.5rem 0;
+  background: rgba(27,48,88,0.04);
+  border-radius: 1.5rem;
+  box-shadow: 0 2px 16px 0 rgba(27,48,88,0.09);
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.student-info-label {
+  min-width: 160px;
+  text-align: center;
+  padding: 0.7rem 1.5rem;
+  background: #fff;
+  border-radius: 0.9rem;
+  box-shadow: 0 1px 6px 0 rgba(27,48,88,0.08);
+  font-size: 1.25rem;
+}
+
+.student-info-divider {
+  width: 2.5px;
+  height: 2.7rem;
+  background: #e0e6ed;
+  border-radius: 1.5px;
+  margin: 0 1.5rem;
+  display: inline-block;
+}
+
+@media (max-width: 768px) {
+  .student-info-row {
+    gap: 1.2rem;
+    font-size: 1.05rem;
+    padding: 1rem 0;
+    max-width: 98vw;
+  }
+  .student-info-label {
+    min-width: 90px;
+    font-size: 1rem;
+    padding: 0.5rem 0.7rem;
+  }
+  .student-info-divider {
+    height: 1.5rem;
+    margin: 0 0.7rem;
+  }
+}
 /* Custom badge colors for dashboard quiz stats */
 .badge.completed-quizzes {
   background: var(--navy-blue) !important;
@@ -56,7 +111,7 @@
     min-height: 100vh;
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     direction: rtl;
-    text-align: right;
+    text-align: center;
   }
   
   .dashboardHeader {
@@ -280,17 +335,23 @@
     }
     
     .backButton {
-      left: 1rem;
+      right: 1rem;
       padding: 0.5rem 1rem;
       font-size: 0.9rem;
     }
     
     .dashboardTitle {
       font-size: 1.5rem;
-      text-align: start;
+      text-align: center;
       margin-right: 2rem;
     }
     
+    .logoutButton{
+      left: 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+    }
+
     .statCard {
       padding: 1rem;
       margin-bottom: 1rem;

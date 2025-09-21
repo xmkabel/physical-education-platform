@@ -39,14 +39,19 @@ function Dashboard({
 }) {
   const navigate = useNavigate();
 
-  const [completedExams,setCompletedExams]=useState(0);
+  const [examsCount,setCompletedExams]=useState(0);
   const [preExam,setPreExam]=useState({});
   const [postExam,setPostExam]=useState({});
+  const [profileData,setProfileDate]=useState({});
+
+  const fetchProfileData = async ()=>{
+    let profile_data= await get('/me ');
+  return profile_data}
 
   const fetchExamsCount=async ()=>{
-    let completed_exams= await get('/exams-count');
+    let examsCount= await get('/exams-count');
    
-    return completed_exams.finished_exams
+    return examsCount.finished_exams
   }
   const fetchPreExam=async ()=>{
     let pre_exam= await get('/user-rating-exams');
@@ -68,10 +73,13 @@ function Dashboard({
       const preExamData = await fetchPreExam();
       setPreExam(preExamData);
 
+      const profileData = await fetchProfileData();
+      setProfileDate(profileData);
+
       const postExamData = await fetchPostExam();
       setPostExam(postExamData);
 
-      console.log("after setting state:", preExamData);
+      console.log("after setting state:", examsCount);
     };
 
     fetchData();
@@ -87,7 +95,7 @@ function Dashboard({
       <div className="dashboardHeader position-relative">
         <button 
           className="logoutButton position-absolute" 
-          style={{ left: '2rem', top: '50%', transform: 'translateY(-50%)' }}
+          // style={{ left: '2rem', top: '50%', transform: 'translateY(-50%)' }}
           onClick={() => {
             localStorage.removeItem('token');
             navigate('/login');
@@ -114,32 +122,16 @@ function Dashboard({
             معلومات الطالب
           </Card.Header>
           <Card.Body>
-            <Row>
-              <Col md={4}>
-                <div className="statCard">
-                  <FontAwesomeIcon icon={faListAlt} className="statIcon" />
-                  <div>
-                    <h4>{completedExams}</h4>
-                    <p>اختبار مكتمل</p>
-                  </div>
-                </div>
-              </Col>
-              <Col md={4}>
-                <div className="statCard">
-                  <FontAwesomeIcon icon={faPercent} className="statIcon" />
-                  <div>
-                    <h4>{studentData.averageScore}%</h4>
-                    <p>متوسط الدرجات</p>
-                  </div>
-                </div>
-              </Col>
-              <Col md={4}>
-                <div className="statCard">
-                  <FontAwesomeIcon icon={faChartLine} className="statIcon" />
-                  <div>
-                    <h4>{studentData.overallProgress}%</h4>
-                    <p>التقدم الإجمالي</p>
-                  </div>
+            <Row className="justify-content-center">
+              <Col md={10} lg={8}>
+                <div className="student-info-row">
+                  <span className="student-info-label">
+                    الاسم: {profileData.first_name+" "+profileData.last_name || "NA"}
+                  </span>
+                  <span className="student-info-divider"></span>
+                  <span className="student-info-label">
+                    الكود: {profileData.code || "000"}
+                  </span>
                 </div>
               </Col>
             </Row>
@@ -170,10 +162,10 @@ function Dashboard({
                 <div className="improvement-indicator">
                   <FontAwesomeIcon 
                     icon={faArrowLeft} 
-                    className={`improvement-arrow ${hasImprovement ? 'text-success' : 'text-danger'}`}
+                    className={`improvement-arrow ${(preExam.score && postExam.score) ? (postExam.score - preExam.score > 0 ? 'text-success' : 'text-danger') : ''}`}
                   />
-                  <div className={`improvement-value ${hasImprovement ? 'text-success' : 'text-danger'}`}>
-                    {hasImprovement ? '+' : ''}{improvementPercentage}%
+                  <div className={`improvement-value ${(preExam.score && postExam.score) ? (postExam.score - preExam.score > 0 ? 'text-success' : 'text-danger') : ''}`}>
+                    {(preExam.score && postExam.score) ? `${((postExam.score - preExam.score) / preExam.score * 100).toFixed(1)}%` : '--'}
                   </div>
                 </div>
               </Col>
@@ -190,13 +182,16 @@ function Dashboard({
                 </div>
               </Col>
             </Row>
-
             <div className="text-center mt-4">
-              <p className={`improvement-summary ${hasImprovement ? 'text-success' : 'text-danger'}`}>
-                {hasImprovement 
-                  ? `تحسن الأداء بنسبة ${improvementPercentage}% من الاختبار القبلي إلى البعدي`
-                  : 'لم يتم إكمال الاختبارين بعد'}
-              </p>
+              {(preExam.score && postExam.score) ? (
+                <p className="improvement-summary text-success">
+                  نسبة تحسن الأداء: {((postExam.score - preExam.score) / preExam.score * 100).toFixed(1)}%
+                </p>
+              ) : (
+                <p className="improvement-summary text-danger">
+                  يجب عليك الانتهاء من الاختبارات لحساب نسبة تحسن الاداء
+                </p>
+              )}
             </div>
           </Card.Body>
         </Card>
@@ -211,22 +206,22 @@ function Dashboard({
             <div className="mb-3">
               <div className="d-flex justify-content-between mb-2">
                 <span>تقدم الدورة التدريبية</span>
-                <span className="fw-bold">{studentData.overallProgress}%</span>
+                <span className="fw-bold">{Math.round(examsCount/studentData.remainingQuizzes*100)}%</span>
               </div>
               <ProgressBar 
-                now={studentData.overallProgress} 
+                now={examsCount/studentData.remainingQuizzes*100} 
                 className="progressBar"
               />
             </div>
             <Row className="text-center">
               <Col>
                 <Badge className="badge completed-quizzes">
-                  {studentData.completedQuizzes} اختبار مكتمل
+                  {examsCount} اختبار مكتمل
                 </Badge>
               </Col>
               <Col>
                 <Badge className="badge remaining-quizzes">
-                  {studentData.remainingQuizzes} اختبار متبقي
+                  {studentData.remainingQuizzes - examsCount} اختبار متبقي
                 </Badge>
               </Col>
             </Row>
@@ -234,7 +229,7 @@ function Dashboard({
         </Card>
 
         {/* Chapters Progress */}
-        <Card className="cardD mb-4">
+        {/* <Card className="cardD mb-4">
           <Card.Header className="cardHeader">
             <FontAwesomeIcon icon={faTrophy} className="mx-2" />
             تقدم الفصول
@@ -261,7 +256,7 @@ function Dashboard({
               ))}
             </Row>
           </Card.Body>
-        </Card>
+        </Card> */}
 
         {/* Recent Quiz Results */}
         <Card className="cardD mb-4">
