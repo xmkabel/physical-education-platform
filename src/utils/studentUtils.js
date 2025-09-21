@@ -66,7 +66,7 @@ export const updatePassword = (studentId, newPassword) => {
 // Helper function to format dates in Arabic
 export const formatDate = (dateString) => {
   if (!dateString) return '-';
-  return new Date(dateString).toLocaleDateString('ar-SA', {
+  return new Date(dateString).toLocaleDateString('ar-EG', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
