@@ -1,3 +1,31 @@
+/* Students Table Row & Cell Styles */
+.student-table-row {
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.student-table-name {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.student-table-code {
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+.student-table-pretest,
+.student-table-posttest {
+  min-width: 90px;
+  text-align: center;
+}
+.student-table-improvement {
+  min-width: 70px;
+  text-align: center;
+}
+.student-table-actions {
+  min-width: 120px;
+}
 /* Student Info Row Modern Wide Style */
 .student-info-row {
   display: flex;

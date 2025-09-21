@@ -21,6 +21,7 @@ import { object } from 'framer-motion/client';
 
 
 
+
 function Dashboard({ 
   studentData = {
     completedQuizzes: 0,
@@ -229,37 +230,68 @@ function Dashboard({
         </Card>
 
         {/* Chapters Progress */}
-        {/* <Card className="cardD mb-4">
+        <Card className="cardD mb-4">
           <Card.Header className="cardHeader">
             <FontAwesomeIcon icon={faTrophy} className="mx-2" />
             تقدم الفصول
           </Card.Header>
           <Card.Body>
             <Row>
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-                <Col md={6} lg={4} key={item} className="mb-3">
-                  <div className="chapterCard">
-                    <h6 className="chapterTitle">الفصل {item}</h6>
-                    <div className="mb-2">
-                      <ProgressBar 
-                        now={0} 
-                        className="smallProgressBar"
-                        variant="primary"
-                      />
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => {
+                // Assume profileData.chapters is an array of objects: { completed, total, score }
+                const chapter = profileData.chapters && profileData.chapters[item-1] ? profileData.chapters[item-1] : { completed: 0, total: 0, score: 0 };
+                const percent = chapter.total > 0 ? Math.round((chapter.completed / chapter.total) * 100) : 0;
+                return (
+                  <Col md={6} lg={4} key={item} className="mb-3">
+                    <div className="chapterCard">
+                      <h6 className="chapterTitle">الفصل {item}</h6>
+                      <div className="mb-2">
+                        <ProgressBar 
+                          now={percent} 
+                          className="smallProgressBar"
+                          variant="primary"
+                        />
+                      </div>
+                      <div className="d-flex justify-content-between small">
+                        <span>{chapter.completed}/{chapter.total} مكتمل</span>
+                        <span>{percent}%</span>
+                      </div>
+                      <div className="chapter-score mt-2 text-center" style={{color:'#1b3058',fontWeight:600}}>
+                        الدرجة الكلية: {chapter.score}
+                      </div>
+                      <div className="chapter-tests-list mt-2">
+                        {chapter.tests && chapter.tests.length > 0 ? (
+                          <table className="table table-sm table-borderless mb-0">
+                            <tbody>
+                              {chapter.tests.map((test, idx) => (
+                                <tr key={idx}>
+                                  <td style={{fontWeight:600}}>اختبار {idx+1}</td>
+                                  <td>
+                                    <span style={{
+                                      color: test.score >= (test.fullScore * 0.6) ? '#28a745' : '#dc3545',
+                                      fontWeight: 600
+                                    }}>
+                                      {test.score} / {test.fullScore}
+                                    </span>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        ) : (
+                          <div className="text-muted small">لا يوجد اختبارات بعد</div>
+                        )}
+                      </div>
                     </div>
-                    <div className="d-flex justify-content-between small">
-                      <span>0/0 مكتمل</span>
-                      <span>0%</span>
-                    </div>
-                  </div>
-                </Col>
-              ))}
+                  </Col>
+                );
+              })}
             </Row>
           </Card.Body>
-        </Card> */}
+        </Card>
 
         {/* Recent Quiz Results */}
-        <Card className="cardD mb-4">
+        {/* <Card className="cardD mb-4">
           <Card.Header className="cardHeader">
             <FontAwesomeIcon icon={faCalendar} className="mx-2" />
             نتائج الاختبارات الأخيرة
@@ -273,7 +305,7 @@ function Dashboard({
               </Button>
             </div>
           </Card.Body>
-        </Card>
+        </Card> */}
 
         {/* Action Buttons */}
         <div className="d-flex justify-content-center gap-3">
