@@ -21,6 +21,86 @@ const ExamCards = () => {
   const [finalExamAllowed, setFinalExamAllowed] = useState(false);
   const [finalExamChecked, setFinalExamChecked] = useState(false);
 
+  const [firstChapterCount, setFirstChapterCount] = useState(0);
+  const [secondChapterCount, setSecondChapterCount] = useState(0);
+  const [thirdChapterCount, setThirdChapterCount] = useState(0);
+  const [fourthChapterCount, setFourthChapterCount] = useState(0);
+  const [fifthChapterCount, setFifthChapterCount] = useState(0);
+  const [sixthChapterCount, setSixthChapterCount] = useState(0);
+////////////////////////////////////////
+ const fetchFirstChapterCount = async ()=>{
+    let firstChapterCount= await get('/chapter-exams-count/1 ');
+  return firstChapterCount}
+
+  const fetchSecondChapterCount = async ()=>{
+    let secondChapterCount= await get('/chapter-exams-count/2 ');
+  return secondChapterCount}
+
+  const fetchThirdChapterCount = async ()=>{
+    let thirdChapterCount= await get('/chapter-exams-count/3 ');
+  return thirdChapterCount}
+
+  const fetchFourthChapterCount = async ()=>{
+    let fourthChapterCount= await get('/chapter-exams-count/4 ');
+  return fourthChapterCount}
+
+  const fetchFifthChapterCount = async ()=>{
+    let fifthChapterCount= await get('/chapter-exams-count/5 ');
+  return fifthChapterCount}
+
+  const fetchSixthChapterCount = async ()=>{
+    let sixthChapterCount= await get('/chapter-exams-count/6 ');
+  return sixthChapterCount}
+
+  useEffect(() => {
+    const fetchFirstChapterCountData = async () => {
+      const FirstChapterCountData = await fetchFirstChapterCount();
+      setFirstChapterCount(FirstChapterCountData.finished_exams);
+
+
+      console.log("after setting state:", firstChapterCount);
+    };
+    fetchFirstChapterCountData();
+
+    const fetchSecondChapterCountData = async () => {
+      const SecondChapterCountData = await fetchSecondChapterCount();
+      setSecondChapterCount(SecondChapterCountData.finished_exams);
+      console.log("after setting state:", secondChapterCount);
+    };
+    fetchSecondChapterCountData();
+
+    const fetchThirdChapterCountData = async () => {
+      const ThirdChapterCountData = await fetchThirdChapterCount();
+      setThirdChapterCount(ThirdChapterCountData.finished_exams);
+      console.log("after setting state:", thirdChapterCount);
+    };
+    fetchThirdChapterCountData();
+
+    const fetchFourthChapterCountData = async () => {
+      const FourthChapterCountData = await fetchFourthChapterCount();
+      setFourthChapterCount(FourthChapterCountData.finished_exams);
+      console.log("after setting state:", fourthChapterCount);
+    };
+    fetchFourthChapterCountData();
+
+    const fetchFifthChapterCountData = async () => {
+      const FifthChapterCountData = await fetchFifthChapterCount();
+      setFifthChapterCount(FifthChapterCountData.finished_exams);
+      console.log("after setting state:", fifthChapterCount);
+    }
+
+    fetchFifthChapterCountData();
+
+    const fetchSixthChapterCountData = async () => {
+      const SixthChapterCountData = await fetchSixthChapterCount();
+      setSixthChapterCount(SixthChapterCountData.finished_exams);
+      console.log("after setting state:", sixthChapterCount);
+    } ;
+    fetchSixthChapterCountData();
+  }, []);
+
+  // // /////////////////////////////////
+
   // call API once on mount
   useEffect(() => {
     const checkFinalExam = async () => {
@@ -42,12 +122,12 @@ const ExamCards = () => {
       completedCount: firstExamData ? firstExamData[0] : 0,
       totalExams: 1,
     },
-    first: { completedCount: 0, totalExams: 8 },
-    second: { completedCount: 0, totalExams: 2 },
-    third: { completedCount: 0, totalExams: 5 },
-    fourth: { completedCount: 0, totalExams: 3 },
-    fifth: { completedCount: 0, totalExams: 1 },
-    sixth: { completedCount: 0, totalExams: 3 },
+    first: { completedCount: firstChapterCount, totalExams: 8 },
+    second: { completedCount: secondChapterCount, totalExams: 2 },
+    third: { completedCount: thirdChapterCount, totalExams: 5 },
+    fourth: { completedCount: fourthChapterCount, totalExams: 3 },
+    fifth: { completedCount: fifthChapterCount, totalExams: 1 },
+    sixth: { completedCount: sixthChapterCount, totalExams: 3 },
     final: { completedCount: 0, totalExams: 1 },
   };
 
