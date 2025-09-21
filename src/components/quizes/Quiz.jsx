@@ -318,7 +318,7 @@ function Quiz({ quizData, name, quizId }) {
                 role="alert"
                 style={{ textAlign: "right" }}
               >
-                لا توجد أسئلة متاحة للاختبار — ارفع ملف ` للكمبوننت.
+                لا توجد أسئلة متاحة للاختبار — ارفع ملف JSON.
               </div>
             ) : null}
 

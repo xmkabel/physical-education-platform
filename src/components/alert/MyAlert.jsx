@@ -12,7 +12,7 @@ const MyAlert = ({ type, message, onClose }) => {
   return (
     <div className="alert-wrapper">
       <motion.div
-        className={`alert alert-${type}`}
+        className={`alertt alert-${type}`}
         role="alert"
         variants={alertVariants}
         initial="hidden"
