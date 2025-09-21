@@ -58,4 +58,34 @@ class RatingExamController extends Controller
         $user = User::with("rating_exams")->find($user_id);
         return response()->json($user, 200);
     }
+
+    public function usersAnalytics()
+    {
+        $users_count = User::all()->where('role', '=', 'user')->count();
+        $usersWithPre = User::withCount('rating_exams')
+            ->where('role', 'user')
+            ->has('rating_exams', '=', 1) // users with exactly one exam
+            ->get();
+
+      
+        $usersWithPreCount = $usersWithPre->count();
+
+        $usersWithPost = User::withCount('rating_exams')
+            ->where('role', 'user')
+            ->has('rating_exams', '=', 2) 
+            ->get();
+
+     
+        $usersWithPostCount = $usersWithPost->count();
+        return response()->json([
+            'message' => 'results have been retrieved successfully',
+            'data' => [
+                'all_users'=>$users_count,
+                'pre'=>$usersWithPreCount,
+                'post'=>$usersWithPostCount,
+
+            ],
+        ], 200);
+    
+    }
 }
