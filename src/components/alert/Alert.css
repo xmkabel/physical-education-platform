@@ -13,8 +13,7 @@
 
 .alertt {
   display: flex;
-  align-items: flex-start;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 16px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
   z-index: 1001;
