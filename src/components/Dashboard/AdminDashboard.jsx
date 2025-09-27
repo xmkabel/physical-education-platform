@@ -20,8 +20,7 @@ import './Dashboard.css';
 import { getStudents, getStudentStats, updateStudent, deleteStudent, updatePassword, formatDate } from '../../utils/studentUtils';
 import { useNavigate } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
-import get from '../api/get';
-
+import axiosInstance from '../../services/axios';
 
 
 // added data to test
@@ -45,7 +44,7 @@ function AdminDashboard() {
   const navigate = useNavigate();
 
   const fetchStudents = async () => {
-    const data = await get('/rating-exams');
+    const data = await axiosInstance.get('/rating-exams');
     return data.data;
   };
 

@@ -4,6 +4,7 @@ import "./Login.css";
 import { useAuth } from "../../context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { useLoading } from "../../context/LoadingContext";
 function Login() {
   const { login } = useAuth();
   const [code, setCode] = useState("");
@@ -12,6 +13,7 @@ function Login() {
   const [error, setError] = useState(""); // 👈 عشان الرسالة
   const [showPassword, setShowPassword] = useState(false); // 👈 حالة العين
   const navigate = useNavigate();
+  // const { loading: globalLoading } = useLoading();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

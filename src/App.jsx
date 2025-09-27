@@ -33,12 +33,12 @@ function App() {
 
         {/* Public Routes */}
         <Route path="/welcome" element={<Welcome />} />
-        { !isAuthenticated && (
+        {/* { !isAuthenticated && ( */}
     <>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
     </>
-  )}
+  {/* )} */}
         {/* <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register/>} /> */}
         <Route path="/" element={<Intro />} />
