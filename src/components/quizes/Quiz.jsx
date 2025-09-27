@@ -15,6 +15,7 @@ import {
   faVideo,
 } from "@fortawesome/free-solid-svg-icons";
 import { motion, AnimatePresence } from "framer-motion";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "animate.css";
@@ -67,6 +68,8 @@ class ErrorBoundary extends Component {
    Main Quiz Component
    --------------------------- */
 function Quiz({ quizData, name, quizId }) {
+  const [isCooldown, setIsCooldown] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
   const [currentStep, setCurrentStep] = useState(0);
@@ -98,6 +101,15 @@ function Quiz({ quizData, name, quizId }) {
       return { ...item };
     });
   }
+  const withCooldown = (callback, delay = 500) => {
+    return () => {
+      
+      if (isCooldown) return; // لو لسه في فترة الانتظار، ما يعملش حاجة
+      callback();
+      setIsCooldown(true);
+      setTimeout(() => setIsCooldown(false), delay);
+    };
+  };
 
   const goBack = () => navigate("/exams");
 
@@ -148,7 +160,7 @@ function Quiz({ quizData, name, quizId }) {
     if (currentStep > 0) {
       setAnimationClass("animate__fadeOut");
       setTimeout(() => {
-        setCurrentStep((s) => s - 1);
+        setCurrentStep((prev) => prev - 1);
         setAnimationClass("animate__fadeIn");
       }, 250);
     }
@@ -235,7 +247,6 @@ function Quiz({ quizData, name, quizId }) {
             العودة
           </button>
         )}
-        
       </div>
 
       <Container className="py-4 animate__animated animate__slideInUp">
@@ -460,7 +471,7 @@ function Quiz({ quizData, name, quizId }) {
                 <div className="d-flex flex-column flex-sm-row justify-content-between gap-3 mt-4">
                   <Button
                     className={styles.button}
-                    onClick={handlePrevious}
+                    onClick={withCooldown(handlePrevious)}
                     disabled={currentStep === 0}
                   >
                     <FontAwesomeIcon icon={faArrowRight} className="me-2" />{" "}
@@ -468,7 +479,7 @@ function Quiz({ quizData, name, quizId }) {
                   </Button>
                   <Button
                     className={styles.button}
-                    onClick={handleNext}
+                    onClick={withCooldown(handleNext)}
                     disabled={currentStep === quizContent.length - 1}
                   >
                     التالي{" "}
