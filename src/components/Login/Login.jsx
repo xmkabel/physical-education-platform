@@ -2,26 +2,30 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { useAuth } from "../../context/AuthContext";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 function Login() {
   const { login } = useAuth();
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false); // ✅ حالة جديدة
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(""); // 👈 عشان الرسالة
+  const [showPassword, setShowPassword] = useState(false); // 👈 حالة العين
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true); // ✅ أول ما يبدأ
+    setIsSubmitting(true);
+    setError("");
 
     try {
       await login(code, password);
       navigate("/redirect");
     } catch (error) {
-      alert("Invalid credentials. Please try again.");
+      setError("كود المستخدم أو كلمة المرور غير صحيحة ⚠️"); // 👈 رسالة واضحة
       console.log(error);
     } finally {
-      setIsSubmitting(false); // ✅ مهما حصل رجّع الزرار لحالته
+      setIsSubmitting(false);
     }
   };
 
@@ -49,25 +53,35 @@ function Login() {
               placeholder="أدخل كود المستخدم"
               required
               autoFocus
-              disabled={isSubmitting} // ✅ يمنع الكتابة أثناء التحميل
+              disabled={isSubmitting}
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group password-group">
             <label htmlFor="password" className="form-label">
               كلمة المرور
             </label>
-            <input
-              id="password"
-              type="password"
-              className="form-input"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="أدخل كلمة المرور"
-              required
-              disabled={isSubmitting} // ✅ يمنع الكتابة أثناء التحميل
-            />
+            <div className="password-wrapper">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"} // 👈 تبديل
+                className="form-input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="أدخل كلمة المرور"
+                required
+                disabled={isSubmitting}
+              />
+              <span
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+              </span>
+            </div>
           </div>
+
+          {error && <div className="error-message">{error}</div>} {/* 👈 رسالة الخطأ */}
 
           <div>
             <a href="/register" className="register-link">
@@ -78,9 +92,16 @@ function Login() {
           <button
             type="submit"
             className="login-button"
-            disabled={isSubmitting} // ✅ يمنع الضغط المتكرر
+            disabled={isSubmitting}
           >
-            {isSubmitting ? "جاري تسجيل الدخول..." : "تسجيل الدخول"} {/* ✅ يتغير النص */}
+            {isSubmitting ? (
+              <>
+                <span className="spinner"></span>
+                <span>جاري التسجيل...</span>
+              </>
+            ) : (
+              'تسجيل'
+            )}
           </button>
         </form>
       </div>

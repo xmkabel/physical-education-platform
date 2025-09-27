@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import './Register.css';
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../services/axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 function Register() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const [registrationData, setRegistrationData] = useState(null);
   const [error, setError] = useState("");
@@ -19,6 +23,12 @@ function Register() {
     e.preventDefault();
     setError("");
     setIsLoading(true);
+
+    if (password.length < 6) {
+      setError("كلمة المرور يجب أن تكون 6 أحرف على الأقل");
+      setIsLoading(false);
+      return;
+    }
 
     if (password !== confirmPassword) {
       setError("كلمات المرور غير متطابقة");
@@ -41,25 +51,20 @@ function Register() {
       setError(error.response?.data?.message || "حدث خطأ في التسجيل");
       setIsLoading(false);
     }
-    console.log(registrationData);
-    
   };
 
-
-  
   if (registrationSuccess && registrationData) {
-  navigate('/welcome', {
-    state: {
-      studentData: {
-        firstName,
-        lastName,
-        code: registrationData.code // خد الكود من البيانات المخزنة
+    navigate('/welcome', {
+      state: {
+        studentData: {
+          firstName,
+          lastName,
+          code: registrationData.code
+        }
       }
-    }
-  });
-  return null;
-}
-
+    });
+    return null;
+  }
 
   return (
     <div className="register-page">
@@ -72,10 +77,9 @@ function Register() {
         </div>
 
         <form className="register-form" onSubmit={handleSubmit}>
+          {/* First Name */}
           <div className="form-group">
-            <label htmlFor="firstName" className="form-label">
-              الاسم الأول
-            </label>
+            <label htmlFor="firstName" className="form-label">الاسم الأول</label>
             <input
               id="firstName"
               type="text"
@@ -88,10 +92,9 @@ function Register() {
             />
           </div>
 
+          {/* Last Name */}
           <div className="form-group">
-            <label htmlFor="lastName" className="form-label">
-              الاسم الأخير
-            </label>
+            <label htmlFor="lastName" className="form-label">الاسم الأخير</label>
             <input
               id="lastName"
               type="text"
@@ -103,43 +106,56 @@ function Register() {
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="password" className="form-label">
-              كلمة المرور
-            </label>
+          {/* Password */}
+          <div className="form-group password-container">
+            <label htmlFor="password" className="form-label">كلمة المرور</label>
             <input
               id="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               className="form-input"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="أدخل كلمة المرور"
               required
+              minLength={6}
+            />
+            <FontAwesomeIcon
+              icon={showPassword ? faEyeSlash : faEye}
+              className="password-toggle-icon"
+              onClick={() => setShowPassword(!showPassword)}
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="confirmPassword" className="form-label">
-              تأكيد كلمة المرور
-            </label>
+          {/* Confirm Password */}
+          <div className="form-group password-container">
+            <label htmlFor="confirmPassword" className="form-label">تأكيد كلمة المرور</label>
             <input
               id="confirmPassword"
-              type="password"
+              type={showConfirmPassword ? "text" : "password"}
               className="form-input"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="أدخل تأكيد كلمة المرور"
               required
+              minLength={6}
+            />
+            <FontAwesomeIcon
+              icon={showConfirmPassword ? faEyeSlash : faEye}
+              className="password-toggle-icon"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             />
           </div>
+
           <div>
-            <a href="/login" className="register-link">هل لديك حساب؟ تسجيل الدخول</a>
+            <a href="/login" className="register-link">
+              هل لديك حساب؟ تسجيل الدخول
+            </a>
           </div>
 
           {error && <div className="error-message">{error}</div>}
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className={`register-button ${isLoading ? 'loading' : ''}`}
             disabled={isLoading}
           >
