@@ -103,7 +103,6 @@ function Quiz({ quizData, name, quizId }) {
   }
   const withCooldown = (callback, delay = 500) => {
     return () => {
-      
       if (isCooldown) return; // لو لسه في فترة الانتظار، ما يعملش حاجة
       callback();
       setIsCooldown(true);
@@ -475,14 +474,17 @@ function Quiz({ quizData, name, quizId }) {
                     disabled={currentStep === 0}
                   >
                     <FontAwesomeIcon icon={faArrowRight} className="me-2" />{" "}
-                    السابق
+                    {currentStep === 0 ? "لا يوجد سابق" : "السابق"}
                   </Button>
+
                   <Button
                     className={styles.button}
                     onClick={withCooldown(handleNext)}
                     disabled={currentStep === quizContent.length - 1}
                   >
-                    التالي{" "}
+                    {currentStep === quizContent.length - 1
+                      ? "انتهت الأسئلة"
+                      : "التالي"}{" "}
                     <FontAwesomeIcon icon={faArrowLeft} className="ms-2" />
                   </Button>
                 </div>
