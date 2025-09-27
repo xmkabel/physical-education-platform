@@ -23,36 +23,7 @@ import Redirect from './components/Redirect';
 import { useAuth } from './context/AuthContext';
 import Guard from './Guard';
 function App() {
-  //  const navigate = useNavigate();
-  // const { isAuthenticated, user } = useAuth(); // hooks at top-level
-
-  // const handleStartExam = async () => {
-  //   if (!isAuthenticated) {
-  //     navigate('/login');
-  //     return;
-  //   }
-
-  //   try {
-  //     // get() already returns the JSON body
-  //     const me = await get('/user-rating-exams'); // { id, ..., role, rating_exams: [] }
-
-  //     const ratings = Array.isArray(me?.rating_exams) ? me.rating_exams : [];
-  //     const role = user?.role ?? me?.role;
-
-  //     if (role === 'user' && ratings.length === 0) {
-  //       navigate('/exams/start');
-  //       return;
-  //     }
-
-  //     // If the user has ratings already, send them elsewhere
-  //     navigate('/exams'); // or '/exams/continue'
-  //   } catch (error) {
-  //     console.error('Error fetching /user-rating-exams:', error);
-  //     if (error.response?.status === 401) {
-  //       navigate('/login');
-  //     }
-  //   }
-  // };
+  const { isAuthenticated } = useAuth();
   return (
     <>
       <Guard>
@@ -62,8 +33,14 @@ function App() {
 
         {/* Public Routes */}
         <Route path="/welcome" element={<Welcome />} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/register" element={<Register/>} />
+        { !isAuthenticated && (
+    <>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+    </>
+  )}
+        {/* <Route path="/login" element={<Login/>} />
+        <Route path="/register" element={<Register/>} /> */}
         <Route path="/" element={<Intro />} />
         {/* <Route path="/home" element={<Home />} /> */}
         <Route path="/unauthorized" element={<Unauthorized title={"غير مصرح بالوصول"} code={403}/>} />

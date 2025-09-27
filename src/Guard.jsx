@@ -12,7 +12,7 @@ const ALLOWLIST = new Set([
   '/unauthorized',
   '/redirect',
   // Add /exams to the allowlist since that's where users with ratings go
-  '/exams'
+  // '/exams'
 ]);
 
 export default function Guard({ children }) {
