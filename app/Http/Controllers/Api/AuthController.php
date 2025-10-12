@@ -40,6 +40,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string',
             'last_name' => 'required|string',
+            'department' => 'required|string',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
@@ -50,6 +51,7 @@ class AuthController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'code' => $this->generateUniqueCode(),
+            'department'=>$request->department,
             'password' => bcrypt($request->password),
         ]);
 
@@ -87,5 +89,11 @@ class AuthController extends Controller
             'expires_in' => Auth::guard('api')->factory()->getTTL() * 60,
             'code'=>$user->code
         ]);
+    }
+
+    public function deleteUser($id){
+        $user=User::all()->findOrFail($id);
+        $user->delete();
+        return response()->json([],204);
     }
 }
