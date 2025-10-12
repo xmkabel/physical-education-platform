@@ -17,10 +17,64 @@ import { useNavigate } from "react-router-dom";
 import './Dashboard.css';
 import get from '../api/get';
 import { object } from 'framer-motion/client';
+import ChaptersProgress from './ChapterProgress';
 
 
 
 
+
+const renderTestCard = (idx, test, isPassing, percentage) => {
+  return (
+    <div key={idx} className="test-result-card" style={{
+      padding: '10px',
+      border: test.score ? `1px solid ${isPassing ? '#28a745' : '#dc3545'}` : '1px solid #dee2e6',
+      borderRadius: '8px',
+      marginBottom: '8px',
+      backgroundColor: test.score ? (isPassing ? '#f8fff9' : '#fff9f9') : '#f8f9fa'
+    }}>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '5px'
+      }}>
+        <span style={{fontWeight: 600}}>اختبار {idx + 1}</span>
+        {test.score && (
+          <span style={{
+            backgroundColor: isPassing ? '#28a745' : '#dc3545',
+            color: 'white',
+            padding: '2px 8px',
+            borderRadius: '12px',
+            fontSize: '0.8em'
+          }}>
+            {isPassing ? 'ناجح' : 'لم يجتاز'}
+          </span>
+        )}
+      </div>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+      }}>
+        <span style={{
+          fontWeight: 600,
+          fontSize: '1.1em',
+          color: test.score ? '#1b3058' : '#6c757d'
+        }}>
+          {test.score ? `${test.score} / ${test.fullScore}` : 'لم يتم الاختبار بعد'}
+        </span>
+        {percentage && (
+          <span style={{
+            fontWeight: 500,
+            color: isPassing ? '#28a745' : '#dc3545'
+          }}>
+            {percentage}%
+          </span>
+        )}
+      </div>
+    </div>
+  );
+};
 
 function Dashboard({ 
   studentData = {
@@ -229,66 +283,10 @@ function Dashboard({
           </Card.Body>
         </Card>
 
-        {/* Chapters Progress */}
-        <Card className="cardD mb-4">
-          <Card.Header className="cardHeader">
-            <FontAwesomeIcon icon={faTrophy} className="mx-2" />
-            تقدم الفصول
-          </Card.Header>
-          <Card.Body>
-            <Row>
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => {
-                // Assume profileData.chapters is an array of objects: { completed, total, score }
-                const chapter = profileData.chapters && profileData.chapters[item-1] ? profileData.chapters[item-1] : { completed: 0, total: 0, score: 0 };
-                const percent = chapter.total > 0 ? Math.round((chapter.completed / chapter.total) * 100) : 0;
-                return (
-                  <Col md={6} lg={4} key={item} className="mb-3">
-                    <div className="chapterCard">
-                      <h6 className="chapterTitle">الفصل {item}</h6>
-                      <div className="mb-2">
-                        <ProgressBar 
-                          now={percent} 
-                          className="smallProgressBar"
-                          variant="primary"
-                        />
-                      </div>
-                      <div className="d-flex justify-content-between small">
-                        <span>{chapter.completed}/{chapter.total} مكتمل</span>
-                        <span>{percent}%</span>
-                      </div>
-                      <div className="chapter-score mt-2 text-center" style={{color:'#1b3058',fontWeight:600}}>
-                        الدرجة الكلية: {chapter.score}
-                      </div>
-                      <div className="chapter-tests-list mt-2">
-                        {chapter.tests && chapter.tests.length > 0 ? (
-                          <table className="table table-sm table-borderless mb-0">
-                            <tbody>
-                              {chapter.tests.map((test, idx) => (
-                                <tr key={idx}>
-                                  <td style={{fontWeight:600}}>اختبار {idx+1}</td>
-                                  <td>
-                                    <span style={{
-                                      color: test.score >= (test.fullScore * 0.6) ? '#28a745' : '#dc3545',
-                                      fontWeight: 600
-                                    }}>
-                                      {test.score} / {test.fullScore}
-                                    </span>
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        ) : (
-                          <div className="text-muted small">لا يوجد اختبارات بعد</div>
-                        )}
-                      </div>
-                    </div>
-                  </Col>
-                );
-              })}
-            </Row>
-          </Card.Body>
-        </Card>
+               <ChaptersProgress profileData={profileData} />
+
+  
+
 
         {/* Recent Quiz Results */}
         {/* <Card className="cardD mb-4">
