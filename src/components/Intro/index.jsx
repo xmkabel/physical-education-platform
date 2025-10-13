@@ -48,7 +48,7 @@ The effectiveness of an interactive electronic learning environment on cognitive
                       <FontAwesomeIcon icon={faGraduationCap} className="gold mb-3" size="2x" />
                       <h4>أ.د/ بلانش سلامه متياس</h4>
                       <p className="text-muted">
-                        أستاذ طرق تدريس المتفرغ بقسم المناهج وطرق تدريس التربية الرياضية
+                        أستاذ طرق تدريس التربية الرياضية
                         <br />
                         كلية علوم الرياضة بنات - جامعة حلوان
                         <br />
