@@ -44,7 +44,7 @@ function Login() {
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="username" className="form-label">
-              اسم المستخدم
+              كود الطالب
             </label>
             <input
               id="username"
@@ -52,7 +52,7 @@ function Login() {
               className="form-input"
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              placeholder="أدخل كود المستخدم"
+              placeholder="مثال: A12"
               required
               autoFocus
               disabled={isSubmitting}
