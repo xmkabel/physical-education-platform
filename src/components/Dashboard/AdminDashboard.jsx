@@ -20,8 +20,8 @@ import './Dashboard.css';
 import { getStudents, getStudentStats, updateStudent, deleteStudent, updatePassword, formatDate } from '../../utils/studentUtils';
 import { useNavigate } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
+import get from '../api/get';
 import axiosInstance from '../../services/axios';
-
 
 // added data to test
 function AdminDashboard() {
@@ -44,7 +44,7 @@ function AdminDashboard() {
   const navigate = useNavigate();
 
   const fetchStudents = async () => {
-    const data = await axiosInstance.get('/rating-exams');
+    const data = await get('/rating-exams');
     return data.data;
   };
 
@@ -149,13 +149,19 @@ console.log(analytics);
   };
 
   // Handle delete student
-  const handleDeleteStudent = (studentId) => {
-    if (window.confirm('هل أنت متأكد من حذف هذا الطالب؟')) {
-      const result = deleteStudent(studentId);
-      if (result) {
+  const handleDeleteStudent = async (studentId) => {
+    const student = students.find(s => s.id === studentId);
+    const confirmMsg = student
+      ? `هل أنت متأكد من حذف الطالب "${student.name}" صاحب الكود "${student.code}"؟`
+      : 'هل أنت متأكد من حذف هذا الطالب؟';
+    if (window.confirm(confirmMsg)) {
+      try {
+        await axiosInstance.delete(`/users/delete/${studentId}`);
         // Refresh data
-        setStudents(getStudents());
-        setStats(getStudentStats());
+        const students = await fetchStudents();
+        setStudents(students);
+      } catch (error) {
+        alert('حدث خطأ أثناء حذف الطالب');
       }
     }
   };
@@ -312,7 +318,7 @@ console.log(analytics);
                         </td>
                         <td className="student-table-actions">
                           <div className="d-flex flex-nowrap gap-2 justify-content-center align-items-center">
-                            <Button 
+                            {/* <Button 
                               variant="outline-primary" 
                               size="sm"
                               onClick={() => handleEditClick(student)}
@@ -325,7 +331,7 @@ console.log(analytics);
                               onClick={() => handlePasswordClick(student)}
                             >
                               <FontAwesomeIcon icon={faKey} />
-                            </Button>
+                            </Button> */}
                             <Button 
                               variant="outline-danger" 
                               size="sm"
