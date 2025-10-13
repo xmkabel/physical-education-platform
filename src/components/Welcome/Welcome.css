@@ -96,7 +96,15 @@
 }
 
 .welcome-actions {
-  margin-top: 3rem;
+  margin-top: 3rem; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* Center the login button on all screens */
+.login-button {
+  margin: 0 auto;
+  display: block;
 }
 
 .warning-text {
