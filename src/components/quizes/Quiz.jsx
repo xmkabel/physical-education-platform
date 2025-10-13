@@ -753,7 +753,18 @@ function Quiz({ quizData, name, quizId }) {
                     >
                       إعادة الاختبار
                     </Button> */}
-                    <Button className={styles.button} onClick={goBack}>
+                    <Button
+                      className={styles.button}
+                      onClick={() => {
+                        if (location.pathname === "/exams/start") {
+                          setTimeout(() => {
+                            window.location.reload();
+                          }, 1200); // 1.2 seconds
+                        } else {
+                          goBack();
+                        }
+                      }}
+                    >
                       العودة للاختبارات
                     </Button>
                   </div>
