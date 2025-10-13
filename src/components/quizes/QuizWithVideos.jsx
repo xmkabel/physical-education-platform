@@ -204,7 +204,7 @@ function QuizWithVideos({ quizData, name , quizId}) {
     <div className={styles.quizContainer}>
       <div className={styles.examCardsHeader}>
         <button className={styles.backButton} onClick={goBack}>
-          <FontAwesomeIcon icon={faArrowLeft} className={styles.backArrow} />{" "}
+          <FontAwesomeIcon icon={faArrowRight} className={styles.backArrow} />{" "}
           العودة
         </button>
         <h1 className={styles.examCardsTitle}>
