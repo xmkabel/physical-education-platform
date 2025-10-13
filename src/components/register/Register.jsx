@@ -8,6 +8,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 function Register() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [department, setDepartment] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -40,6 +41,7 @@ function Register() {
       const response = await axiosInstance.post('/register', {
         first_name: firstName,
         last_name: lastName,
+        department: department,
         password: password,
         password_confirmation: confirmPassword
       });
@@ -106,6 +108,23 @@ function Register() {
             />
           </div>
 
+
+          {/* Department */}
+          <div className="form-group">
+            <label htmlFor="department" className="form-label">الشعبة</label>
+            <input
+              id="department"
+              type="number"
+              className="form-input"
+              value={department}
+              onChange={(e) => setDepartment(e.target.value)}
+              placeholder="أدخل رقم الشعبة (1-10)"
+              min={1}
+              max={10}
+              required
+            />
+          </div>
+
           {/* Password */}
           <div className="form-group password-container">
             <label htmlFor="password" className="form-label">كلمة المرور</label>
@@ -151,6 +170,7 @@ function Register() {
               هل لديك حساب؟ تسجيل الدخول
             </a>
           </div>
+
 
           {error && <div className="error-message">{error}</div>}
 
