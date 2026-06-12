@@ -112,6 +112,10 @@ Below are some screenshots showcasing key parts of the application:
 ### Quiz Interface
 ![Quiz Interface](https://github.com/user-attachments/assets/a4a95901-4a64-4f5e-b2b0-c79c53f07245)
 
+### Dashboard
+![Quiz Interface](https://github.com/user-attachments/assets/a7266f59-bd7c-441d-b1aa-39264089d065)
+
+
 ### Chapter Navigation
 <p align="center">
   <img src="https://github.com/user-attachments/assets/04bdde66-dc1a-4f4d-8c4d-bb1cd713f690" alt="Chapter Navigation 1" width="250"/>
@@ -139,4 +143,4 @@ This application was developed as part of a doctoral program in teaching methods
 
 This README was created based on the Overview wiki page and the provided code snippets. The application is an educational platform for physical education with interactive quizzes, videos, and structured learning content. The main technologies used are React, React Router, Bootstrap, and Framer Motion, with Vite as the build tool.
 
-# Demo Live ([view here](https://miss-marwa-pe.web.app))
+# Demo Live ([view here](https://pe-platform.great-site.net))
